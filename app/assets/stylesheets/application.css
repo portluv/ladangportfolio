@@ -13,3 +13,37 @@
  *= require_tree .
  *= require_self
  */
+
+ body{
+     width: 100vw;
+     height: 100vh;
+     margin: 0;
+     font-family: 'Lato', sans-serif;
+ }
+
+ .lapor-navbar{
+     background: #dd5858;
+     width: 100%;
+     height: 42px;
+     display: flex;
+ }
+
+ .lapor-navbar-item{
+     --fontSize: 18px;
+     --parentHeight: 42px;
+     
+     font-size: var(--fontSize);
+     color: white;
+     text-decoration: none;
+
+     margin-left: 15px;
+     margin-right: 15px;
+     line-height: var(--parentHeight);
+
+     transition: all .4s;
+ }
+
+ .lapor-navbar-item:hover{
+     cursor: pointer;
+    text-shadow: 2px 2px 8px #ffebeb;
+ }
