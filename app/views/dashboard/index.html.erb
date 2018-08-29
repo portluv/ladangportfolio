@@ -1,0 +1,60 @@
+<div id="inboxBtn" class="lapor-feedbox-button">
+    Inbox
+</div>
+<div id="outboxBtn" class="lapor-feedbox-button">
+    Outbox
+</div>
+<div class="lapor-feedbox">
+    <div id="inboxContent" class="lapor-feedbox-content">
+        <div>Inbox</div>
+        <div>Inbox</div>
+        <div>Inbox</div>
+        <div>Inbox</div>
+        <div>Inbox</div>
+        <div>Inbox</div>
+        <div>Inbox</div>
+        <div>Inbox</div>
+        <div>Inbox</div>
+        <div>Inbox</div>
+        <div>Inbox</div>
+        <div>Inbox</div>
+    </div>
+    <div id="outboxContent" class="lapor-feedbox-content">
+        <div>Outbox</div>
+        <div>Outbox</div>
+        <div>Outbox</div>
+        <div>Outbox</div>
+        <div>Outbox</div>
+        <div>Outbox</div>
+        <div>Outbox</div>
+        <div>Outbox</div>
+        <div>Outbox</div>
+        <div>Outbox</div>
+        <div>Outbox</div>
+        <div>Outbox</div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    inboxContent = document.getElementById('inboxContent');
+    outboxContent = document.getElementById('outboxContent');
+    inboxBtn = document.getElementById('inboxBtn');
+    outboxBtn = document.getElementById('outboxBtn');
+
+    outboxContent.style.display = 'none';
+    inboxBtn.classList.add('lapor-active');
+
+    inboxBtn.onclick = function(){
+        outboxContent.style.display = 'none';
+        inboxContent.style.display = 'block';
+        inboxBtn.classList.add('lapor-active');
+        outboxBtn.classList.remove('lapor-active');
+    }
+
+    outboxBtn.onclick = function(){
+        inboxContent.style.display = 'none';
+        outboxContent.style.display = 'block';
+        outboxBtn.classList.add('lapor-active');
+        inboxBtn.classList.remove('lapor-active');
+    }
+</script>

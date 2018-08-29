@@ -19,6 +19,8 @@
      height: 100vh;
      margin: 0;
      font-family: 'Lato', sans-serif;
+     user-select: none;
+     user-zoom: none;
  }
 
  .lapor-navbar{
@@ -73,3 +75,77 @@
      margin: 0;
      line-height: 150px;
  }
+
+ .lapor-main{
+     width: 80vw;
+     margin: auto;
+     margin-top: 30px;
+ }
+
+ .lapor-feedbox{
+     width: 90%;
+     height: 400px;
+     
+     background: white;
+     border-radius: 15px;
+
+     padding-top: 10px;
+     padding-bottom: 10px;
+
+     position: relative;
+ }
+
+ .lapor-feedbox-button{
+    --elementHeight: 40px;
+    min-width: 90px;
+    height: var(--elementHeight);
+
+    font-size: 15pt;
+    line-height: var(--elementHeight);
+    text-align: center;
+
+    background: #bb4a4a;
+    color: white;
+    border-radius: 15px 15px 0 0;
+
+    display: inline-block;
+    position: relative;
+    left: 20px;
+
+    cursor: pointer;
+ }
+
+ .lapor-feedbox:before, .lapor-feedbox-button:before {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: -1;
+    border-radius: 15px 15px 0 0;
+    box-shadow: 6px 6px 52px -1px rgba(117,117,117,0.5);
+  }
+
+  .lapor-active{
+    background: #dd5858;
+  }
+
+  .lapor-feedbox-content{
+      width: 95%;
+      height: 400px;
+      margin: auto;
+      overflow-x: hidden;
+  }
+
+  .lapor-feedbox-content > div{
+    min-height: 40px;
+  }
+
+  .lapor-feedbox-content > div:nth-child(1n){
+    background: #f0f0f0;
+  }
+
+  .lapor-feedbox-content > div:nth-child(2n){
+    background: white;
+  }
