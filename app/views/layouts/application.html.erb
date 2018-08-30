@@ -12,8 +12,8 @@
   <body>
     <header id="laporNavbar" class="lapor-navbar"> 
         <%= link_to("Dashboard", { :controller => 'dashboard', :action => 'index'}, :class => 'lapor-navbar-item' ) %>
-        <%= link_to("Profile", { :controller => 'dashboard', :action => 'profile'}, :class => 'lapor-navbar-item') %>
-        <div class="lapor-navbar-item">Create</div> 
+        <%= link_to("Profile", profiles_path, :class => 'lapor-navbar-item') %>
+        <%= link_to("Create", { :controller => 'create', :action => 'index'}, :class => 'lapor-navbar-item' ) %>
         <div class="lapor-navbar-item">Contact</div>
     </header>
     <main class="lapor-main">

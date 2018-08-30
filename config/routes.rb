@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  resources :profiles
+  resources :users
   # get 'home/index'
   match ':controller(/:action(/:id))', :via => :get
 
