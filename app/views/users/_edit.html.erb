@@ -1,4 +1,4 @@
-<%= form_with(model: user, url: signup_path(@user), local: true) do |form| %>
+<%= form_with(model: user, url: put_profile_path(@user), local: true) do |form| %>
   <% if user.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(user.errors.count, "error") %> prohibited this user from being saved:</h2>
@@ -27,8 +27,8 @@
   </div>
 
   <div class="actions">
-    <%= form.submit "Sign Up", class: 'lapor-form-button' %>
-    <%= link_to 'Have an account? Sign In Here!', signin_path %>
+    <%= form.submit "Save Edits", class: 'lapor-form-button' %>
+    <%= link_to 'Back to profile', profile_path %> |
     <%= link_to 'Back to home', root_path %>
   </div>
 <% end %>
