@@ -1,0 +1,23 @@
+<%= form_with(model: user, local: true) do |form| %>
+  <div class="field">
+    <%= form.label :username %>
+    <%= form.text_field :username, id: :user_username, class: 'lapor-form-input' %>
+  </div>
+
+  <div class="field">
+    <%= form.label :password %>
+    <%= form.text_field :password, id: :user_password, class: 'lapor-form-input', type: 'password' %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit "Sign In", class: 'lapor-form-button' %>
+    <%= link_to 'Don\'t have an account? Sign Up Here!', signup_path %>
+    <%= link_to 'Back to home', root_path %>
+  </div>
+<% end %>
+
+<style>
+  #laporNavbar{
+    display: none;
+  }
+</style>

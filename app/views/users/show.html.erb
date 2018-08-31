@@ -1,19 +1,8 @@
-<p id="notice"><%= notice %></p>
+<div class="lapor-signup-content">
+    <h1 class="lapor-signup-title">LadangPortfolio</h1>
 
-<p>
-  <strong>Username:</strong>
-  <%= @user.username %>
-</p>
-
-<p>
-  <strong>Email:</strong>
-  <%= @user.email %>
-</p>
-
-<p>
-  <strong>Password:</strong>
-  <%= @user.password %>
-</p>
-
-<%= link_to 'Edit', edit_user_path(@user) %> |
-<%= link_to 'Back', users_path %>
+    <div class="lapor-signup-form">
+        <h1>Sign In</h1>
+        <%= render 'signin', user: @user %>
+    </div>
+</div>

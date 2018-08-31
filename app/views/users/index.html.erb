@@ -18,9 +18,9 @@
         <td><%= user.username %></td>
         <td><%= user.email %></td>
         <td><%= user.password %></td>
-        <td><%= link_to 'Show', user %></td>
-        <td><%= link_to 'Edit', edit_user_path(user) %></td>
-        <td><%= link_to 'Destroy', user, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to 'Show', signin_path %></td>
+        <td><%= link_to 'Edit', profile_path(user) %></td>
+        <td><%= link_to 'Destroy', delete_user_path(user), method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
   </tbody>
@@ -28,4 +28,4 @@
 
 <br>
 
-<%= link_to 'New User', new_user_path %>
+<%= link_to 'Consider Signing Up', signup_path %>

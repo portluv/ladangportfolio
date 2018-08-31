@@ -11,10 +11,11 @@
 
   <body>
     <header id="laporNavbar" class="lapor-navbar"> 
-        <%= link_to("Dashboard", { :controller => 'dashboard', :action => 'index'}, :class => 'lapor-navbar-item' ) %>
-        <%= link_to("Profile", profiles_path, :class => 'lapor-navbar-item') %>
+        <%= link_to("Dashboard", root_path, :class => 'lapor-navbar-item' ) %>
+        <%= link_to("Profile", profile_path, :class => 'lapor-navbar-item') %>
         <%= link_to("Create", { :controller => 'create', :action => 'index'}, :class => 'lapor-navbar-item' ) %>
         <div class="lapor-navbar-item">Contact</div>
+        <%= link_to("Sign In", signin_path, :class => 'lapor-navbar-item lapor-signin-button') %>
     </header>
     <main class="lapor-main">
       <%= yield %>
