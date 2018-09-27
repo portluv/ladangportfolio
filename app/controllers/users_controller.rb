@@ -35,7 +35,7 @@ class UsersController < ApplicationController
           session[:username] = user.username 
           format.html { redirect_to root_path, notice: 'Sign in was successful.' }
       else
-          format.html { redirect_to root_path, notice: 'Sign in was unsuccessful.' }
+          format.html { redirect_to signin_path, notice: 'Sign in was unsuccessful.' }
       end
     end
   end
@@ -66,7 +66,7 @@ class UsersController < ApplicationController
 
       respond_to do |format|
         if @profile.save
-          format.html { redirect_to profile_path, notice: 'Profile save was successful.' }
+          format.html { redirect_to profile_path, notice: 'Profile updated.' }
         else
           format.html { render :index }
           format.json { render json: @profile.errors, status: :unprocessable_entity }
@@ -79,7 +79,7 @@ class UsersController < ApplicationController
   def updateUser
     respond_to do |format|
       if @user.update(user_params)
-        format.html { redirect_to root_path, notice: 'New profile saved.' }
+        format.html { redirect_to root_path, notice: 'User updated.' }
       else
         format.html { render :editProfile }
         format.json { render json: @user.errors, status: :unprocessable_entity }
@@ -90,7 +90,7 @@ class UsersController < ApplicationController
   def updateProfile
     respond_to do |format|
       if @profile.update(profile_params)
-        format.html { redirect_to profile_path, notice: 'New profile saved.' }
+        format.html { redirect_to profile_path, notice: 'Profile updated.' }
       else
         format.html { render :index }
         format.json { render json: @profile.errors, status: :unprocessable_entity }

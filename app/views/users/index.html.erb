@@ -2,7 +2,11 @@
 
 <h1>
   Welcome, 
-  <%= @user.profile.nil? ?  @user.username : @user.profile.fullname %>
+  <% if @user.profile == nil || @user.profile.fullname == '' %>
+    <%= @user.username %> 
+  <% else %>
+    <%= @user.profile.fullname %>
+  <% end %>
 </h1>
 
 <% if @user.profile == nil %>
