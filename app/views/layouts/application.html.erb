@@ -6,6 +6,7 @@
 
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+
     <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
   </head>
 
@@ -15,7 +16,11 @@
         <%= link_to("Profile", profile_path, :class => 'lapor-navbar-item') %>
         <%= link_to("Create", { :controller => 'create', :action => 'index'}, :class => 'lapor-navbar-item' ) %>
         <div class="lapor-navbar-item">Contact</div>
-        <%= link_to("Sign In", signin_path, :class => 'lapor-navbar-item lapor-signin-button') %>
+        <% if user_is_logged_in? %>
+          <%= link_to("Sign Out", signout_path, :class => 'lapor-navbar-item lapor-signin-button') %>
+        <% else %>
+          <%= link_to("Sign In", signin_path, :class => 'lapor-navbar-item lapor-signin-button') %>
+        <% end %>
     </header>
     <main class="lapor-main">
       <%= yield %>

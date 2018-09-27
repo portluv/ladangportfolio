@@ -1,10 +1,20 @@
 class UsersController < ApplicationController
-  before_action :set_user, only: [:editProfile, :updateProfile, :destroyUser]
+  before_action :set_user, only: [:updateUser, :destroyUser]
+  before_action :set_profile, only: [:updateProfile]
 
   # GET /users
   # GET /users.json
   def index
-    @users = User.all
+    if session[:username]
+      @user = User.find_by(username: session[:username])
+      if(@user.profile != nil)
+        @profile = @user.profile
+      else
+        @profile = Profile.new
+      end
+    else
+      redirect_to root_path
+    end
   end
 
   # GET /users/1
@@ -17,14 +27,12 @@ class UsersController < ApplicationController
     @user = User.new
   end
 
-  # GET /users/1/edit
-  def editProfile
-  end
-
   def createSession
     user = User.find_by(username: params[:session][:username], password: params[:session][:password])
     respond_to do |format|
       if user
+          session[:user_id] = user.id
+          session[:username] = user.username 
           format.html { redirect_to root_path, notice: 'Sign in was successful.' }
       else
           format.html { redirect_to root_path, notice: 'Sign in was unsuccessful.' }
@@ -39,6 +47,9 @@ class UsersController < ApplicationController
 
     respond_to do |format|
       if @user.save
+        user = User.find_by(username: @user.username, password: @user.password)
+        session[:user_id] = user.id
+        session[:username] = user.username 
         format.html { redirect_to root_path, notice: 'Sign up was successful.' }
       else
         format.html { render :signUp }
@@ -47,15 +58,42 @@ class UsersController < ApplicationController
     end
   end
 
+  # POST /profiles
+  # POST /profiles.json
+  def createProfile
+      @profile = Profile.new(profile_params)
+      @profile.user_id = session[:user_id]
+
+      respond_to do |format|
+        if @profile.save
+          format.html { redirect_to profile_path, notice: 'Profile save was successful.' }
+        else
+          format.html { render :index }
+          format.json { render json: @profile.errors, status: :unprocessable_entity }
+        end
+      end
+  end
+
   # PATCH/PUT /users/1
   # PATCH/PUT /users/1.json
-  def updateProfile
+  def updateUser
     respond_to do |format|
       if @user.update(user_params)
         format.html { redirect_to root_path, notice: 'New profile saved.' }
       else
         format.html { render :editProfile }
         format.json { render json: @user.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  def updateProfile
+    respond_to do |format|
+      if @profile.update(profile_params)
+        format.html { redirect_to profile_path, notice: 'New profile saved.' }
+      else
+        format.html { render :index }
+        format.json { render json: @profile.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -70,10 +108,20 @@ class UsersController < ApplicationController
     end
   end
 
+  def destroySession
+    reset_session
+    redirect_to signin_path
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_user
       @user = User.find(params[:id])
+    end
+
+    # Use callbacks to share common setup or constraints between actions.
+    def set_profile
+      @profile = Profile.find(params[:id])
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
@@ -85,4 +133,9 @@ class UsersController < ApplicationController
     def login_params
       params.require(:user).permit(:username, :password)
     end
+
+    # Never trust parameters from the scary internet, only allow the white list through.
+    def profile_params
+        params.require(:profile).permit(:fullname, :dateofbirth, :gender, :phone, :address, :nationality, :degree, :lifemotto, :id)
+    end   
 end

@@ -1,0 +1,58 @@
+<%= form_with(model: profile, url: profile_update_path(@profile), local: true) do |form| %>
+  <% if profile.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(profile.errors.count, "error") %> prohibited this user from being saved:</h2>
+
+      <ul>
+      <% profile.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :fullname %>
+    <%= form.text_field :fullname, id: :profileDateOfBirth, class: 'lapor-form-input' %>
+  </div>
+  
+  <div class="field">
+    <%= form.label :dateofbirth %>
+    <%= form.text_field :dateofbirth, id: :profileDateOfBirth, class: 'lapor-form-input' %>
+  </div>
+
+  <div class="field">
+    <%= form.label :gender %>
+    <%= form.text_field :gender, id: :profileGender, class: 'lapor-form-input' %>
+  </div>
+
+  <div class="field">
+    <%= form.label :phone %>
+    <%= form.text_field :phone, id: :profilePhone, class: 'lapor-form-input' %>
+  </div>
+
+  <div class="field">
+    <%= form.label :address %>
+    <%= form.text_field :address, id: :profileAddress, class: 'lapor-form-input' %>
+  </div>
+
+  <div class="field">
+    <%= form.label :nationality %>
+    <%= form.text_field :nationality, id: :profileNationality, class: 'lapor-form-input' %>
+  </div>
+
+  <div class="field">
+    <%= form.label :degree %>
+    <%= form.text_field :degree, id: :profileDegree, class: 'lapor-form-input' %>
+  </div>
+
+  <div class="field">
+    <%= form.label :lifemotto %>
+    <%= form.text_field :lifemotto, id: :profileLifeMotto, class: 'lapor-form-input' %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit "Save Edits", class: 'lapor-form-button' %>
+  </div>
+<% end %>
+
