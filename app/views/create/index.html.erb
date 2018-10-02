@@ -1,5 +1,7 @@
 <div class="lapor-profile">
-    <div class="lapor-profile-picture"></div>
+    <div class="lapor-profile-picture" style="overflow: hidden">
+        <%= image_tag @user.profile.profile_picture %>
+    </div>
     <h1 class="lapor-profile-name">
         <% if @user.profile == nil || @user.profile.fullname == '' %>
             <%= @user.username %> 
@@ -8,9 +10,182 @@
         <% end %>
     </h1>
 </div>
+<div class="lapor-book-a4">
+    <div class="lapor-page-a4">
+        <div class="lapor-page-a4-front">
+            <h1>FRONT1</h1>
+        </div>
+        <div class="lapor-page-a4-back">
+            <h1>BACK1</h1>
+        </div>
+    </div>
+    <div class="lapor-page-a4">
+        <div class="lapor-page-a4-front">
+            <h1>FRONT2</h1>
+        </div>
+        <div class="lapor-page-a4-back">
+            <h1>BACK2</h1>
+        </div>
+    </div>
+    <div class="lapor-page-a4">
+        <div class="lapor-page-a4-front">
+            <h1>FRONT3</h1>
+        </div>
+        <div class="lapor-page-a4-back">
+            <h1>BACK3</h1>
+        </div>
+    </div>
+    <div class="lapor-page-a4">
+        <div class="lapor-page-a4-front">
+            <h1>FRONT4</h1>
+        </div>
+        <div class="lapor-page-a4-back">
+            <h1>BACK4</h1>
+        </div>
+    </div>
+    <div class="lapor-page-a4">
+        <div class="lapor-page-a4-front">
+            <h1>FRONT5</h1>
+        </div>
+        <div class="lapor-page-a4-back">
+            <h1>BACK5</h1>
+        </div>
+    </div>
+    <div class="lapor-page-a4">
+        <div class="lapor-page-a4-front">
+            <h1>FRONT6</h1>
+        </div>
+        <div class="lapor-page-a4-back">
+            <h1>BACK6</h1>
+        </div>
+    </div>
+    <div class="lapor-page-a4">
+        <div class="lapor-page-a4-front">
+            <h1>FRONT7</h1>
+        </div>
+        <div class="lapor-page-a4-back">
+            <h1>BACK7</h1>
+        </div>
+    </div>
+    <div class="lapor-page-a4">
+        <div class="lapor-page-a4-front">
+            <h1>FRONT8</h1>
+        </div>
+        <div class="lapor-page-a4-back">
+            <h1>BACK8</h1>
+        </div>
+    </div>
+    <div class="lapor-page-a4">
+        <div class="lapor-page-a4-front">
+            <h1>FRONT9</h1>
+        </div>
+        <div class="lapor-page-a4-back">
+            <h1>BACK9</h1>
+        </div>
+    </div>
+    <div class="lapor-page-a4">
+        <div class="lapor-page-a4-front">
+            <h1>FRONT10</h1>
+        </div>
+        <div class="lapor-page-a4-back">
+            <h1>BACK10</h1>
+        </div>
+    </div>
+    <div class="lapor-page-a4">
+        <div class="lapor-page-a4-front">
+            <h1>FRONT11</h1>
+        </div>
+        <div class="lapor-page-a4-back">
+            <h1>BACK11</h1>
+        </div>
+    </div>
+    <div class="lapor-page-a4">
+        <div class="lapor-page-a4-front">
+            <h1>FRONT12</h1>
+        </div>
+        <div class="lapor-page-a4-back">
+            <h1>BACK12</h1>
+        </div>
+    </div>
+    <div class="lapor-page-a4">
+        <div class="lapor-page-a4-front">
+            <h1>FRONT13</h1>
+        </div>
+        <div class="lapor-page-a4-back">
+            <h1>BACK13</h1>
+        </div>
+    </div>
+    <div class="lapor-page-a4">
+        <div class="lapor-page-a4-front">
+            <h1>FRONT14</h1>
+        </div>
+        <div class="lapor-page-a4-back">
+            <h1>BACK14</h1>
+        </div>
+    </div>
+    <div class="lapor-page-a4">
+        <div class="lapor-page-a4-front">
+            <h1>FRONT15</h1>
+        </div>
+        <div class="lapor-page-a4-back">
+            <h1>BACK15</h1>
+        </div>
+    </div>
+    <div class="lapor-page-a4">
+        <div class="lapor-page-a4-front">
+            <h1>FRONT16</h1>
+        </div>
+        <div class="lapor-page-a4-back">
+            <h1>BACK16</h1>
+        </div>
+    </div>
+    <div class="lapor-page-a4">
+        <div class="lapor-page-a4-front">
+            <h1>FRONT17</h1>
+        </div>
+        <div class="lapor-page-a4-back">
+            <h1>BACK17</h1>
+        </div>
+    </div>
+    <div class="lapor-page-a4">
+        <div class="lapor-page-a4-front">
+            <h1>FRONT18</h1>
+        </div>
+        <div class="lapor-page-a4-back">
+            <h1>BACK18</h1>
+        </div>
+    </div>
+    <div class="lapor-page-a4">
+        <div class="lapor-page-a4-front">
+            <h1>FRONT19</h1>
+        </div>
+        <div class="lapor-page-a4-back">
+            <h1>BACK19</h1>
+        </div>
+    </div>
+</div>
 
 
-<script>
+<script
+  src="https://code.jquery.com/jquery-3.3.1.min.js"
+  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+  crossorigin="anonymous"></script>
+<script type="text/javascript">
+    $(document).ready(function(){
+        let count = 0;
+        $('.lapor-page-a4').on('click', function(){
+            if($(this).hasClass('lapor-page-a4-turn')){
+                $(this).removeClass('lapor-page-a4-turn');
+                $(this).css('z-index', 0);
+                count--;
+            }
+            else{
+                $(this).addClass('lapor-page-a4-turn');
+                $(this).css('z-index', count);
+                count++;
+            }
+        });
+    });
     // setTimeout(function(){
     //     document.getElementById('laporNavbar').style.transform = 'translateY(-42px)';
     //     document.getElementById('laporBody').style.transform = 'translateY(-42px)';

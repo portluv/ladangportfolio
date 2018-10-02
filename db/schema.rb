@@ -24,6 +24,7 @@ ActiveRecord::Schema.define(version: 20180920054336) do
     t.string "nationality"
     t.string "degree"
     t.text "lifemotto"
+    t.string "profile_picture"
     t.bigint "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

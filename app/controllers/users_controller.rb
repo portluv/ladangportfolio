@@ -2,8 +2,6 @@ class UsersController < ApplicationController
   before_action :set_user, only: [:updateUser, :destroyUser]
   before_action :set_profile, only: [:updateProfile]
 
-  # GET /users
-  # GET /users.json
   def index
     if session[:username]
       @user = User.find_by(username: session[:username])
@@ -17,12 +15,9 @@ class UsersController < ApplicationController
     end
   end
 
-  # GET /users/1
-  # GET /users/1.json
   def signIn
   end
 
-  # GET /users/new
   def signUp
     @user = User.new
   end
@@ -40,8 +35,6 @@ class UsersController < ApplicationController
     end
   end
 
-  # POST /users
-  # POST /users.json
   def createUser
     @user = User.new(user_params)
 
@@ -58,11 +51,16 @@ class UsersController < ApplicationController
     end
   end
 
-  # POST /profiles
-  # POST /profiles.json
   def createProfile
       @profile = Profile.new(profile_params)
       @profile.user_id = session[:user_id]
+      if params[:profile][:profile_picture].present?
+        file = params[:profile][:profile_picture]
+        File.open(Rails.root.join('app','assets', 'images', session[:username], file.original_filename), 'wb') do |f|
+          f.write(file.read)
+        end
+        @profile.profile_picture = "#{session[:username]}/#{file.original_filename}"
+      end
 
       respond_to do |format|
         if @profile.save
@@ -74,8 +72,6 @@ class UsersController < ApplicationController
       end
   end
 
-  # PATCH/PUT /users/1
-  # PATCH/PUT /users/1.json
   def updateUser
     respond_to do |format|
       if @user.update(user_params)
@@ -88,8 +84,20 @@ class UsersController < ApplicationController
   end
 
   def updateProfile
+    if params[:profile][:profile_picture].present?
+      file = params[:profile][:profile_picture]
+      File.open(Rails.root.join('app','assets', 'images', session[:username], file.original_filename), 'wb') do |f|
+        f.write(file.read)
+      end
+      @profile.profile_picture = "#{session[:username]}/#{file.original_filename}"
+      puts "#{session[:username]}/#{file.original_filename}"
+      puts @profile.profile_picture
+    end
+    
     respond_to do |format|
+      puts @profile.profile_picture
       if @profile.update(profile_params)
+        puts @profile.profile_picture
         format.html { redirect_to profile_path, notice: 'Profile updated.' }
       else
         format.html { render :index }
@@ -98,8 +106,6 @@ class UsersController < ApplicationController
     end
   end
 
-  # DELETE /users/1
-  # DELETE /users/1.json
   def destroyUser
     @user.destroy
     respond_to do |format|

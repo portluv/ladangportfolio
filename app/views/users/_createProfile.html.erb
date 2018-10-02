@@ -51,6 +51,11 @@
     <%= form.text_field :lifemotto, id: :profileLifeMotto, class: 'lapor-form-input' %>
   </div>
 
+  <div class="field">
+    <%= form.label :profile_picture %><br>
+    <%= form.file_field :profile_picture %>
+  </div>
+
   <div class="actions">
     <%= form.submit "Save Edits", class: 'lapor-form-button' %>
   </div>
