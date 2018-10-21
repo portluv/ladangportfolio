@@ -1,0 +1,17 @@
+<%= form_with(model: book, url: create_addBook_path(@book), local: true) do |form| %>
+
+  <div class="field">
+    <%= form.label :name %>
+    <%= form.text_field :name, id: :bookName, class: 'lapor-form-input' %>
+  </div>
+
+  <div class="field">
+    <%= form.label :path %><br>
+    <%= form.file_field :path %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit "Save Book", class: 'lapor-form-button' %>
+  </div>
+<% end %>
+

@@ -82,7 +82,7 @@
      height: 150px;
 
      border-radius: 50%;
-     background: #d82f2f;
+     /* background: #d82f2f; */
 
      margin-left: 10px;
      margin-right: 10px;
@@ -236,27 +236,33 @@
       color: red;
   }
   .lapor-book-a4{
-      margin: 20px;
+      /* margin: 20px; */
       width: 840px;
       height: 594px;
       position: relative;
   }
+  .lapor-page-container-a4{
+    width: 420px;
+    height: 594px;
+    position: absolute;
+    transition: all .5s ease;
+    transform-style: preserve-3d;
+    transform-origin: center left;
+    right: 0;
+  }
   .lapor-page-a4{
       width: 420px;
       height: 594px;
-      background: white;
-      box-shadow: inset 0 0 30px rgba(0,0,0,0.8);
-      position: absolute;
-      transition: all 0.6s ease;
-      transform-style: preserve-3d;
-      transform-origin: center left;
-      right: 0;
+      position: relative;
   }
   .lapor-page-a4-turn{
       transform: rotateY(180deg);
   }
   .lapor-page-a4-front, .lapor-page-a4-back{
-      position: relative;
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      background: white;
       backface-visibility: hidden;
       -moz-backface-visibility: hidden;
   }
@@ -266,3 +272,70 @@
   .lapor-page-a4 h1{
       margin: 10px;
   }
+  .lapor-profile-resize{
+      width: 100%;
+      height: 100%;
+  }
+  .lapor-userbox{
+    width: 350px;
+    height: 125px;
+
+    background: white;
+    border-radius: 15px 0 15px 0;
+
+    padding-top: 10px;
+    padding-bottom: 10px;
+
+    position: relative;
+    display: flex;
+    float: left;
+    }
+    .lapor-userbox-profile{
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        margin: 10px;
+        overflow: hidden;
+    }
+    .lapor-userbox > h1{
+        height: auto;
+        margin: 10px;
+        font-size: 26px;
+        --size: calc((60px - 26px) / 2);
+        margin-top: calc(var(--size) + 10px);
+    }
+    .lapor-twitbox-input{
+        padding: 15px;
+        background: white;
+        border-radius: 15px;
+        resize: none;
+        outline: none;
+        position: relative;
+        border: 1px solid lightgrey;
+        float: right;
+    }
+    .lapor-twitbox-button{
+        width: 60px;
+        height: 40px;
+        color: white;
+        background: #dd5858;
+        border: none;
+        border-radius: 10px;
+    }
+    .lapor-twitbox-button:hover{
+        background: #a73737;
+        cursor: pointer;
+    }
+    .lapor-exit-box {
+        background: rgb(206, 42, 42);
+        color: #fff;
+        font-family: 'Helvetica', 'Arial', sans-serif;
+        font-size: 20px;
+        font-weight: bold;
+        text-align: center;
+        line-height: 30px;
+        width: 30px;
+        height: 30px;
+        border-radius: 5px;
+        cursor: pointer;
+    }

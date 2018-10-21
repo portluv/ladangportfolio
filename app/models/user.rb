@@ -1,5 +1,7 @@
 class User < ApplicationRecord
     has_one :profile, :dependent => :destroy
+    has_many :book, :dependent => :destroy
+    has_many :frame, :dependent => :destroy
 
     validates :username, presence: true, length: { minimum: 4 }
     

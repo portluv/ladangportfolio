@@ -1,6 +1,14 @@
+<p id="notice">
+    <%= notice %>
+</p>
+
 <div class="lapor-profile">
     <div class="lapor-profile-picture" style="overflow: hidden">
-        <%= image_tag @user.profile.profile_picture %>
+        <% if @user.profile == nil || @user.profile.profile_picture == '' %>
+            <%= image_tag "anonymous/profile_male.jpg", :class => "lapor-profile-resize" %>
+        <% else %>
+            <%= image_tag @user.profile.profile_picture, :class => "lapor-profile-resize"  %>
+        <% end %>
     </div>
     <h1 class="lapor-profile-name">
         <% if @user.profile == nil || @user.profile.fullname == '' %>
@@ -9,182 +17,70 @@
             <%= @user.profile.fullname %>
         <% end %>
     </h1>
-</div>
-<div class="lapor-book-a4">
-    <div class="lapor-page-a4">
-        <div class="lapor-page-a4-front">
-            <h1>FRONT1</h1>
-        </div>
-        <div class="lapor-page-a4-back">
-            <h1>BACK1</h1>
-        </div>
+    <div id="uploadModalShow" style="text-align: center; cursor: pointer; line-height: 27px; width: 100px; height: 28px; background: #dd5858; color: white; border-radius: 5px;">
+        Upload
     </div>
-    <div class="lapor-page-a4">
-        <div class="lapor-page-a4-front">
-            <h1>FRONT2</h1>
-        </div>
-        <div class="lapor-page-a4-back">
-            <h1>BACK2</h1>
-        </div>
+    <div id="workbookShow" style="text-align: center; cursor: pointer; line-height: 27px; width: 100px; height: 28px; background: #dd5858; color: white; border-radius: 5px;">
+        Show
     </div>
-    <div class="lapor-page-a4">
-        <div class="lapor-page-a4-front">
-            <h1>FRONT3</h1>
-        </div>
-        <div class="lapor-page-a4-back">
-            <h1>BACK3</h1>
-        </div>
+    <div id="addShelf" style="text-align: center; cursor: pointer; line-height: 27px; width: 100px; height: 28px; background: #dd5858; color: white; border-radius: 5px;">
+        Add Shelf
     </div>
-    <div class="lapor-page-a4">
-        <div class="lapor-page-a4-front">
-            <h1>FRONT4</h1>
-        </div>
-        <div class="lapor-page-a4-back">
-            <h1>BACK4</h1>
-        </div>
-    </div>
-    <div class="lapor-page-a4">
-        <div class="lapor-page-a4-front">
-            <h1>FRONT5</h1>
-        </div>
-        <div class="lapor-page-a4-back">
-            <h1>BACK5</h1>
-        </div>
-    </div>
-    <div class="lapor-page-a4">
-        <div class="lapor-page-a4-front">
-            <h1>FRONT6</h1>
-        </div>
-        <div class="lapor-page-a4-back">
-            <h1>BACK6</h1>
-        </div>
-    </div>
-    <div class="lapor-page-a4">
-        <div class="lapor-page-a4-front">
-            <h1>FRONT7</h1>
-        </div>
-        <div class="lapor-page-a4-back">
-            <h1>BACK7</h1>
-        </div>
-    </div>
-    <div class="lapor-page-a4">
-        <div class="lapor-page-a4-front">
-            <h1>FRONT8</h1>
-        </div>
-        <div class="lapor-page-a4-back">
-            <h1>BACK8</h1>
-        </div>
-    </div>
-    <div class="lapor-page-a4">
-        <div class="lapor-page-a4-front">
-            <h1>FRONT9</h1>
-        </div>
-        <div class="lapor-page-a4-back">
-            <h1>BACK9</h1>
-        </div>
-    </div>
-    <div class="lapor-page-a4">
-        <div class="lapor-page-a4-front">
-            <h1>FRONT10</h1>
-        </div>
-        <div class="lapor-page-a4-back">
-            <h1>BACK10</h1>
-        </div>
-    </div>
-    <div class="lapor-page-a4">
-        <div class="lapor-page-a4-front">
-            <h1>FRONT11</h1>
-        </div>
-        <div class="lapor-page-a4-back">
-            <h1>BACK11</h1>
-        </div>
-    </div>
-    <div class="lapor-page-a4">
-        <div class="lapor-page-a4-front">
-            <h1>FRONT12</h1>
-        </div>
-        <div class="lapor-page-a4-back">
-            <h1>BACK12</h1>
-        </div>
-    </div>
-    <div class="lapor-page-a4">
-        <div class="lapor-page-a4-front">
-            <h1>FRONT13</h1>
-        </div>
-        <div class="lapor-page-a4-back">
-            <h1>BACK13</h1>
-        </div>
-    </div>
-    <div class="lapor-page-a4">
-        <div class="lapor-page-a4-front">
-            <h1>FRONT14</h1>
-        </div>
-        <div class="lapor-page-a4-back">
-            <h1>BACK14</h1>
-        </div>
-    </div>
-    <div class="lapor-page-a4">
-        <div class="lapor-page-a4-front">
-            <h1>FRONT15</h1>
-        </div>
-        <div class="lapor-page-a4-back">
-            <h1>BACK15</h1>
-        </div>
-    </div>
-    <div class="lapor-page-a4">
-        <div class="lapor-page-a4-front">
-            <h1>FRONT16</h1>
-        </div>
-        <div class="lapor-page-a4-back">
-            <h1>BACK16</h1>
-        </div>
-    </div>
-    <div class="lapor-page-a4">
-        <div class="lapor-page-a4-front">
-            <h1>FRONT17</h1>
-        </div>
-        <div class="lapor-page-a4-back">
-            <h1>BACK17</h1>
-        </div>
-    </div>
-    <div class="lapor-page-a4">
-        <div class="lapor-page-a4-front">
-            <h1>FRONT18</h1>
-        </div>
-        <div class="lapor-page-a4-back">
-            <h1>BACK18</h1>
-        </div>
-    </div>
-    <div class="lapor-page-a4">
-        <div class="lapor-page-a4-front">
-            <h1>FRONT19</h1>
-        </div>
-        <div class="lapor-page-a4-back">
-            <h1>BACK19</h1>
-        </div>
-    </div>
+    <%= link_to 'Create', create_uploadBook_path(@user.book), :remote => true %>
+    <!--
+    <%= form_tag create_convert_path, method: :post do %>
+        <%= submit_tag 'Call Action' %>
+    <% end %>
+    -->
 </div>
 
+<div id="shelf">
+    <div id="shelfBookContainer" style="display: flex; padding-left: 7px; padding-right: 7px; width: calc(200px - 14px); height: calc(594px / 2);">
+        <div id="workbook" style="width: 30px; height: 100%; background: yellow; cursor: pointer;"></div>
+    </div>
+    <div id="woodenShelf" style="width: 200px; height: 20px; border-radius: 7px; background: brown;"></div>
+</div>
 
-<script
-  src="https://code.jquery.com/jquery-3.3.1.min.js"
-  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
-  crossorigin="anonymous"></script>
+<div id="modal" style="display: none; top: 0; left: 0; position: fixed; background: rgba(192,192,192,0.7); width: 100vw; height: 100vh;">
+    <div id="uploadWorkbook" style="display: none; background: white; left: calc((100vw - 400px) / 2); width: 400px; height: 600px; top: calc((100vh - 600px) / 2); position: absolute;">
+        <h1>Upload Book</h1>
+        <%= render 'upload', book: @book %>    
+    </div>
+    <div id="workbookView" style="display: none; left: calc((100vw - 840px) / 2); top: calc((100vh - 594px) / 2); position: absolute;">
+        <%= render 'bookView' %>
+    </div>
+    <div id="closeModal" class="lapor-exit-box" style="position: absolute; top: 10px; right: 10px">
+        X
+    </div>
+</div>  
+
 <script type="text/javascript">
     $(document).ready(function(){
-        let count = 0;
-        $('.lapor-page-a4').on('click', function(){
-            if($(this).hasClass('lapor-page-a4-turn')){
-                $(this).removeClass('lapor-page-a4-turn');
-                $(this).css('z-index', 0);
-                count--;
-            }
-            else{
-                $(this).addClass('lapor-page-a4-turn');
-                $(this).css('z-index', count);
-                count++;
-            }
+        $('#uploadModalShow').on('click', function(){
+            // $('#modal').show();
+            $('#modal').fadeIn(500, function(){
+               $('#uploadWorkbook').fadeIn(500);
+            });
         });
+        $('#workbookShow').on('click', function(){
+            $('#modal').fadeIn(500, function(){
+               $('#workbookView').fadeIn(500);
+            });
+        });
+        $('#workbook').on('click', function(){
+            $('#modal').fadeIn(500, function(){
+               $('#workbookView').fadeIn(500);
+            });
+        });
+        $('#closeModal').on('click', function(){
+            $('#modal').fadeOut(500, function(){
+                $('#uploadWorkbook').hide();
+                $('#workbookView').hide();
+            });
+        });
+        // $('#modal *').on('click', function(e){
+        //     e.stopPropagation();
+        // });
     });
     // setTimeout(function(){
     //     document.getElementById('laporNavbar').style.transform = 'translateY(-42px)';

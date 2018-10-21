@@ -1,5 +1,9 @@
 Rails.application.routes.draw do
   
+  get '/create/uploadBook'
+  post '/create/addBook'
+  post '/create/convert'
+  get    '/create', to: 'create#index'
   get    '/profile', to: 'users#index'
   post '/profile/update', to: 'users#createProfile'
   put '/profile/update/:id', to: 'users#updateProfile', as: 'put_profile'

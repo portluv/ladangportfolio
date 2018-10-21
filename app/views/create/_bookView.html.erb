@@ -1,0 +1,60 @@
+<div class="lapor-book-a4">
+    <% @count = 1 %>
+    <% (1..20).each do |i| %>
+            <% if i % 2 == 1 %>
+                    <div class="lapor-page-container-a4">
+                        <div class="lapor-page-a4">
+                                <div class="lapor-page-a4-front">
+                                    <%= image_tag "anonymous/asd/asd_#{20-@count}.jpg", :class => "lapor-profile-resize" %>
+                                </div>
+                    <% @count -= 1 %>
+            <% elsif i % 2 == 0 %>
+                <% if @count == 0 %>
+                        <div class="lapor-page-a4-back">
+                        </div>
+                    </div>
+                </div>
+                <% else %>
+                        <div class="lapor-page-a4-back">
+                            <%= image_tag "anonymous/asd/asd_#{20-@count}.jpg", :class => "lapor-profile-resize" %>
+                        </div>
+                    </div>
+                </div>
+                <% end %>
+                <% @count = @count + 3 %>
+            <% end %>
+    <% end %>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        let count = 0;
+        function moveBack(element){
+            setTimeout(function(){
+                $(element).css('z-index', 0);
+                bindClickEvent();
+            }, 800);
+        }
+        function bindClickEvent(){
+            $('.lapor-page-container-a4').bind('click', function(){
+                if($(this).hasClass('lapor-page-a4-turn')){
+                    let currElement = $(this);
+                    $(this).removeClass('lapor-page-a4-turn');
+                    $('.lapor-page-container-a4').unbind();
+                    moveBack(currElement);
+                    count--;
+                }
+                else{
+                    $(this).addClass('lapor-page-a4-turn');
+                    $(this).css('z-index', count);
+                    $('.lapor-page-container-a4').unbind();
+                    setTimeout(function(){
+                        bindClickEvent();
+                    }, 800);
+                    count++;
+                }
+            });
+        }
+        bindClickEvent();
+    });
+</script>

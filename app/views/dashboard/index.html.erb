@@ -3,66 +3,19 @@
 </p>
 
 <% if session[:username] %>
-    <style>
-        .lapor-userbox{
-            width: 350px;
-            height: 125px;
-
-            background: white;
-            border-radius: 15px 0 15px 0;
-
-            padding-top: 10px;
-            padding-bottom: 10px;
-
-            position: relative;
-            display: flex;
-            float: left;
-        }
-        .lapor-userbox-profile{
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            margin: 10px;
-            background: red;
-        }
-        .lapor-userbox > h1{
-            height: auto;
-            margin: 10px;
-            font-size: 26px;
-            --size: calc((60px - 26px) / 2);
-            margin-top: calc(var(--size) + 10px);
-        }
-        .lapor-twitbox-input{
-            padding: 15px;
-            background: white;
-            border-radius: 15px;
-            resize: none;
-            outline: none;
-            position: relative;
-            border: 1px solid lightgrey;
-            float: right;
-        }
-        .lapor-twitbox-button{
-            width: 60px;
-            height: 40px;
-            color: white;
-            background: #dd5858;
-            border: none;
-            border-radius: 10px;
-        }
-        .lapor-twitbox-button:hover{
-            background: #a73737;
-            cursor: pointer;
-        }
-    </style>
 
     <div class="lapor-userbox">
-        <div class="lapor-userbox-profile"></div>
+        <div class="lapor-userbox-profile">
+            <% if @user.profile == nil || @user.profile.profile_picture == '' %>
+                <%= image_tag "anonymous/profile_male.jpg", :class => "lapor-profile-resize" %>
+            <% else %>
+                <%= image_tag @user.profile.profile_picture, :class => "lapor-profile-resize"  %>
+            <% end %>
+        </div>
         <h1><%= session[:username] %></h1>
     </div>
     <div class="lapor-twitbox">
         <textarea rows="10" cols="70" class="lapor-twitbox-input"></textarea>
-        
     </div>
 <% else %>
     <div id="inboxBtn" class="lapor-feedbox-button">

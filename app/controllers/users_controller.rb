@@ -56,7 +56,9 @@ class UsersController < ApplicationController
       @profile.user_id = session[:user_id]
       if params[:profile][:profile_picture].present?
         file = params[:profile][:profile_picture]
-        File.open(Rails.root.join('app','assets', 'images', session[:username], file.original_filename), 'wb') do |f|
+        dir = Rails.root.join('app','assets', 'images', session[:username]) #GET DIRECTORY
+        FileUtils.mkdir_p(dir) unless File.directory?(dir) #IF DIRECTORY EXISTS
+        File.open(Rails.root.join(dir, file.original_filename), 'wb') do |f|
           f.write(file.read)
         end
         @profile.profile_picture = "#{session[:username]}/#{file.original_filename}"
@@ -86,7 +88,9 @@ class UsersController < ApplicationController
   def updateProfile
     if params[:profile][:profile_picture].present?
       file = params[:profile][:profile_picture]
-      File.open(Rails.root.join('app','assets', 'images', session[:username], file.original_filename), 'wb') do |f|
+      dir = Rails.root.join('app','assets', 'images', session[:username]) #GET DIRECTORY
+      FileUtils.mkdir_p(dir) unless File.directory?(dir) #IF DIRECTORY EXISTS
+      File.open(Rails.root.join(dir, file.original_filename), 'wb') do |f|
         f.write(file.read)
       end
       @profile.profile_picture = "#{session[:username]}/#{file.original_filename}"
