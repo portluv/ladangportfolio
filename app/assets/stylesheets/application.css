@@ -45,8 +45,6 @@
      width: 100%;
      height: 42px;
      display: flex;
-
-     transition: all .5s;
  }
 
  .lapor-navbar-item{
@@ -61,7 +59,7 @@
      margin-right: 15px;
      line-height: var(--parentHeight);
 
-     transition: all .4s;
+     transition: all .5s;
  }
 
  .lapor-navbar-item:hover{
