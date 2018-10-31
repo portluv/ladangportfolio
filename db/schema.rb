@@ -10,28 +10,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181029110600) do
+ActiveRecord::Schema.define(version: 20181031004843) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
-
-  create_table "books", force: :cascade do |t|
-    t.string "name"
-    t.string "path"
-    t.bigint "user_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["user_id"], name: "index_books_on_user_id"
-  end
-
-  create_table "frames", force: :cascade do |t|
-    t.string "name"
-    t.string "path"
-    t.bigint "user_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["user_id"], name: "index_frames_on_user_id"
-  end
 
   create_table "profiles", force: :cascade do |t|
     t.string "fullname"
@@ -47,6 +29,16 @@ ActiveRecord::Schema.define(version: 20181029110600) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_profiles_on_user_id"
+  end
+
+  create_table "statuses", force: :cascade do |t|
+    t.text "status"
+    t.bigint "thing_id"
+    t.bigint "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["thing_id"], name: "index_statuses_on_thing_id"
+    t.index ["user_id"], name: "index_statuses_on_user_id"
   end
 
   create_table "things", force: :cascade do |t|
@@ -67,8 +59,8 @@ ActiveRecord::Schema.define(version: 20181029110600) do
     t.datetime "updated_at", null: false
   end
 
-  add_foreign_key "books", "users"
-  add_foreign_key "frames", "users"
   add_foreign_key "profiles", "users"
+  add_foreign_key "statuses", "things"
+  add_foreign_key "statuses", "users"
   add_foreign_key "things", "users"
 end

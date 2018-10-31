@@ -23,13 +23,13 @@
 
   <div class="field">
     <%= form.label :password %>
-    <%= form.text_field :password, id: :user_password, class: 'lapor-form-input' %>
+    <%= form.text_field :password, id: :user_password, class: 'lapor-form-input', type: 'password' %>
   </div>
 
   <div class="actions">
     <%= form.submit "Sign Up", class: 'lapor-form-button' %>
     <%= link_to 'Have an account? Sign In Here!', signin_path %>
-    <%= link_to 'Back to home', root_path %>
+    <%= link_to 'Back to home', home_path %>
   </div>
 <% end %>
 

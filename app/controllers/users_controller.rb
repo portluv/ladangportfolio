@@ -28,7 +28,7 @@ class UsersController < ApplicationController
       if user
           session[:user_id] = user.id
           session[:username] = user.username 
-          format.html { redirect_to root_path, notice: 'Sign in was successful.' }
+          format.html { redirect_to dashboard_path, notice: 'Sign in was successful.' }
       else
           format.html { redirect_to signin_path, notice: 'Sign in was unsuccessful.' }
       end
@@ -43,7 +43,7 @@ class UsersController < ApplicationController
         user = User.find_by(username: @user.username, password: @user.password)
         session[:user_id] = user.id
         session[:username] = user.username 
-        format.html { redirect_to root_path, notice: 'Sign up was successful.' }
+        format.html { redirect_to dashboard_path, notice: 'Sign up was successful.' }
       else
         format.html { render :signUp }
         format.json { render json: @user.errors, status: :unprocessable_entity }
@@ -56,12 +56,12 @@ class UsersController < ApplicationController
       @profile.user_id = session[:user_id]
       if params[:profile][:profile_picture].present?
         file = params[:profile][:profile_picture]
-        dir = Rails.root.join('app','assets', 'images', session[:username]) #GET DIRECTORY
+        dir = Rails.root.join('app','assets', 'images', 'user_assets', session[:username]) #GET DIRECTORY
         FileUtils.mkdir_p(dir) unless File.directory?(dir) #IF DIRECTORY EXISTS
         File.open(Rails.root.join(dir, file.original_filename), 'wb') do |f|
           f.write(file.read)
         end
-        @profile.profile_picture = "#{session[:username]}/#{file.original_filename}"
+        @profile.profile_picture = "user_assets/#{session[:username]}/#{file.original_filename}"
       end
 
       respond_to do |format|
@@ -88,18 +88,15 @@ class UsersController < ApplicationController
   def updateProfile
     if params[:profile][:profile_picture].present?
       file = params[:profile][:profile_picture]
-      dir = Rails.root.join('app','assets', 'images', session[:username]) #GET DIRECTORY
+      dir = Rails.root.join('app','assets', 'images', 'user_assets', session[:username]) #GET DIRECTORY
       FileUtils.mkdir_p(dir) unless File.directory?(dir) #IF DIRECTORY EXISTS
       File.open(Rails.root.join(dir, file.original_filename), 'wb') do |f|
         f.write(file.read)
       end
-      @profile.profile_picture = "#{session[:username]}/#{file.original_filename}"
-      puts "#{session[:username]}/#{file.original_filename}"
-      puts @profile.profile_picture
+      @profile.profile_picture = "user_assets/#{session[:username]}/#{file.original_filename}"
     end
     
     respond_to do |format|
-      puts @profile.profile_picture
       if @profile.update(profile_params)
         puts @profile.profile_picture
         format.html { redirect_to profile_path, notice: 'Profile updated.' }

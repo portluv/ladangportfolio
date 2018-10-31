@@ -3,19 +3,26 @@
 </p>
 
 <% if session[:username] %>
-
-    <div class="lapor-userbox">
-        <div class="lapor-userbox-profile">
-            <% if @user.profile == nil || @user.profile.profile_picture == '' %>
-                <%= image_tag "anonymous/profile_male.jpg", :class => "lapor-profile-resize" %>
-            <% else %>
-                <%= image_tag @user.profile.profile_picture, :class => "lapor-profile-resize"  %>
+    <div style="display: flex; justify-content: space-between;">
+        <div class="lapor-userbox">
+            <div class="lapor-userbox-profile">
+                <% if @user.profile == nil || @user.profile.profile_picture == '' %>
+                    <%= image_tag "web_assets/anonymous/profile_male.jpg", :class => "lapor-profile-resize" %>
+                <% else %>
+                    <%= image_tag @user.profile.profile_picture, :class => "lapor-profile-resize"  %>
+                <% end %>
+            </div>
+            <h1><%= session[:username] %></h1>
+        </div>
+        <div class="lapor-twitbox" style="width: 60%;">
+            <textarea rows="10" cols="70" class="lapor-twitbox-input"></textarea>
+            <% if @status != nil %>
+                <div>
+                    <%= @user.username %>
+                    <%= @status.status %>
+                </div>
             <% end %>
         </div>
-        <h1><%= session[:username] %></h1>
-    </div>
-    <div class="lapor-twitbox">
-        <textarea rows="10" cols="70" class="lapor-twitbox-input"></textarea>
     </div>
 <% else %>
     <div id="inboxBtn" class="lapor-feedbox-button">

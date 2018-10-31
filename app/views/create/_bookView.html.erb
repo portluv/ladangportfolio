@@ -1,6 +1,6 @@
 <div id="workbookView" style="display: none; left: calc((100vw - 840px) / 2); top: calc((100vh - 594px) / 2); position: absolute;">
     <div class="lapor-book-a4">
-        <% @pages = Dir.glob(File.join( Rails.root.join('app','assets', 'images', "#{session[:username]}/#{@thing.name}"), '**', '*')).select { |file| File.file?(file) }.count %>
+        <% @pages = Dir.glob(File.join( Rails.root.join('app','assets', 'images', 'user_assets', "#{session[:username]}/#{@thing.name}"), '**', '*')).select { |file| File.file?(file) }.count %>
         <% @count = 1 %>
         <% if @pages % 2 == 1 %>
             <% @pages += 1 %>
@@ -9,7 +9,7 @@
                             <div class="lapor-page-container-a4">
                                 <div class="lapor-page-a4">
                                         <div class="lapor-page-a4-front">
-                                            <%= image_tag "#{session[:username]}/#{@thing.name}/#{@thing.name}_#{@pages-@count}.jpg", :class => "lapor-profile-resize" %>
+                                            <%= image_tag "user_assets/#{session[:username]}/#{@thing.name}/#{@thing.name}_#{@pages-@count}.jpg", :class => "lapor-profile-resize" %>
                                         </div>
                             <% @count -= 1 %>
                     <% elsif i % 2 == 0 %>
@@ -20,7 +20,7 @@
                         </div>
                         <% else %>
                                 <div class="lapor-page-a4-back">
-                                    <%= image_tag "#{session[:username]}/#{@thing.name}/#{@thing.name}_#{@pages-@count}.jpg", :class => "lapor-profile-resize" %>
+                                    <%= image_tag "user_assets/#{session[:username]}/#{@thing.name}/#{@thing.name}_#{@pages-@count}.jpg", :class => "lapor-profile-resize" %>
                                 </div>
                             </div>
                         </div>
@@ -34,7 +34,7 @@
                             <div class="lapor-page-container-a4">
                                 <div class="lapor-page-a4">
                                         <div class="lapor-page-a4-front">
-                                            <%= image_tag "#{session[:username]}/#{@thing.name}/#{@thing.name}_#{@pages-@count}.jpg", :class => "lapor-profile-resize" %>
+                                            <%= image_tag "user_assets/#{session[:username]}/#{@thing.name}/#{@thing.name}_#{@pages-@count}.jpg", :class => "lapor-profile-resize" %>
                                         </div>
                             <% @count -= 1 %>
                     <% elsif i % 2 == 0 %>
@@ -45,7 +45,7 @@
                         </div>
                         <% else %>
                                 <div class="lapor-page-a4-back">
-                                    <%= image_tag "#{session[:username]}/#{@thing.name}/#{@thing.name}_#{@pages-@count}.jpg", :class => "lapor-profile-resize" %>
+                                    <%= image_tag "user_assets/#{session[:username]}/#{@thing.name}/#{@thing.name}_#{@pages-@count}.jpg", :class => "lapor-profile-resize" %>
                                 </div>
                             </div>
                         </div>

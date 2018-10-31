@@ -16,9 +16,8 @@ class CreateController < ApplicationController
     end
 
     def convert
-      dir = Rails.root.join('app','assets', 'images', 'anonymous', 'asd.pdf')
-      done = Docsplit.extract_images(dir, :size => '100x', output: Rails.root.join('app','assets', 'images', 'anonymous'), :format => [:jpg])
-      puts done
+      dir = Rails.root.join('app','assets', 'images', 'user_assets', 'anonymous', 'asd.pdf')
+      done = Docsplit.extract_images(dir, :size => '100x', output: Rails.root.join('app','assets', 'images', 'user_assets', 'anonymous'), :format => [:jpg])
     end
 
     def addBook
@@ -26,17 +25,15 @@ class CreateController < ApplicationController
       @thing.user_id = session[:user_id]
       if params[:path].present?
         file = params[:path]
-        dir = Rails.root.join('app','assets', 'images', session[:username], @thing.name) #GET DIRECTORY
+        dir = Rails.root.join('app','assets', 'images', 'user_assets', session[:username], @thing.name) #GET DIRECTORY
         FileUtils.mkdir_p(dir) unless File.directory?(dir) #IF DIRECTORY EXISTS
         File.open(Rails.root.join(dir, "#{@thing.name}.pdf"), 'wb') do |f|
           f.write(file.read)
         end
         @thing.path = "#{session[:username]}/#{@thing.name}"
         dir = Rails.root.join(dir, "#{@thing.name}.pdf")
-        Docsplit.extract_images(dir, output: Rails.root.join('app','assets', 'images', session[:username], @thing.name), :format => [:jpg])
+        Docsplit.extract_images(dir, output: Rails.root.join('app','assets', 'images', 'user_assets', session[:username], @thing.name), :format => [:jpg])
         File.delete(dir) if File.exist?(dir)
-
-        puts @thing.name
       end
 
       respond_to do |format|

@@ -16,7 +16,7 @@
     <div style="display: flex">
         <div class="lapor-profile-picture" style="overflow: hidden">
             <% if @user.profile == nil || @user.profile.profile_picture == '' %>
-                <%= image_tag "anonymous/profile_male.jpg", :class => "lapor-profile-resize" %>
+                <%= image_tag "web_assets/anonymous/profile_male.jpg", :class => "lapor-profile-resize" %>
             <% else %>
                 <%= image_tag @user.profile.profile_picture, :class => "lapor-profile-resize"  %>
             <% end %>
