@@ -2,10 +2,12 @@
 
 one:
   status: MyText
-  thing: one
+  photo: MyString
+  status_type: 1
   user: one
 
 two:
   status: MyText
-  thing: two
+  photo: MyString
+  status_type: 1
   user: two

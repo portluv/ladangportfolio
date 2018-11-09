@@ -1,18 +1,16 @@
-<main class="lapor-main">
-  <p id="notice"><%= notice %></p>
+<p id="notice"><%= notice %></p>
 
-  <h1>
-    Welcome, 
-    <% if @user.profile == nil || @user.profile.fullname == '' %>
-      <%= @user.username %> 
-    <% else %>
-      <%= @user.profile.fullname %>
-    <% end %>
-  </h1>
-
-  <% if @user.profile == nil %>
-    <%= render 'createProfile', profile: @profile %>
+<h1>
+  Welcome, 
+  <% if @user.profile == nil || @user.profile.fullname == '' %>
+    <%= @user.username %> 
   <% else %>
-    <%= render 'editProfile', profile: @profile %>
+    <%= @user.profile.fullname %>
   <% end %>
-</main>
+</h1>
+
+<% if @user.profile == nil %>
+  <%= render 'createProfile', profile: @profile %>
+<% else %>
+  <%= render 'editProfile', profile: @profile %>
+<% end %>

@@ -2,11 +2,56 @@
     <%= notice %>
 </p>
 
+<script>
+    $(document).ready(function(){
+        function countChar(val) {
+            var len = val.length;
+            if (len > 500) {
+                val = val.substring(0, 500);
+            } else {
+                $('#statusCount').text(len + '/500');
+                if(len > 450 && len <= 500){
+                    $('#statusCount').css("color", "red");
+                }
+                else{
+                    $('#statusCount').css("color", "#282828");
+                }
+            }
+        };
+        $('#statusTwitbox').on('keyup', function() {
+            countChar($('#statusTwitbox').val());
+        });
+        $('#statusTwitbox').on('keypress', function() {
+            countChar($('#statusTwitbox').val());
+        });
+    })
+</script>
+<style>
+.lapor-form-small-button{
+    width: 100px; 
+    height: 28px; 
+    background: #dd5858;
+
+    margin-left: 10px; 
+    margin-right: 10px;
+    padding: 0;  
+    
+    color: white;
+    text-align: center; 
+    line-height: 27px;  
+     
+    border-radius: 5px;
+    border: none;
+
+    cursor: pointer;
+}
+</style>
+
 <% if session[:username] %>
     <div style="display: flex; justify-content: space-between;">
         <div class="lapor-userbox">
             <div class="lapor-userbox-profile">
-                <% if @user.profile == nil || @user.profile.profile_picture == '' %>
+                <% if @user.profile == nil || @user.profile.profile_picture == '' || @user.profile.profile_picture == nil %>
                     <%= image_tag "web_assets/anonymous/profile_male.jpg", :class => "lapor-profile-resize" %>
                 <% else %>
                     <%= image_tag @user.profile.profile_picture, :class => "lapor-profile-resize"  %>
@@ -15,12 +60,25 @@
             <h1><%= session[:username] %></h1>
         </div>
         <div class="lapor-twitbox" style="width: 60%;">
-            <textarea rows="10" cols="70" class="lapor-twitbox-input"></textarea>
-            <% if @status != nil %>
-                <div>
-                    <%= @user.username %>
-                    <%= @status.status %>
+            <%= form_for(:status, url: newstatus_path(@status), local: true) do |form| %>
+                <div style="background: white; border-radius: 13px; box-shadow: 6px 6px 52px -1px rgba(0,0,0,0.4); padding: 10px;">
+                    <%= form.text_area(:status, :id => "statusTwitbox", :rows => "9", :cols => "70", :maxlength => "500", :class => "lapor-twitbox-input") %>
+                    <div style="display: flex; align-items: center; width: 150px; margin-left: auto; margin-right: 10px;">
+                        <div id="statusCount">0/500</div>
+                        <%= form.submit "Post", class: 'lapor-form-small-button' %>
+                    </div>
                 </div>
+            <% end %>
+            <% if @userStatus != nil %>
+                <% @userStatus.each do |status| %>
+                    <div style="background: white; width: 36px; height: 36px; margin: auto; margin-top: 30px; border-radius: 50%; box-shadow: 6px 6px 52px -1px rgba(0,0,0,0.6);"></div>
+                    <div style="background: white; text-align: center; border-radius: 13px; margin-top: 30px; box-shadow: 6px 6px 52px -1px rgba(0,0,0,0.4); padding: 15px;">
+                        <% if status.status_type == 2 %>
+                            <%= @user.username %>
+                        <% end %>
+                        <%= status.status %>
+                    </div>
+                <% end %>
             <% end %>
         </div>
     </div>

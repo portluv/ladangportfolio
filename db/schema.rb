@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181031004843) do
+ActiveRecord::Schema.define(version: 20181101184528) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -33,11 +33,11 @@ ActiveRecord::Schema.define(version: 20181031004843) do
 
   create_table "statuses", force: :cascade do |t|
     t.text "status"
-    t.bigint "thing_id"
+    t.string "photo"
+    t.integer "status_type"
     t.bigint "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["thing_id"], name: "index_statuses_on_thing_id"
     t.index ["user_id"], name: "index_statuses_on_user_id"
   end
 
@@ -60,7 +60,6 @@ ActiveRecord::Schema.define(version: 20181031004843) do
   end
 
   add_foreign_key "profiles", "users"
-  add_foreign_key "statuses", "things"
   add_foreign_key "statuses", "users"
   add_foreign_key "things", "users"
 end

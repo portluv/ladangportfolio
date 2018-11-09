@@ -3,13 +3,13 @@
   <head>
     <title>LadangPortfolio</title>
     <%= csrf_meta_tags %>
-
-    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
-    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
     <script
       src="https://code.jquery.com/jquery-3.3.1.min.js"
       integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
       crossorigin="anonymous"></script>
+
+    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
     <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Oswald" rel="stylesheet">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.2/css/all.css" integrity="sha384-/rXc/GQVaYpyDdyxK+ecHPVYJSN9bmVFBvjA/9eOB+pb3F2w2N6fc5qB9Ew5yIns" crossorigin="anonymous">  </head>
@@ -19,7 +19,7 @@
         <%= link_to("Dashboard", dashboard_path, :class => 'lapor-navbar-item' ) %>
         <%= link_to("Profile", profile_path, :class => 'lapor-navbar-item') %>
         <%= link_to("Create", { :controller => 'create', :action => 'index'}, :class => 'lapor-navbar-item' ) %>
-        <div class="lapor-navbar-item">Contact</div>
+        <%= link_to("Connect", { :controller => 'connection', :action => 'index'}, :class => 'lapor-navbar-item' ) %>
         <% if user_is_logged_in? %>
           <%= link_to("Sign Out", signout_path, :class => 'lapor-navbar-item lapor-signin-button') %>
         <% else %>

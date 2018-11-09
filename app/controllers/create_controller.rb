@@ -22,7 +22,10 @@ class CreateController < ApplicationController
 
     def addBook
       @thing = Thing.new(thing_params)
+      @status = Status.new
       @thing.user_id = session[:user_id]
+      @status.user_id = session[:user_id]
+      @status.status_type = 2
       if params[:path].present?
         file = params[:path]
         dir = Rails.root.join('app','assets', 'images', 'user_assets', session[:username], @thing.name) #GET DIRECTORY
@@ -34,10 +37,12 @@ class CreateController < ApplicationController
         dir = Rails.root.join(dir, "#{@thing.name}.pdf")
         Docsplit.extract_images(dir, output: Rails.root.join('app','assets', 'images', 'user_assets', session[:username], @thing.name), :format => [:jpg])
         File.delete(dir) if File.exist?(dir)
+        @status.status = " just uploaded #{@thing.name}"
       end
 
       respond_to do |format|
-        if @thing.save
+        if @thing.save 
+          @status.save
           format.html { redirect_to create_path, notice: 'Added new Book.' }
         else
           format.html { render :index }
