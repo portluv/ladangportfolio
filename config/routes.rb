@@ -5,6 +5,8 @@ Rails.application.routes.draw do
   post '/create/convert'
   get    '/create', to: 'create#index'
   get    '/connect', to: 'connection#index'
+  get    '/connect/add/:id', to: 'connection#addFriend', as: 'addFriend'
+  get    '/connect/remove/:id', to: 'connection#removeFriend', as: 'removeFriend'
   get    '/home', to: 'dashboard#home'
   get    '/profile', to: 'users#index'
   post '/profile/update', to: 'users#createProfile'

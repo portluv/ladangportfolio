@@ -37,12 +37,16 @@ class UsersController < ApplicationController
 
   def createUser
     @user = User.new(user_params)
-
+    @status = Status.new
+    @status.status_type = 2
+    @status.status = " created an account"
     respond_to do |format|
       if @user.save
         user = User.find_by(username: @user.username, password: @user.password)
         session[:user_id] = user.id
         session[:username] = user.username 
+        @status.user_id = session[:user_id]
+        @status.save
         format.html { redirect_to dashboard_path, notice: 'Sign up was successful.' }
       else
         format.html { render :signUp }

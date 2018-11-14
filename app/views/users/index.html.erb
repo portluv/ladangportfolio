@@ -9,8 +9,15 @@
   <% end %>
 </h1>
 
-<% if @user.profile == nil %>
-  <%= render 'createProfile', profile: @profile %>
-<% else %>
-  <%= render 'editProfile', profile: @profile %>
-<% end %>
+<div style='display: grid; grid-template-columns: calc(100% - 250px) 260px; grid-template-areas: "profile edit";'>
+  <div style="width: 100%; height: calc(100% / 2); background: black; grid-area: profile;">
+    <%= image_tag 'web_assets/anonymous/profile_background.jpg', :class => "lapor-profile-resize"  %>
+  </div>
+  <div style="width: 250px; padding-left: 10px; grid-area: edit;">
+    <% if @user.profile == nil %>
+      <%= render 'createProfile', profile: @profile %>
+    <% else %>
+      <%= render 'editProfile', profile: @profile %>
+    <% end %>
+  </div>
+</div>

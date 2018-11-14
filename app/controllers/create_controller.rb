@@ -24,6 +24,7 @@ class CreateController < ApplicationController
       @thing = Thing.new(thing_params)
       @status = Status.new
       @thing.user_id = session[:user_id]
+      @thing.thingtype = 1
       @status.user_id = session[:user_id]
       @status.status_type = 2
       if params[:path].present?

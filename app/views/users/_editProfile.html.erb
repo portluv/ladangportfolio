@@ -1,4 +1,4 @@
-<%= form_with(model: profile, url: patch_profile_path(@profile), local: true) do |form| %>
+<%= form_with(model: profile, url: patch_profile_path(@profile), local: true, html: { autocomplete: "off" }) do |form| %>
   <% if profile.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(profile.errors.count, "error") %> prohibited this user from being saved:</h2>
@@ -13,12 +13,12 @@
 
   <div class="field">
     <%= form.label :fullname %>
-    <%= form.text_field :fullname, id: :profileDateOfBirth, class: 'lapor-form-input' %>
+    <%= form.text_field :fullname, id: :profileFullname, class: 'lapor-form-input' %>
   </div>
   
-  <div class="field">
-    <%= form.label :dateofbirth %>
-    <%= form.text_field :dateofbirth, id: :profileDateOfBirth, class: 'lapor-form-input', value: @profile.dateofbirth.nil? ? '' : @profile.dateofbirth.strftime("%d/%m/%Y") %>
+  <div class="field datepick">
+    <%= form.label :dateofbirth, 'Birth Date' %>
+    <%= form.text_field :dateofbirth, id: :profileDateOfBirth, class: 'lapor-form-input' , value: @profile.dateofbirth == nil ? '' : @profile.dateofbirth.strftime("%d %B %Y") %>
   </div>
 
   <div class="field">
@@ -47,7 +47,7 @@
   </div>
 
   <div class="field">
-    <%= form.label :lifemotto %>
+    <%= form.label :lifemotto, 'Life Motto' %>
     <%= form.text_field :lifemotto, id: :profileLifeMotto, class: 'lapor-form-input' %>
   </div>
 
@@ -61,5 +61,8 @@
   </div>
 <% end %>
 
+<script>
+  $('#profileDateOfBirth').datepicker({ dateFormat: 'dd MM yy' });
+</script>
 
 
