@@ -18,7 +18,7 @@
   
   <div class="field datepick">
     <%= form.label :dateofbirth, 'Birth Date' %>
-    <%= form.text_field :dateofbirth, id: :profileDateOfBirth, class: 'lapor-form-input' %>
+    <%= form.text_field :dateofbirth, id: :profileDateOfBirth, class: 'lapor-form-input' , value: @profile.dateofbirth == nil ? '' : @profile.dateofbirth.strftime("%d %B %Y") %>
   </div>
 
   <div class="field">
@@ -61,4 +61,7 @@
   </div>
 <% end %>
 
+<script>
+  $('#profileDateOfBirth').datepicker({ dateFormat: 'dd MM yy' });
+</script>
 

@@ -42,8 +42,8 @@
 
     <% @previousType = 0 %>
     <% @user.thing.each_with_index do |thing, index| %>
-        <% if thing.thingtype == 1 %>
-            <% if @previousType != thing.thingtype %>
+        <% if thing.thingtype_id == 1 %>
+            <% if @previousType != thing.thingtype_id %>
                 <div id="shelf">
                     <div id="shelfBookContainer" style="display: flex; padding-left: 7px; padding-right: 7px; width: calc(200px - 14px); height: calc(594px * 4 / 10);">
                         <a id="workbook" class="lapor-workbook" data-remote="true" href="<%= loadBookView_path(thing.id)%>">
@@ -51,21 +51,21 @@
                                 <%= thing.name %>
                             </span>
                         </a>
-                <% @previousType = thing.thingtype %>
-            <% elsif @previousType == thing.thingtype %>
+                <% @previousType = thing.thingtype_id %>
+            <% elsif @previousType == thing.thingtype_id %>
                         <a id="workbook" class="lapor-workbook" data-remote="true" href="<%= loadBookView_path(thing.id)%>">
                             <span style="position: absolute; bottom: 0; left: calc(36px / 4 * 3); transform: rotate(-90deg); color: white; text-decoration: none; transform-origin: bottom left; text-align: center; font-size: 12pt; width: 237px;">
                                 <%= thing.name %>
                             </span>
                         </a>
-                <% @previousType = thing.thingtype %>
+                <% @previousType = thing.thingtype_id %>
             <% end %>
         <% else %>
             <% if @previousType == 1 %>
                     </div>
                     <div id="woodenShelf" style="width: 270px; height: 27px; border-radius: 7px; background: brown;"></div>
                 </div>
-                <% @previousType = thing.thingtype %>
+                <% @previousType = thing.thingtype_id %>
             <% end %>
         <% end %>
         <% if index == @user.thing.size - 1 %>
@@ -78,7 +78,7 @@
     <% end %>
 
 <div id="modal" style="display: none; top: 0; left: 0; position: fixed; background: rgba(192,192,192,0.7); width: 100vw; height: 100vh;">
-    <div id="uploadWorkbook" style="display: none; background: white; left: calc((100vw - 400px) / 2); width: 400px; height: 600px; top: calc((100vh - 600px) / 2); position: absolute;">
+    <div id="uploadWorkbook" style="display: none; background: white; left: calc((100vw - 400px) / 2); width: 400px; padding: 20px; top: calc((100vh - 300px) / 2); position: absolute;">
         <h1>Upload Book</h1>
         <%= render 'upload', thing: @thing %>    
     </div>

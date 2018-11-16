@@ -4,6 +4,10 @@ class CreateController < ApplicationController
     def index
       if session[:username]
         @user = User.find_by(username: session[:username])
+        @thingtype = Thingtype.all
+        puts 'AAA'
+        puts @thingtype.column_for_attribute('id').type
+        puts 'AAA'
       else
         redirect_to root_path
       end
@@ -24,7 +28,6 @@ class CreateController < ApplicationController
       @thing = Thing.new(thing_params)
       @status = Status.new
       @thing.user_id = session[:user_id]
-      @thing.thingtype = 1
       @status.user_id = session[:user_id]
       @status.status_type = 2
       if params[:path].present?
@@ -46,7 +49,7 @@ class CreateController < ApplicationController
           @status.save
           format.html { redirect_to create_path, notice: 'Added new Book.' }
         else
-          format.html { render :index }
+          format.html { redirect_to create_path, notice: 'Failed to add new Book.' }
           format.json { render json: @thing.errors, status: :unprocessable_entity }
         end
       end
@@ -63,6 +66,7 @@ class CreateController < ApplicationController
 
       # Never trust parameters from the scary internet, only allow the white list through.
       def thing_params
-          params.permit(:name, :path, :type, :id)
+          params[:thingtype_id] = params[:thingtype_id].to_i
+          params.permit(:name, :path, :thingtype_id, :id)
       end  
   end

@@ -3,11 +3,11 @@
 one:
   name: MyString
   path: MyString
-  thingtype: 1
+  thingtype_id: 
   user: one
 
 two:
   name: MyString
   path: MyString
-  thingtype: 1
+  thingtype_id: 
   user: two

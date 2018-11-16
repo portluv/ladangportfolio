@@ -6,7 +6,12 @@
   </div>
 
   <div class="field">
-    <%= form.label :path %><br>
+    <%= form.label :thingtype_id, 'Thing Type' %><br>
+    <%= form.select(:thingtype_id, options_for_select(@thingtype.map { |u| [u.typename, u.id]})) %>
+  </div>
+
+  <div class="field">
+    <%= form.label :path, 'Choose file to upload' %><br>
     <%= form.file_field :path %>
   </div>
 
