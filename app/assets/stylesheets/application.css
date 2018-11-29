@@ -24,26 +24,27 @@ body{
 }
 
 .ui-page-active { 
-outline: none; 
+    outline: none; 
 }
 ::-webkit-scrollbar{
-width: 8px;
+    width: 8px;
 }
 ::-webkit-scrollbar-thumb{
-border-radius: 10px;
-background-color: #a6a6a6;
-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+    border-radius: 10px;
+    background-color: #a6a6a6;
+    box-shadow: inset 0 0 6px rgba(0,0,0,.3);
 }
 ::-webkit-scrollbar-track{
-border-radius: 10px;
+    border-radius: 10px;
 }
 
 input:-webkit-autofill {
--webkit-box-shadow: 0 0 0 30px white inset;
+    -webkit-box-shadow: 0 0 0 30px white inset;
 }
 
 .lapor-navbar{
     background: #dd5858;
+    background-image: linear-gradient(#c93434, #dd5858);
     width: 100%;
     height: 42px;
     display: flex;
@@ -70,288 +71,22 @@ input:-webkit-autofill {
 }
 
 .lapor-body{
-transition: all .5s;
-}
-
-.lapor-profile{
-display: flex;
-}
-
-.lapor-profile-picture{
-    width: 150px;
-    height: 150px;
-
-    border-radius: 50%;
-    /* background: #d82f2f; */
-
-    margin-left: 10px;
-    margin-right: 10px;
-}
-
-.lapor-profile-name{
-    margin: 0;
-    line-height: 150px;
+    transition: all .5s;
 }
 
 .lapor-main{
     --paddingSize: calc(30px * 2);
     --navbarSize: 42px;
     width: 80vw;
-    height: calc((100vh - var(--paddingSize)) - var(--navbarSize));
     
     margin: auto;
     padding-top: 30px;
     padding-bottom: 30px;
 }
 
-.lapor-feedbox{
-    width: 90%;
-    height: 400px;
-    
-    background: white;
-    border-radius: 15px;
-
-    padding-top: 10px;
-    padding-bottom: 10px;
-
-    position: relative;
+.lapor-signin-button{
+    margin-left: auto;
 }
-
-.lapor-feedbox-button{
-    --elementHeight: 40px;
-    min-width: 90px;
-    height: var(--elementHeight);
-
-    font-size: 15pt;
-    line-height: var(--elementHeight);
-    text-align: center;
-
-    background: #bb4a4a;
-    color: white;
-    border-radius: 15px 15px 0 0;
-
-    display: inline-block;
-    position: relative;
-    left: 20px;
-
-    cursor: pointer;
-    }
-
-.lapor-feedbox:before, .lapor-feedbox-button:before, .lapor-userbox:before,
-.lapor-twitbox-input:before {
-    content: "";
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    z-index: -1;
-    border-radius: 15px;
-    box-shadow: 6px 6px 52px -1px rgba(117,117,117,0.5);
-}
-
 .lapor-active{
     background: #dd5858;
-}
-
-.lapor-feedbox-content{
-    width: 95%;
-    height: 400px;
-    margin: auto;
-    overflow-x: hidden;
-}
-
-.lapor-feedbox-content > div{
-min-height: 40px;
-}
-
-.lapor-feedbox-content > div:nth-child(1n){
-background: #f0f0f0;
-}
-
-.lapor-feedbox-content > div:nth-child(2n){
-background: white;
-}
-.lapor-form-input{
-    width: 100%;
-    height: 24px;
-    padding: 2px;
-    background: transparent;
-    border: none;
-    border-bottom: 1px solid #989898;
-    outline: none;
-}
-.lapor-form-button{
-    width: 100%;
-    height: 60px;
-    color: white;
-    background: #dd5858;
-    border: none;
-    border-radius: 10px;
-    font-size: 16pt;
-}
-.lapor-form-button:hover{
-    background: #a73737;
-    cursor: pointer;
-}
-.lapor-signup-form{
-    width: 400px;
-    padding: 25px;
-    margin: auto;
-}
-.lapor-signup-form > form > *{
-    margin-top: 30px;
-    margin-bottom: 30px;
-}
-.lapor-signup-form > h1{
-    letter-spacing: 2px;
-}
-.lapor-signup-title{
-    display: block;
-    margin: auto; 
-
-    font-size: 24pt;  
-    letter-spacing: 3px;
-    text-align: center; 
-}
-.lapor-signup-content{
-    width: 100%;
-    height: 100%;
-    display: grid;
-    grid-template-columns: calc(100% - 500px) 500px;
-}
-.lapor-signup-form > form > div > a{
-    display: block;
-    margin-top : 10px;
-    text-decoration: none;
-    color: #282828
-}
-.lapor-signup-form > form > div > a:hover{
-    text-decoration: underline;
-}
-.lapor-signin-button{
-margin-left: auto;
-}
-.lapor-error-notice{
-    color: red;
-}
-.lapor-book-a4{
-    /* margin: 20px; */
-    width: 840px;
-    height: 594px;
-    position: relative;
-}
-.lapor-page-container-a4{
-width: 420px;
-height: 594px;
-position: absolute;
-transition: all .5s ease;
-transform-style: preserve-3d;
-transform-origin: center left;
-right: 0;
-}
-.lapor-page-a4{
-    width: 420px;
-    height: 594px;
-    position: relative;
-}
-.lapor-page-a4-turn{
-    transform: rotateY(180deg);
-}
-.lapor-page-a4-front, .lapor-page-a4-back{
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    background: white;
-    backface-visibility: hidden;
-    -moz-backface-visibility: hidden;
-}
-.lapor-page-a4-back{
-    transform: rotateY(180deg);
-}
-.lapor-page-a4 h1{
-    margin: 10px;
-}
-.lapor-profile-resize{
-    width: 100%;
-    height: 100%;
-}
-.lapor-userbox{
-    width: 350px;
-    height: 125px;
-
-    background: white;
-    border-radius: 15px 0 15px 0;
-
-    padding-top: 10px;
-    padding-bottom: 10px;
-
-    position: relative;
-    display: flex;
-}
-.lapor-userbox-profile{
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    margin: 10px;
-    overflow: hidden;
-}
-.lapor-userbox > h1{
-    height: auto;
-    margin: 10px;
-    font-size: 26px;
-    --size: calc((60px - 26px) / 2);
-    margin-top: calc(var(--size) + 10px);
-}
-.lapor-twitbox-input{
-    padding: 15px;
-    border-radius: 15px;
-    resize: none;
-    outline: none;
-    position: relative;
-    border: 0px solid lightgrey;
-}
-.lapor-twitbox-button{
-    width: 60px;
-    height: 40px;
-    color: white;
-    background: #dd5858;
-    border: none;
-    border-radius: 10px;
-}
-.lapor-twitbox-button:hover{
-    background: #a73737;
-    cursor: pointer;
-}
-.lapor-exit-box {
-    background: rgb(206, 42, 42);
-    color: #fff;
-    font-family: 'Helvetica', 'Arial', sans-serif;
-    font-size: 20px;
-    font-weight: bold;
-    text-align: center;
-    line-height: 30px;
-    width: 30px;
-    height: 30px;
-    border-radius: 5px;
-    cursor: pointer;
-}
-.lapor-connect-userbox{
-    width: 350px;
-    height: 125px;
-
-    background: white;
-    border-radius: 15px 0 15px 0;
-    box-shadow: 6px 6px 52px -1px rgba(0,0,0,0.4);
-
-    padding-top: 10px;
-    padding-bottom: 10px;
-
-    position: relative;
-    margin-bottom: 42px;
-    display: grid;
-    grid-template-areas: "photo name name"
-                         "add add add";
-    grid-template-columns: 80px calc((100% - 80px) / 2) calc((100% - 80px) / 2);
-    grid-template-rows: 80px calc(100% - 80px);
 }

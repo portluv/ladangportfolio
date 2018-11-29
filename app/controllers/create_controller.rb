@@ -5,9 +5,6 @@ class CreateController < ApplicationController
       if session[:username]
         @user = User.find_by(username: session[:username])
         @thingtype = Thingtype.all
-        puts 'AAA'
-        puts @thingtype.column_for_attribute('id').type
-        puts 'AAA'
       else
         redirect_to root_path
       end
@@ -32,16 +29,26 @@ class CreateController < ApplicationController
       @status.status_type = 2
       if params[:path].present?
         file = params[:path]
-        dir = Rails.root.join('app','assets', 'images', 'user_assets', session[:username], @thing.name) #GET DIRECTORY
-        FileUtils.mkdir_p(dir) unless File.directory?(dir) #IF DIRECTORY EXISTS
-        File.open(Rails.root.join(dir, "#{@thing.name}.pdf"), 'wb') do |f|
-          f.write(file.read)
+        if @thing.thingtype_id == 1
+          dir = Rails.root.join('app','assets', 'images', 'user_assets', session[:username], @thing.name) #GET DIRECTORY
+          FileUtils.mkdir_p(dir) unless File.directory?(dir) #IF DIRECTORY EXISTS
+          File.open(Rails.root.join(dir, "#{@thing.name}.pdf"), 'wb') do |f|
+            f.write(file.read)
+          end
+          @thing.path = "#{session[:username]}/#{@thing.name}"
+          dir = Rails.root.join(dir, "#{@thing.name}.pdf")
+          Docsplit.extract_images(dir, output: Rails.root.join('app','assets', 'images', 'user_assets', session[:username], @thing.name), :format => [:jpg])
+          File.delete(dir) if File.exist?(dir)
+          @status.status = " just uploaded #{@thing.name}"
+        elsif @thing.thingtype_id == 2
+          dir = Rails.root.join('app','assets', 'images', 'user_assets', session[:username], @thing.name) #GET DIRECTORY
+          FileUtils.mkdir_p(dir) unless File.directory?(dir) #IF DIRECTORY EXISTS
+          File.open(Rails.root.join(dir, "#{@thing.name}.#{File.extname(file)}"), 'wb') do |f|
+            f.write(file.read)
+          end
+          @thing.path = "#{session[:username]}/#{@thing.name}"
+          @status.status = " just uploaded #{@thing.name}"
         end
-        @thing.path = "#{session[:username]}/#{@thing.name}"
-        dir = Rails.root.join(dir, "#{@thing.name}.pdf")
-        Docsplit.extract_images(dir, output: Rails.root.join('app','assets', 'images', 'user_assets', session[:username], @thing.name), :format => [:jpg])
-        File.delete(dir) if File.exist?(dir)
-        @status.status = " just uploaded #{@thing.name}"
       end
 
       respond_to do |format|

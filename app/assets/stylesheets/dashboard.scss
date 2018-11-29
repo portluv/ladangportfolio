@@ -1,0 +1,146 @@
+// Place all the styles related to the home controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+.lapor-dashboard-main{
+    display: flex; 
+    justify-content: space-between;
+}
+
+.lapor-feedbox{
+    width: 90%;
+    height: 400px;
+    
+    background: white;
+    border-radius: 15px;
+
+    padding-top: 10px;
+    padding-bottom: 10px;
+
+    position: relative;
+}
+
+.lapor-feedbox-button{
+    --elementHeight: 40px;
+    min-width: 90px;
+    height: var(--elementHeight);
+
+    font-size: 15pt;
+    line-height: var(--elementHeight);
+    text-align: center;
+
+    background: #bb4a4a;
+    color: white;
+    border-radius: 15px 15px 0 0;
+
+    display: inline-block;
+    position: relative;
+    left: 20px;
+
+    cursor: pointer;
+}
+
+.lapor-feedbox-content{
+    width: 95%;
+    height: 400px;
+    margin: auto;
+    overflow-x: hidden;
+}
+
+.lapor-feedbox-content > div{
+    min-height: 40px;
+}
+
+.lapor-feedbox-content > div:nth-child(1n){
+    background: #f0f0f0;
+}
+
+.lapor-feedbox-content > div:nth-child(2n){
+    background: white;
+}
+
+.lapor-feedbox:before, .lapor-feedbox-button:before, .lapor-userbox:before,
+.lapor-twitbox-input:before {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: -1;
+    border-radius: 15px;
+    box-shadow: 6px 6px 52px -1px rgba(117,117,117,0.5);
+}
+
+.lapor-twitbox-form{
+    background: white; 
+    border-radius: 13px;
+    box-shadow: 6px 6px 52px -1px rgba(0,0,0,0.4); 
+    padding: 10px;
+}
+
+.lapor-twitbox-input{
+    padding: 15px;
+    border-radius: 15px;
+    resize: none;
+    outline: none;
+    position: relative;
+    border: 0px solid lightgrey;
+}
+.lapor-twitbox-button{
+    width: 60px;
+    height: 40px;
+    color: white;
+    background: #dd5858;
+    border: none;
+    border-radius: 10px;
+}
+.lapor-twitbox-button:hover{
+    background: #a73737;
+    cursor: pointer;
+}
+.lapor-twitbox-form-accessories{
+    display: flex; 
+    align-items: center; 
+    width: 150px; 
+    margin-left: auto; 
+    margin-right: 10px;
+}
+.lapor-twitbox-small-button{
+    width: 100px; 
+    height: 28px; 
+    background: #dd5858;
+
+    margin-left: 10px; 
+    margin-right: 10px;
+    padding: 0;  
+    
+    color: white;
+    text-align: center; 
+    line-height: 27px;  
+     
+    border-radius: 5px;
+    border: none;
+
+    cursor: pointer;
+}
+.lapor-twitbox-space-circles{
+    background: white; 
+    
+    width: 36px; 
+    height: 36px; 
+    
+    margin: auto; 
+    margin-top: 30px; 
+    
+    border-radius: 50%; 
+    box-shadow: 6px 6px 52px -1px rgba(0,0,0,0.6);
+}
+.lapor-twitbox-status-box{
+    background: white; 
+    text-align: center; 
+    border-radius: 13px; 
+    margin-top: 30px; 
+    box-shadow: 6px 6px 52px -1px rgba(0,0,0,0.4); 
+    padding: 15px;
+}

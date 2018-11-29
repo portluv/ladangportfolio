@@ -1,3 +1,64 @@
 // Place all the styles related to the users controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+.lapor-form-input{
+    width: 100%;
+    height: 24px;
+    padding: 2px;
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid #989898;
+    outline: none;
+}
+.lapor-form-button{
+    width: 100%;
+    height: 60px;
+    color: white;
+    background: #dd5858;
+    border: none;
+    border-radius: 10px;
+    font-size: 16pt;
+}
+.lapor-form-button:hover{
+    background: #a73737;
+    cursor: pointer;
+}
+.lapor-signup-form{
+    width: 400px;
+    padding: 25px;
+    margin: auto;
+}
+.lapor-signup-form > form > *{
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+.lapor-signup-form > h1{
+    letter-spacing: 2px;
+}
+.lapor-signup-title{
+    display: block;
+    margin: auto; 
+
+    font-size: 24pt;  
+    letter-spacing: 3px;
+    text-align: center; 
+}
+.lapor-signup-content{
+    width: 100%;
+    height: 100%;
+    display: grid;
+    grid-template-columns: calc(100% - 500px) 500px;
+}
+.lapor-signup-form > form > div > a{
+    display: block;
+    margin-top : 10px;
+    text-decoration: none;
+    color: #282828
+}
+.lapor-signup-form > form > div > a:hover{
+    text-decoration: underline;
+}
+.lapor-error-notice{
+    color: red;
+}

@@ -1,3 +1,55 @@
 // Place all the styles related to the profiles controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+.lapor-profile-resize{
+    width: 100%;
+    height: 100%;
+}
+.lapor-userbox{
+    width: 350px;
+    height: 125px;
+
+    background: white;
+    border-radius: 15px 0 15px 0;
+
+    padding-top: 10px;
+    padding-bottom: 10px;
+
+    position: relative;
+    display: flex;
+}
+.lapor-userbox-profile{
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    margin: 10px;
+    overflow: hidden;
+}
+.lapor-userbox > h1{
+    height: auto;
+    margin: 10px;
+    font-size: 26px;
+    --size: calc((60px - 26px) / 2);
+    margin-top: calc(var(--size) + 10px);
+}
+
+.lapor-profile{
+    display: flex;
+}
+
+.lapor-profile-picture{
+    width: 150px;
+    height: 150px;
+
+    border-radius: 50%;
+    /* background: #d82f2f; */
+
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.lapor-profile-name{
+    margin: 0;
+    line-height: 150px;
+}

@@ -11,6 +11,10 @@
 
         position: relative;
     }
+    .lapor-portfolio-containter{
+        margin-top: 20px;
+        display: flex;
+    }
 </style>
 
 <div class="lapor-profile" style="justify-content: space-between">
@@ -41,6 +45,7 @@
 </div>
 
     <% @previousType = 0 %>
+    <div class="lapor-portfolio-containter">
     <% @user.thing.each_with_index do |thing, index| %>
         <% if thing.thingtype_id == 1 %>
             <% if @previousType != thing.thingtype_id %>
@@ -65,8 +70,15 @@
                     </div>
                     <div id="woodenShelf" style="width: 270px; height: 27px; border-radius: 7px; background: brown;"></div>
                 </div>
-                <% @previousType = thing.thingtype_id %>
             <% end %>
+            <% if thing.thingtype_id == 2 %>
+                <div style="margin-left: 50px; margin-right: 50px; width: 400px; rposition: relative;">
+                    <div class="lapor-frame-box">
+                        <%= image_tag "user_assets/#{session[:username]}/#{thing.name}/#{thing.name}.jpg", :class => "lapor-frame-image-resize"  %>
+                    </div>
+                </div>
+            <% end %>
+            <% @previousType = thing.thingtype_id %>
         <% end %>
         <% if index == @user.thing.size - 1 %>
             <% if @previousType == 1 %>
@@ -76,10 +88,11 @@
             <% end %>
         <% end %>
     <% end %>
+    </div>
 
 <div id="modal" style="display: none; top: 0; left: 0; position: fixed; background: rgba(192,192,192,0.7); width: 100vw; height: 100vh;">
     <div id="uploadWorkbook" style="display: none; background: white; left: calc((100vw - 400px) / 2); width: 400px; padding: 20px; top: calc((100vh - 300px) / 2); position: absolute;">
-        <h1>Upload Book</h1>
+        <h1>Upload a Thing</h1>
         <%= render 'upload', thing: @thing %>    
     </div>
     <div id="closeModal" class="lapor-exit-box" style="position: absolute; top: 10px; right: 10px">

@@ -26,29 +26,9 @@
         });
     })
 </script>
-<style>
-.lapor-form-small-button{
-    width: 100px; 
-    height: 28px; 
-    background: #dd5858;
-
-    margin-left: 10px; 
-    margin-right: 10px;
-    padding: 0;  
-    
-    color: white;
-    text-align: center; 
-    line-height: 27px;  
-     
-    border-radius: 5px;
-    border: none;
-
-    cursor: pointer;
-}
-</style>
 
 <% if session[:username] %>
-    <div style="display: flex; justify-content: space-between;">
+    <div class="lapor-dashboard-main">
         <div class="lapor-userbox">
             <div class="lapor-userbox-profile">
                 <% if @user.profile == nil || @user.profile.profile_picture == '' || @user.profile.profile_picture == nil %>
@@ -61,18 +41,18 @@
         </div>
         <div class="lapor-twitbox" style="width: 60%;">
             <%= form_for(:status, url: newstatus_path(@status), local: true) do |form| %>
-                <div style="background: white; border-radius: 13px; box-shadow: 6px 6px 52px -1px rgba(0,0,0,0.4); padding: 10px;">
+                <div class="lapor-twitbox-form">
                     <%= form.text_area(:status, :id => "statusTwitbox", :rows => "9", :cols => "70", :maxlength => "500", :class => "lapor-twitbox-input") %>
-                    <div style="display: flex; align-items: center; width: 150px; margin-left: auto; margin-right: 10px;">
+                    <div class="lapor-twitbox-form-accessories">
                         <div id="statusCount">0/500</div>
-                        <%= form.submit "Post", class: 'lapor-form-small-button' %>
+                        <%= form.submit "Post", class: 'lapor-twitbox-small-button' %>
                     </div>
                 </div>
             <% end %>
             <% if @userStatus != nil %>
                 <% @userStatus.each do |status| %>
-                    <div style="background: white; width: 36px; height: 36px; margin: auto; margin-top: 30px; border-radius: 50%; box-shadow: 6px 6px 52px -1px rgba(0,0,0,0.6);"></div>
-                    <div style="background: white; text-align: center; border-radius: 13px; margin-top: 30px; box-shadow: 6px 6px 52px -1px rgba(0,0,0,0.4); padding: 15px;">
+                    <div class="lapor-twitbox-space-circles"></div>
+                    <div class="lapor-twitbox-status-box">
                         <% if status.status_type == 2 %>
                             <%= @user.username %>
                         <% end %>

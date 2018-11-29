@@ -1,23 +1,85 @@
 <p id="notice"><%= notice %></p>
 
-<h1>
-  Welcome, 
-  <% if @user.profile == nil || @user.profile.fullname == '' %>
-    <%= @user.username %> 
-  <% else %>
-    <%= @user.profile.fullname %>
-  <% end %>
-</h1>
+<style>
+  .lapor-edit-profile-button{ 
+    color: #dd5858; 
+    background: currentColor; 
+    padding: 8px; 
+    border-radius: 3px;
+    
+    position: absolute;
+    top: 15px; 
+    left: calc((100% - 27px) / 2);
 
-<div style='display: grid; grid-template-columns: calc(100% - 250px) 260px; grid-template-areas: "profile edit";'>
-  <div style="width: 100%; height: calc(100% / 2); background: black; grid-area: profile;">
-    <%= image_tag 'web_assets/anonymous/profile_background.jpg', :class => "lapor-profile-resize"  %>
-  </div>
-  <div style="width: 250px; padding-left: 10px; grid-area: edit;">
-    <% if @user.profile == nil %>
-      <%= render 'createProfile', profile: @profile %>
+    transition: all .5s ease;
+    opacity: 0;
+
+    cursor: pointer; 
+  }
+  .lapor-edit-profile-button::before{
+    content: "";
+    background: currentColor;
+    width: 13px;
+    height: 13px;
+    transform: rotate(45deg);
+    position: absolute;
+    top: 27px;
+  }
+  .lapor-edit-profile-button > i {
+    color: white;
+  }
+  .lapor-edit-profile-button:hover{
+    color: #c93434;
+  }
+  .lapor-edit-profile-title{
+    position: relative; padding-top: 50px;
+  }
+  .lapor-edit-profile-title:hover > .lapor-edit-profile-button{
+    opacity: 1;
+    top: 10px;
+  }
+  .lapor-edit-profile-name{
+    transition: all .5s ease;
+    cursor: pointer; text-align: center; font-weight: bold; font-size: 30pt;
+  }
+  .lapor-edit-profile-title:hover > .lapor-edit-profile-name{
+    padding-top: 15px;
+  }
+</style>
+
+<div class="lapor-edit-profile-title">
+  <div class="lapor-edit-profile-name">
+    Welcome, 
+    <% if @user.profile == nil || @user.profile.fullname == '' %>
+      <%= @user.username %> 
     <% else %>
-      <%= render 'editProfile', profile: @profile %>
+      <%= @user.profile.fullname %>
     <% end %>
   </div>
+  <div class="lapor-edit-profile-button">
+    <i class="fas fa-pencil-alt fa-1x"></i>
+  </div>
 </div>
+
+<div style=''>
+  <div style="width: 100%; height: 400px; background: transparent; position: relative; margin-top: 200px;">
+    <div style="width: 200px; height: 200px; position: absolute; border: 13px solid white; border-radius: 50%; overflow: hidden; top: -106.5px; left: calc((100% - 226px) / 2)">
+      <%= image_tag 'web_assets/anonymous/profile_male.jpg', :class => "lapor-profile-resize"  %>
+    </div>
+    <%= image_tag 'web_assets/anonymous/profile_background.jpg', :class => "lapor-profile-resize"  %>
+  </div>
+</div>
+
+<%# <script>
+  $('.lapor-edit-profile-title').on('mouseenter', function(){
+    $('.lapor-edit-profile-name').css('padding-top' , '45px');
+    $('.lapor-edit-profile-button').css({'opacity':'1', 'top':'-10px'});
+  });
+  $('.lapor-edit-profile-title').mouseout(function(){
+    setTimeout(function(){
+      console.log(1);
+        $('.lapor-edit-profile-name').css('padding-top' , '0px');
+        $('.lapor-edit-profile-button').css({'opacity':'0', 'top':'0px'});
+      }, 2000);
+  });
+</script> %>

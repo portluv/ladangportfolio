@@ -1,3 +1,53 @@
 // Place all the styles related to the connection controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+.lapor-connect-userbox{
+    width: 350px;
+    height: 125px;
+
+    background: white;
+    border-radius: 15px 0 15px 0;
+    box-shadow: 6px 6px 52px -1px rgba(0,0,0,0.4);
+
+    padding-top: 10px;
+    padding-bottom: 10px;
+
+    position: relative;
+    margin-bottom: 42px;
+    display: grid;
+    grid-template-areas: "photo name name"
+                         "add add add";
+    grid-template-columns: 80px calc((100% - 80px) / 2) calc((100% - 80px) / 2);
+    grid-template-rows: 80px calc(100% - 80px);
+}
+
+.lapor-connect-add-button{
+    padding-left: 12px;
+    padding-right: 12px;
+    height: 28px; 
+
+    text-align:center;
+    color: dodgerblue;
+    font-size: 12pt;
+    text-decoration: none;
+
+    border-radius: 8px; 
+    box-shadow: inset 0 0 10px lightgrey;
+
+    display: block;
+    position: absolute;
+    top: 5px;
+    left: 5px;
+
+    cursor: pointer;
+}
+.lapor-connect-remove-button:hover{
+    color: #dd5858;
+}
+.lapor-connect-add-button > *{
+    line-height: 28px;
+}
+.lapor-connect-add-button > b{
+    font-size: 14pt;
+}
