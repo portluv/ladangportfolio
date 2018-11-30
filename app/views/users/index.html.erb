@@ -39,11 +39,102 @@
     top: 10px;
   }
   .lapor-edit-profile-name{
+    text-align: center; 
+    font-weight: bold; 
+    font-size: 30pt;
+
     transition: all .5s ease;
-    cursor: pointer; text-align: center; font-weight: bold; font-size: 30pt;
+    cursor: pointer; 
   }
   .lapor-edit-profile-title:hover > .lapor-edit-profile-name{
     padding-top: 15px;
+  }
+  .lapor-edit-profile-image{
+    width: 200px; 
+    height: 200px; 
+    
+    background: grey; 
+    position: absolute; 
+    z-index: 2;
+    border: 13px solid white; 
+    border-radius: 50%; 
+    overflow: hidden; 
+    
+    top: -106.5px; 
+    left: calc((100% - 226px) / 2); 
+    cursor: pointer;
+  }
+  .lapor-edit-profile-image:hover > img{
+    opacity: .5;
+  }
+  .lapor-edit-profile-image i{
+    color: #565656; 
+    
+    position: absolute; 
+    top: calc((100% - 104px) / 2); 
+    left: calc((100% - 104px) / 2);
+
+    opacity: 0;
+  }
+  .lapor-edit-profile-image i::after{
+    content: "Change Profile Picture";
+    position: absolute;
+    top: 104px;
+    left: 0px;
+
+    width: 120px;
+
+    font-family: 'Lato', sans-serif;
+    color: currentColor;
+    font-size: 8pt;
+  }
+  .lapor-edit-profile-image:hover i{
+    opacity: 1;
+    transition: all .3s ease;
+  }
+  .lapor-edit-image-container{
+    width: 100%; 
+    height: 400px; 
+    
+    background: dimgrey; 
+    position: relative; 
+    margin-top: 200px;
+
+    cursor: pointer;
+  }
+  .lapor-edit-image-container > div.lapor-edit-profile-image ~ img{
+    transition: all .3s ease;
+  }
+  .lapor-edit-image-container:hover > div.lapor-edit-profile-image ~ img:hover{
+    opacity: .5;
+  }
+  .lapor-edit-image-container > div.lapor-edit-profile-image ~ img ~ i{
+    color: white;
+    opacity: 0;
+
+    position: absolute;
+    top: calc((100% - 130px) / 2);
+    left: calc((100% - 130px) / 2);
+    transition: all .3s ease;
+  }
+  .lapor-edit-image-container > div.lapor-edit-profile-image ~ img:hover ~ i,
+  .lapor-edit-image-container > div.lapor-edit-profile-image ~ img ~ i:hover{
+    opacity: 1;
+  }
+  .lapor-edit-image-container > div.lapor-edit-profile-image ~ img ~ i::after{
+    content: "Change Image";
+    position: absolute;
+    top: 130px;
+    left: 10px;
+
+    font-family: 'Lato', sans-serif;
+    color: currentColor;
+    font-size: 14pt;
+  }
+  .lapor-profile-motto{
+    font-size: 24pt;
+    text-align: center;
+    margin-top: 25px;
   }
 </style>
 
@@ -56,30 +147,70 @@
       <%= @user.profile.fullname %>
     <% end %>
   </div>
-  <div class="lapor-edit-profile-button">
+  <div id="laporEditProfile" class="lapor-edit-profile-button">
     <i class="fas fa-pencil-alt fa-1x"></i>
   </div>
 </div>
 
-<div style=''>
-  <div style="width: 100%; height: 400px; background: transparent; position: relative; margin-top: 200px;">
-    <div style="width: 200px; height: 200px; position: absolute; border: 13px solid white; border-radius: 50%; overflow: hidden; top: -106.5px; left: calc((100% - 226px) / 2)">
-      <%= image_tag 'web_assets/anonymous/profile_male.jpg', :class => "lapor-profile-resize"  %>
-    </div>
-    <%= image_tag 'web_assets/anonymous/profile_background.jpg', :class => "lapor-profile-resize"  %>
+<div class="lapor-edit-image-container">
+  <div id="laporEditProfilePicture" class="lapor-edit-profile-image">
+    <%= image_tag 'web_assets/anonymous/profile_male.jpg', :class => "lapor-profile-resize"  %>
+    <i class="fas fa-camera fa-8x"></i>
   </div>
+  <%= image_tag 'web_assets/anonymous/profile_background.jpg', :class => "lapor-profile-resize",  :id => "laporEditHomePicture"  %>
+  <i class="fas fa-camera fa-10x"></i>
 </div>
 
-<%# <script>
-  $('.lapor-edit-profile-title').on('mouseenter', function(){
-    $('.lapor-edit-profile-name').css('padding-top' , '45px');
-    $('.lapor-edit-profile-button').css({'opacity':'1', 'top':'-10px'});
+<div class="lapor-profile-motto">
+  <i>"<%= @user.profile.lifemotto %>"</i>
+</div>
+
+<div id="modal" style="z-index: 3; display: none; top: 0; left: 0; position: fixed; background: rgba(192,192,192,0.7); width: 100vw; height: 100vh;">
+    <div id="profileForm" style="display: none; background: white; left: calc((100vw - 400px) / 2); width: 400px; padding: 20px; top: calc((100vh - 633px) / 2); position: absolute;">
+      <% if @user.profile == nil %>
+        <%= render 'createProfile', profile: @profile %>
+      <% else %>
+        <%= render 'editProfile', profile: @profile %>
+      <% end %>
+    </div>
+    <div id="profilePictureForm" style="display: none; background: white; left: calc((100vw - 400px) / 2); width: 400px; padding: 20px; top: calc((100vh - 300px) / 2); position: absolute;">
+        <h1>Profile Picture(Unusable)</h1>
+        <%= render 'uploadProfilePicture', thing: @thing %>    
+    </div>
+    <div id="closeModal" class="lapor-exit-box">
+        X
+    </div>
+</div>  
+
+<script>
+  // var laporEditProfile = document.getElementById('laporEditProfile');
+  $(document).ready(function(){
+    $('.lapor-edit-image-container > div.lapor-edit-profile-image ~ img ~ i').on('mouseenter', function(){
+      $('.lapor-edit-image-container > div.lapor-edit-profile-image ~ img').css({'opacity':'.5'});
+    });
+    $('.lapor-edit-image-container > div.lapor-edit-profile-image ~ img ~ i').mouseout(function(){
+      $('.lapor-edit-image-container > div.lapor-edit-profile-image ~ img').removeAttr("style");
+    });
+    $('#laporEditProfile').on('click', function(){
+        $('#modal').fadeIn(500, function(){
+            $('#profileForm').fadeIn(500);
+        });
+    });
+    $('#laporEditProfilePicture').on('click', function(){
+        $('#modal').fadeIn(500, function(){
+            $('#profilePictureForm').fadeIn(500);
+        });
+    });
+    $('#laporEditHomePicture, #laporEditHomePicture ~ i').on('click', function(){
+        $('#modal').fadeIn(500, function(){
+            $('#profilePictureForm').fadeIn(500);
+        });
+    });
+      $('#closeModal').on('click', function(){
+          $('#modal').fadeOut(500, function(){
+              $('#profileForm').hide();
+              $('#profilePictureForm').hide();
+          });
+      });
   });
-  $('.lapor-edit-profile-title').mouseout(function(){
-    setTimeout(function(){
-      console.log(1);
-        $('.lapor-edit-profile-name').css('padding-top' , '0px');
-        $('.lapor-edit-profile-button').css({'opacity':'0', 'top':'0px'});
-      }, 2000);
-  });
-</script> %>
+</script>
