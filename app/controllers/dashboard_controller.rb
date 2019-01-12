@@ -22,13 +22,17 @@ class DashboardController < ApplicationController
     @status.user_id = session[:user_id]
     @status.status_type = 1
 
-    respond_to do |format|
-      if @status.save
-        format.html { redirect_to dashboard_path, notice: 'Status updated.' }
-      else
-        format.html { render :index }
-        format.json { render json: @status.errors, status: :unprocessable_entity }
+    if @status.status != ""
+      respond_to do |format|
+        if @status.save
+          format.html { redirect_to dashboard_path, notice: 'Status updated.' }
+        else
+          format.html { render :index }
+          format.json { render json: @status.errors, status: :unprocessable_entity }
+        end
       end
+    else 
+      redirect_to dashboard_path
     end
   end
 

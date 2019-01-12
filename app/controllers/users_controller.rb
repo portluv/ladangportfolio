@@ -15,6 +15,19 @@ class UsersController < ApplicationController
     end
   end
 
+  def edit
+    if session[:username]
+      @user = User.find_by(username: session[:username])
+      if(@user.profile != nil)
+        @profile = @user.profile
+      else
+        @profile = Profile.new
+      end
+    else
+      redirect_to root_path
+    end
+  end
+
   def signIn
   end
 
@@ -62,10 +75,20 @@ class UsersController < ApplicationController
         file = params[:profile][:profile_picture]
         dir = Rails.root.join('app','assets', 'images', 'user_assets', session[:username]) #GET DIRECTORY
         FileUtils.mkdir_p(dir) unless File.directory?(dir) #IF DIRECTORY EXISTS
-        File.open(Rails.root.join(dir, file.original_filename), 'wb') do |f|
+        File.open(Rails.root.join(dir, "#{session[:username]}_profile_picture#{File.extname(file.original_filename) == '.jpg' ? '.jpeg' : File.extname(file.original_filename)}"), 'wb') do |f|
           f.write(file.read)
         end
-        @profile.profile_picture = "user_assets/#{session[:username]}/#{file.original_filename}"
+        @profile.profile_picture = "user_assets/#{session[:username]}/#{session[:username]}_profile_picture#{File.extname(file.original_filename) == '.jpg' ? '.jpeg' : File.extname(file.original_filename)}"
+      end
+
+      if params[:profile][:home_picture].present?
+        file = params[:profile][:home_picture]
+        dir = Rails.root.join('app','assets', 'images', 'user_assets', session[:username]) #GET DIRECTORY
+        FileUtils.mkdir_p(dir) unless File.directory?(dir) #IF DIRECTORY EXISTS
+        File.open(Rails.root.join(dir, "#{session[:username]}_home_picture#{File.extname(file.original_filename) == '.jpg' ? '.jpeg' : File.extname(file.original_filename)}"), 'wb') do |f|
+          f.write(file.read)
+        end
+        @profile.home_picture = "user_assets/#{session[:username]}/#{session[:username]}_home_picture#{File.extname(file.original_filename) == '.jpg' ? '.jpeg' : File.extname(file.original_filename)}"
       end
 
       respond_to do |format|
@@ -94,10 +117,20 @@ class UsersController < ApplicationController
       file = params[:profile][:profile_picture]
       dir = Rails.root.join('app','assets', 'images', 'user_assets', session[:username]) #GET DIRECTORY
       FileUtils.mkdir_p(dir) unless File.directory?(dir) #IF DIRECTORY EXISTS
-      File.open(Rails.root.join(dir, file.original_filename), 'wb') do |f|
+      File.open(Rails.root.join(dir, "#{session[:username]}_profile_picture#{File.extname(file.original_filename) == '.jpg' ? '.jpeg' : File.extname(file.original_filename) == '.jpg' ? '.jpeg' : File.extname(file.original_filename)}"), 'wb') do |f|
         f.write(file.read)
       end
-      @profile.profile_picture = "user_assets/#{session[:username]}/#{file.original_filename}"
+      @profile.profile_picture = "user_assets/#{session[:username]}/#{session[:username]}_profile_picture#{File.extname(file.original_filename) == '.jpg' ? '.jpeg' : File.extname(file.original_filename)}"
+    end
+
+    if params[:profile][:home_picture].present?
+      file = params[:profile][:home_picture]
+      dir = Rails.root.join('app','assets', 'images', 'user_assets', session[:username]) #GET DIRECTORY
+      FileUtils.mkdir_p(dir) unless File.directory?(dir) #IF DIRECTORY EXISTS
+      File.open(Rails.root.join(dir, "#{session[:username]}_home_picture#{File.extname(file.original_filename) == '.jpg' ? '.jpeg' : File.extname(file.original_filename)}"), 'wb') do |f|
+        f.write(file.read)
+      end
+      @profile.home_picture = "user_assets/#{session[:username]}/#{session[:username]}_home_picture#{File.extname(file.original_filename) == '.jpg' ? '.jpeg' : File.extname(file.original_filename)}"
     end
     
     respond_to do |format|
@@ -147,6 +180,6 @@ class UsersController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def profile_params
-        params.require(:profile).permit(:fullname, :dateofbirth, :gender, :phone, :address, :nationality, :degree, :lifemotto, :id)
+      params.require(:profile).permit(:fullname, :dateofbirth, :gender, :phone, :address, :nationality, :degree, :lifemotto, :summary, :id)
     end   
 end

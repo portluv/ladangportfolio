@@ -9,6 +9,7 @@ Rails.application.routes.draw do
   get    '/connect/remove/:id', to: 'connection#removeFriend', as: 'removeFriend'
   get    '/home', to: 'dashboard#home'
   get    '/profile', to: 'users#index'
+  get    '/profile/edit', to: 'users#edit', as: 'editProfile'
   post '/profile/update', to: 'users#createProfile'
   put '/profile/update/:id', to: 'users#updateProfile', as: 'put_profile'
   patch '/profile/update/:id', to: 'users#updateProfile', as: 'patch_profile'
