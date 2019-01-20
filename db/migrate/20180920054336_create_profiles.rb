@@ -14,7 +14,5 @@ class CreateProfiles < ActiveRecord::Migration[5.1]
 
       t.timestamps
     end
-
-    add.
   end
 end
