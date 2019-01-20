@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190102181929) do
+ActiveRecord::Schema.define(version: 20190119025742) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -40,6 +40,23 @@ ActiveRecord::Schema.define(version: 20190102181929) do
     t.text "summary"
     t.string "home_picture"
     t.index ["user_id"], name: "index_profiles_on_user_id"
+  end
+
+  create_table "section_details", force: :cascade do |t|
+    t.string "detail_title"
+    t.string "detail_description"
+    t.bigint "section_header_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["section_header_id"], name: "index_section_details_on_section_header_id"
+  end
+
+  create_table "section_headers", force: :cascade do |t|
+    t.string "title"
+    t.bigint "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_section_headers_on_user_id"
   end
 
   create_table "statuses", force: :cascade do |t|
@@ -79,6 +96,8 @@ ActiveRecord::Schema.define(version: 20190102181929) do
   add_foreign_key "friendships", "users"
   add_foreign_key "friendships", "users", column: "friend"
   add_foreign_key "profiles", "users"
+  add_foreign_key "section_details", "section_headers"
+  add_foreign_key "section_headers", "users"
   add_foreign_key "statuses", "users"
   add_foreign_key "things", "thingtypes"
   add_foreign_key "things", "users"

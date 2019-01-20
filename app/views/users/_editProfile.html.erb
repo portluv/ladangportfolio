@@ -1,7 +1,49 @@
-<%= form_with(model: profile, url: @profile.user_id == nil ? profile_update_path(@profile) : patch_profile_path(@profile), local: true, html: { autocomplete: "off" }) do |form| %>
+<%= form_with(model: profile, url: @profile.user_id == nil ? profile_update_path(@profile) : patch_profile_path(@profile), local: true, class: "lapor-profile-form", html: { autocomplete: "off" }) do |form| %>
   <%= form.hidden_field :fullname, id: :nameInput %>
   <%= form.hidden_field :lifemotto, id: :mottoInput %>
   
+  <% if @user.profile != nil &&
+    (
+      @user.profile.dateofbirth != nil && @user.profile.dateofbirth != '' || 
+      @user.profile.gender != nil && @user.profile.gender != '' ||
+      @user.profile.phone != nil && @user.profile.phone != '' ||
+      @user.profile.address != nil && @user.profile.address != '' ||
+      @user.profile.nationality != nil && @user.profile.nationality != '' 
+    )
+  %>
+    <%= form.hidden_field :dateofbirth, id: :dobInput %>
+    <%= form.hidden_field :gender, id: :genderInput %>
+    <%= form.hidden_field :phone, id: :phoneInput %>
+    <%= form.hidden_field :address, id: :addressInput %>
+    <%= form.hidden_field :nationality, id: :nationInput %>
+  <% end %>
+
+  <% if @user.profile != nil && @user.profile.summary != nil && @user.profile.summary != ''%>
+    <%= form.hidden_field :summary, id: :sumInput %>
+  <% end %>
+
+  <div id="modal" style="z-index: 3; display: none; top: 0; left: 0; position: fixed; background: rgba(192,192,192,0.7); width: 100vw; height: 100vh;">
+    <div id="profilePictureForm" style="display: none; background: white; left: calc((100vw - 400px) / 2); width: 400px; padding: 20px; top: calc((100vh - 300px) / 2); position: absolute;">
+      <h1>Profile Picture</h1>
+      <div class="field">
+        <%= form.label :profile_picture, 'Choose file to upload' %><br>
+        <%= form.file_field :profile_picture %>
+      </div>
+    </div>
+    <div id="homePictureForm" style="display: none; background: white; left: calc((100vw - 400px) / 2); width: 400px; padding: 20px; top: calc((100vh - 300px) / 2); position: absolute;">
+      <h1>Home Picture</h1>
+      <div class="field">
+        <%= form.label :home_picture, 'Choose file to upload' %><br>
+        <%= form.file_field :home_picture %>
+      </div>
+    </div>
+  </div>  
+  
+  <div class="lapor-edit-profile-submit">
+    <%= form.submit "Save Edits", class: 'lapor-form-button' %>
+  </div>
+<% end %> 
+
   <style>
     .lapor-profile-motto > i{
       display: flex;
@@ -140,7 +182,6 @@
           <b>Biodata</b>
           <hr>
           <div class="lapor-portfolio-item">
-            <%= form.hidden_field :dateofbirth, id: :dobInput %>
             <div>
               <i class="fas fa-birthday-cake"></i>
             </div>
@@ -148,7 +189,6 @@
             <span id="dobDiv" contentEditable="true" data-text="dd/mm/yyyy"><%= @user.profile.dateofbirth == nil ? '' : @user.profile.dateofbirth.strftime("%d %B %Y") %></span>
           </div>
           <div class="lapor-portfolio-item">
-            <%= form.hidden_field :gender, id: :genderInput %>
             <div>
               <i class="fas fa-<%= @user.profile.gender == 'Male' ? 'mars' : 'venus' %>"></i>
             </div>
@@ -156,7 +196,6 @@
             <span id="genderDiv" contentEditable="true" data-text="Male/Female"><%= @user.profile.gender %></span> 
           </div>
           <div class="lapor-portfolio-item">
-            <%= form.hidden_field :phone, id: :phoneInput %>
             <div>
               <i class="fas fa-phone"></i>
             </div>
@@ -164,7 +203,6 @@
             <span id="phoneDiv" contentEditable="true" data-text="Phone"><%= @user.profile.phone %></span> 
           </div>
           <div class="lapor-portfolio-item">
-            <%= form.hidden_field :address, id: :addressInput %>
             <div>
               <i class="fas fa-map-marker-alt"></i>
             </div>
@@ -172,7 +210,6 @@
             <span id="addressDiv" contentEditable="true" data-text="Address"><%= @user.profile.address %></span> 
           </div>
           <div class="lapor-portfolio-item">
-            <%= form.hidden_field :nationality, id: :nationInput %>
             <div>
               <i class="fas fa-flag"></i>
             </div>
@@ -185,7 +222,6 @@
     <div class="lapor-second-new-section">
       <% if @user.profile != nil && @user.profile.summary != nil && @user.profile.summary != ''%>
         <div class="lapor-profile-description">
-          <%= form.hidden_field :summary, id: :sumInput %>
           <div id="sumDiv" contentEditable="true" data-text="Describe yourself..."><%= @user.profile.summary %></div>
         </div>
       <% end %>
@@ -204,27 +240,6 @@
     </div>
     <i class="fas fa-plus fa-4x"></i>
   </div>
-  
-  <div class="lapor-edit-profile-submit">
-    <%= form.submit "Save Edits", class: 'lapor-form-button' %>
-  </div>
-
-  <div id="modal" style="z-index: 3; display: none; top: 0; left: 0; position: fixed; background: rgba(192,192,192,0.7); width: 100vw; height: 100vh;">
-    <div id="profilePictureForm" style="display: none; background: white; left: calc((100vw - 400px) / 2); width: 400px; padding: 20px; top: calc((100vh - 300px) / 2); position: absolute;">
-      <h1>Profile Picture</h1>
-      <div class="field">
-        <%= form.label :profile_picture, 'Choose file to upload' %><br>
-        <%= form.file_field :profile_picture %>
-      </div>
-    </div>
-    <div id="homePictureForm" style="display: none; background: white; left: calc((100vw - 400px) / 2); width: 400px; padding: 20px; top: calc((100vh - 300px) / 2); position: absolute;">
-      <h1>Home Picture</h1>
-      <div class="field">
-        <%= form.label :home_picture, 'Choose file to upload' %><br>
-        <%= form.file_field :home_picture %>
-      </div>
-    </div>
-  </div>  
 
   <script>
     if (!Element.prototype.matches) {
@@ -284,16 +299,32 @@
       });
     });
 
+    $('.lapor-edit-image-container > div.lapor-edit-profile-image ~ img ~ i').on('mouseenter', function(){
+      $('.lapor-edit-image-container > div.lapor-edit-profile-image ~ img').css({'opacity':'.5'});
+    });
+
+    $('.lapor-edit-image-container > div.lapor-edit-profile-image ~ img ~ i').mouseout(function(){
+      $('.lapor-edit-image-container > div.lapor-edit-profile-image ~ img').removeAttr("style");
+    });
+
     $('#laporEditProfilePicture').on('click', function(){
         $('#modal').fadeIn(500, function(){
             $('#profilePictureForm').fadeIn(500);
         });
     });
 
-    $('#laporEditHomePicture').on('click', function(){
+    $('#laporEditHomePicture, #laporEditHomePicture ~ i').on('click', function(){
         $('#modal').fadeIn(500, function(){
             $('#homePictureForm').fadeIn(500);
         });
+    });
+
+    $('.lapor-first-new-section').on('blur', '.lapor-profile-section > b', function(){
+      if(!document.querySelectorAll('.lapor-profile-add-section-item')[0] && $('.lapor-profile-section > b').html() != ''){
+        document.querySelectorAll('.lapor-profile-section')[0].innerHTML += '<div class="lapor-profile-add-section-item">\
+          aaaaaaaaaaaaaaaaaaaaaa\
+        </div>';  
+      }
     });
 
     $('#modal').on('click', function(e){
@@ -326,11 +357,15 @@
 
     delegate(document, "click", ".lapor-add-section-sub-button:nth-child(1)", function(){
       if(!document.querySelectorAll('.lapor-profile-biodata')[0]){
+        document.querySelectorAll('.lapor-profile-form')[0].innerHTML += '<input id="dobInput" type="hidden" value="" name="profile[dateofbirth]">\
+          <input id="genderInput" type="hidden" value="" name="profile[gender]">\
+          <input id="phoneInput" type="hidden" value="" name="profile[phone]">\
+          <input id="addressInput" type="hidden" value="" name="profile[address]">\
+          <input id="nationInput" type="hidden" value="" name="profile[nationality]">';
         document.querySelectorAll('.lapor-first-new-section')[0].innerHTML += '<div class="lapor-profile-biodata">\
             <b>Biodata</b>\
             <hr>\
             <div class="lapor-portfolio-item">\
-              <input id="dobInput" type="hidden" value="" name="profile[dateofbirth]">\
               <div>\
                 <i class="fas fa-birthday-cake"></i>\
               </div>\
@@ -338,7 +373,6 @@
               <span id="dobDiv" contentEditable="true" data-text="dd/mm/yyyy"></span>\
             </div>\
             <div class="lapor-portfolio-item">\
-              <input id="genderInput" type="hidden" value="" name="profile[gender]">\
               <div>\
                 <i class="fas fa-genderless"></i>\
               </div>\
@@ -346,7 +380,6 @@
               <span id="genderDiv" contentEditable="true" data-text="Male/Female"></span>\
             </div>\
             <div class="lapor-portfolio-item">\
-              <input id="phoneInput" type="hidden" value="" name="profile[phone]">\
               <div>\
                 <i class="fas fa-phone"></i>\
               </div>\
@@ -354,7 +387,6 @@
               <span id="phoneDiv" contentEditable="true" data-text="Phone"></span>\
             </div>\
             <div class="lapor-portfolio-item">\
-              <input id="addressInput" type="hidden" value="" name="profile[address]">\
               <div>\
                 <i class="fas fa-map-marker-alt"></i>\
               </div>\
@@ -362,7 +394,6 @@
               <span id="addressDiv" contentEditable="true" data-text="Address"></span>\
             </div>\
             <div class="lapor-portfolio-item">\
-              <input id="nationInput" type="hidden" value="" name="profile[nationality]">\
               <div>\
                 <i class="fas fa-flag"></i>\
               </div>\
@@ -375,6 +406,7 @@
 
     delegate(document, "click", ".lapor-add-section-sub-button:nth-child(2)", function(){
       if(!document.querySelectorAll('.lapor-profile-description')[0]){
+        document.querySelectorAll('.lapor-profile-form')[0].innerHTML += '<input id="sumInput" type="hidden" value="" name="profile[summary]">';
         document.querySelectorAll('.lapor-second-new-section')[0].innerHTML += '<div class="lapor-profile-description">\
             <input id="sumInput" type="hidden" value="" name="profile[summary]">\
             <div id="sumDiv" contentEditable="true" data-text="Describe yourself..."></div>\
@@ -382,19 +414,13 @@
       };
     });
 
-    // Shows the datepicker when clicking on the content editable div
-    delegate(document, "click", "#dobDiv", function() {
-        $('#dobInput').datepicker({
-          dateFormat: 'dd MM yy',
-          onClose: function(dateText, inst) {
-            // When the date is selected, copy the value in the content editable div.
-            // If you don't need to do anything on the blur or focus event of the content editable div, you don't need to trigger them as I do in the line below.
-            $(this).parent().find('#dobDiv').focus().html(dateText).blur();
-          }
-        });
-        
-        // Triggering the focus event of the hidden input, the datepicker will come up.
-        $(this).parent().find('#dobInput').datepicker("show");
+    delegate(document, "click", ".lapor-add-section-sub-button:nth-child(3)", function(){
+      document.querySelectorAll('.lapor-first-new-section')[0].innerHTML += '<div id="laporLapor" class="lapor-profile-section">\
+          <b contentEditable="true" data-text="Section Head.."></b>\
+          <hr>\
+          <div class="lapor-portfolio-section-item">\
+          </div>\
+        </div>';
     });
 
     delegate(document, "click", "#nameDiv", function(){
@@ -410,7 +436,9 @@
       return false;
     });
     delegate(document, "keypress", "#nameDiv", function(e){
-      return e.which != 13;
+      if(e.which == 13)
+        e.preventDefault();
+        return false;
     });
 
     delegate(document, "click", "#mottoDiv", function(){
@@ -459,7 +487,9 @@
       return false;
     });
     delegate(document, "keypress", "#dobDiv", function(e){
-      return e.which != 13;
+      if(e.which == 13)
+        e.preventDefault();
+        return false;
     });
 
     delegate(document, "click", "#genderDiv", function(e){
@@ -475,7 +505,9 @@
       return false;
     });
     delegate(document, "keypress", "#genderDiv", function(e){
-      return e.which != 13;
+      if(e.which == 13)
+        e.preventDefault();
+        return false;
     });
 
     delegate(document, "click", "#phoneDiv", function(e){
@@ -491,7 +523,9 @@
       return false;
     });
     delegate(document, "keypress", "#phoneDiv", function(e){
-      return e.which != 13;
+      if(e.which == 13)
+        e.preventDefault();
+        return false;
     });
 
     delegate(document, "click", "#addressDiv", function(e){
@@ -507,7 +541,9 @@
       return false;
     });
     delegate(document, "keypress", "#addressDiv", function(e){
-      return e.which != 13;
+      if(e.which == 13)
+        e.preventDefault();
+        return false;
     });
 
     delegate(document, "click", "#nationDiv", function(e){
@@ -523,8 +559,8 @@
       return false;
     });
     delegate(document, "keypress", "#nationDiv", function(e){
-      return e.which != 13;
+      if(e.which == 13)
+        e.preventDefault();
+        return false;
     });
   </script>
-
-<% end %>

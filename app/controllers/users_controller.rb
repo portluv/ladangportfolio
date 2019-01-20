@@ -93,7 +93,7 @@ class UsersController < ApplicationController
 
       respond_to do |format|
         if @profile.save
-          format.html { redirect_to profile_path, notice: 'Profile updated.' }
+          format.html { redirect_to viewProfile_path, notice: 'Profile updated.' }
         else
           format.html { render :index }
           format.json { render json: @profile.errors, status: :unprocessable_entity }
@@ -136,7 +136,7 @@ class UsersController < ApplicationController
     respond_to do |format|
       if @profile.update(profile_params)
         puts @profile.profile_picture
-        format.html { redirect_to profile_path, notice: 'Profile updated.' }
+        format.html { redirect_to viewProfile_path, notice: 'Profile updated.' }
       else
         format.html { render :index }
         format.json { render json: @profile.errors, status: :unprocessable_entity }

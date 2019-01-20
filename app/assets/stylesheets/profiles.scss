@@ -185,7 +185,8 @@
 .lapor-edit-image-container > div.lapor-edit-profile-image ~ img{
   transition: all .3s ease;
 }
-.lapor-edit-image-container:hover > div.lapor-edit-profile-image ~ img:hover{
+.lapor-edit-image-container:hover > div.lapor-edit-profile-image ~ img:hover,
+.lapor-edit-image-container:hover > div.lapor-edit-profile-image ~ img:hover ~ i:hover{
   opacity: .5;
 }
 .lapor-edit-image-container > div.lapor-edit-profile-image ~ img ~ i{
@@ -231,11 +232,16 @@
   margin-top: 45px;
   margin-bottom: 45px;
 }
-.lapor-profile-biodata{
+.lapor-profile-biodata,
+.lapor-profile-section{
   margin: 20px;
   position: relative;
 }
-.lapor-profile-biodata > b{
+.lapor-profile-section{
+  margin-top: 20px;
+}
+.lapor-profile-biodata > b,
+.lapor-profile-section > b{
   display: block;
   margin-top: 40px;
   margin-bottom: 20px;
@@ -244,7 +250,8 @@
   font-size: 22pt;
   font-weight: 700;
 }
-.lapor-profile-biodata > div.lapor-portfolio-item{
+.lapor-profile-biodata > div.lapor-portfolio-item,
+.lapor-profile-section > div.lapor-portfolio-section-item > div.lapor-portfolio-item{
   display: grid;
   grid-template-columns: 40px 150px calc(100% - 40px - 150px);
   margin-top: 15px;
@@ -254,7 +261,8 @@
   font-weight: 400;
   line-height: 35px;
 }
-.lapor-profile-biodata > div.lapor-portfolio-item > div ~ b{
+.lapor-profile-biodata > div.lapor-portfolio-item > div ~ b,
+  .lapor-profile-section > div.lapor-portfolio-section-item > div.lapor-portfolio-item > div ~ b{
   display: block;
   width: 150px;
 
@@ -262,18 +270,17 @@
   font-weight: 700;
   line-height: 35px;
 }
-.lapor-profile-biodata > div.lapor-portfolio-item > div{
+.lapor-profile-biodata > div.lapor-portfolio-item > div,
+.lapor-profile-section > div.lapor-portfolio-section-item > div.lapor-portfolio-item > div{
   width: 35px;
   height: 35px;
 
   margin-right: 10px;
 }
-.lapor-profile-biodata > div.lapor-portfolio-item > div > i{
+.lapor-profile-biodata > div.lapor-portfolio-item > div > i,
+.lapor-profile-section > div.lapor-portfolio-section-item > div.lapor-portfolio-item > div > i{
   width: 100%;
   text-align: center;
-}
-.lapor-profile-biodata:hover > .lapor-edit-biodata-button{
-  opacity: 1
 }
 .lapor-profile-description > div{
   font-size: 17pt;
