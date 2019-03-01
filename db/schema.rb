@@ -10,10 +10,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180920054336) do
+ActiveRecord::Schema.define(version: 20190119025742) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "friendships", force: :cascade do |t|
+    t.bigint "user_id"
+    t.bigint "friend"
+    t.integer "status"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_friendships_on_user_id"
+  end
 
   create_table "profiles", force: :cascade do |t|
     t.string "fullname"
@@ -24,10 +33,56 @@ ActiveRecord::Schema.define(version: 20180920054336) do
     t.string "nationality"
     t.string "degree"
     t.text "lifemotto"
+    t.string "profile_picture"
     t.bigint "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.text "summary"
+    t.string "home_picture"
     t.index ["user_id"], name: "index_profiles_on_user_id"
+  end
+
+  create_table "section_details", force: :cascade do |t|
+    t.string "detail_title"
+    t.string "detail_description"
+    t.bigint "section_header_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["section_header_id"], name: "index_section_details_on_section_header_id"
+  end
+
+  create_table "section_headers", force: :cascade do |t|
+    t.string "title"
+    t.bigint "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_section_headers_on_user_id"
+  end
+
+  create_table "statuses", force: :cascade do |t|
+    t.text "status"
+    t.string "photo"
+    t.integer "status_type"
+    t.bigint "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_statuses_on_user_id"
+  end
+
+  create_table "things", force: :cascade do |t|
+    t.string "name"
+    t.string "path"
+    t.bigint "thingtype_id"
+    t.bigint "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_things_on_user_id"
+  end
+
+  create_table "thingtypes", force: :cascade do |t|
+    t.string "typename"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "users", force: :cascade do |t|
@@ -38,5 +93,12 @@ ActiveRecord::Schema.define(version: 20180920054336) do
     t.datetime "updated_at", null: false
   end
 
+  add_foreign_key "friendships", "users"
+  add_foreign_key "friendships", "users", column: "friend"
   add_foreign_key "profiles", "users"
+  add_foreign_key "section_details", "section_headers"
+  add_foreign_key "section_headers", "users"
+  add_foreign_key "statuses", "users"
+  add_foreign_key "things", "thingtypes"
+  add_foreign_key "things", "users"
 end

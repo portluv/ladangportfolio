@@ -1,58 +1,566 @@
-<%= form_with(model: profile, url: patch_profile_path(@profile), local: true) do |form| %>
-  <% if profile.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(profile.errors.count, "error") %> prohibited this user from being saved:</h2>
-
-      <ul>
-      <% profile.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
-    </div>
+<%= form_with(model: profile, url: @profile.user_id == nil ? profile_update_path(@profile) : patch_profile_path(@profile), local: true, class: "lapor-profile-form", html: { autocomplete: "off" }) do |form| %>
+  <%= form.hidden_field :fullname, id: :nameInput %>
+  <%= form.hidden_field :lifemotto, id: :mottoInput %>
+  
+  <% if @user.profile != nil &&
+    (
+      @user.profile.dateofbirth != nil && @user.profile.dateofbirth != '' || 
+      @user.profile.gender != nil && @user.profile.gender != '' ||
+      @user.profile.phone != nil && @user.profile.phone != '' ||
+      @user.profile.address != nil && @user.profile.address != '' ||
+      @user.profile.nationality != nil && @user.profile.nationality != '' 
+    )
+  %>
+    <%= form.hidden_field :dateofbirth, id: :dobInput %>
+    <%= form.hidden_field :gender, id: :genderInput %>
+    <%= form.hidden_field :phone, id: :phoneInput %>
+    <%= form.hidden_field :address, id: :addressInput %>
+    <%= form.hidden_field :nationality, id: :nationInput %>
   <% end %>
 
-  <div class="field">
-    <%= form.label :fullname %>
-    <%= form.text_field :fullname, id: :profileDateOfBirth, class: 'lapor-form-input' %>
-  </div>
+  <% if @user.profile != nil && @user.profile.summary != nil && @user.profile.summary != ''%>
+    <%= form.hidden_field :summary, id: :sumInput %>
+  <% end %>
+
+  <div id="modal" style="z-index: 3; display: none; top: 0; left: 0; position: fixed; background: rgba(192,192,192,0.7); width: 100vw; height: 100vh;">
+    <div id="profilePictureForm" style="display: none; background: white; left: calc((100vw - 400px) / 2); width: 400px; padding: 20px; top: calc((100vh - 300px) / 2); position: absolute;">
+      <h1>Profile Picture</h1>
+      <div class="field">
+        <%= form.label :profile_picture, 'Choose file to upload' %><br>
+        <%= form.file_field :profile_picture %>
+      </div>
+    </div>
+    <div id="homePictureForm" style="display: none; background: white; left: calc((100vw - 400px) / 2); width: 400px; padding: 20px; top: calc((100vh - 300px) / 2); position: absolute;">
+      <h1>Home Picture</h1>
+      <div class="field">
+        <%= form.label :home_picture, 'Choose file to upload' %><br>
+        <%= form.file_field :home_picture %>
+      </div>
+    </div>
+  </div>  
   
-  <div class="field">
-    <%= form.label :dateofbirth %>
-    <%= form.text_field :dateofbirth, id: :profileDateOfBirth, class: 'lapor-form-input', value: @profile.dateofbirth.nil? ? '' : @profile.dateofbirth.strftime("%d/%m/%Y") %>
-  </div>
-
-  <div class="field">
-    <%= form.label :gender %>
-    <%= form.text_field :gender, id: :profileGender, class: 'lapor-form-input' %>
-  </div>
-
-  <div class="field">
-    <%= form.label :phone %>
-    <%= form.text_field :phone, id: :profilePhone, class: 'lapor-form-input' %>
-  </div>
-
-  <div class="field">
-    <%= form.label :address %>
-    <%= form.text_field :address, id: :profileAddress, class: 'lapor-form-input' %>
-  </div>
-
-  <div class="field">
-    <%= form.label :nationality %>
-    <%= form.text_field :nationality, id: :profileNationality, class: 'lapor-form-input' %>
-  </div>
-
-  <div class="field">
-    <%= form.label :degree %>
-    <%= form.text_field :degree, id: :profileDegree, class: 'lapor-form-input' %>
-  </div>
-
-  <div class="field">
-    <%= form.label :lifemotto %>
-    <%= form.text_field :lifemotto, id: :profileLifeMotto, class: 'lapor-form-input' %>
-  </div>
-
-  <div class="actions">
+  <div class="lapor-edit-profile-submit">
     <%= form.submit "Save Edits", class: 'lapor-form-button' %>
   </div>
-<% end %>
+<% end %> 
 
+  <style>
+    .lapor-profile-motto > i{
+      display: flex;
+      justify-content: center;
+    } 
+    .lapor-edit-profile-submit{
+      position: fixed;
+      width: 240px;
+      bottom: 10px;
+      right: 30px;
+      z-index: 25;
+      transition: all .5s;
+    }
+    [contentEditable=true]{
+      outline: none;
+    }
+    [contentEditable=true]:empty:not(:focus):before{
+      content:attr(data-text);
+      color: grey;
+    }
+    
+    .lapor-profile-description > div[contentEditable=true]:empty:not(:focus):before{
+      font-weight: 400;
+      font-style: normal;
+      font-size: 20pt;
+
+      letter-spacing: 0px;
+      text-align: left;
+    }
+    #laporAddSection{
+      background: white; 
+      box-shadow: 0px 0px 20px 5px #cecece; 
+      border-radius: 50%; 
+      
+      width: 75px; 
+      height: 75px; 
+      
+      position: fixed; 
+      bottom: 10px; 
+      left: 30px; 
+      
+      cursor: pointer;
+    }
+    #laporAddSection > i{
+      display: inline-block; 
+      text-align: center; 
+      width: 100%; 
+      line-height: 75px; 
+      color: #888888;
+    }
+    .lapor-add-section-sub-button{
+      position: absolute;
+
+      width: 0px; 
+      height: 0px;
+      opacity: 0;  
+      
+      background: white; 
+      box-shadow: 0px 0px 10px 2px #cecece;
+      border-radius: 50%;
+
+      transition: all .5s ease;
+    }
+    .lapor-add-section-sub-button > i{
+      display: inline-block; 
+      text-align: center; 
+      width: 100%; 
+      line-height: 35px; 
+      color: #888888;
+      transition: all .5s ease;
+    }
+    .lapor-add-section-sub-button:nth-child(1){
+      top: -50px; 
+      left: calc((75px / 2) - (35px / 2));
+    }
+    .lapor-add-section-sub-button:nth-child(2){
+      top: -25px; 
+      left: 75px;
+    }
+    .lapor-add-section-sub-button:nth-child(3){
+      top: calc((100px / 2) - (35px / 2)); 
+      left: 90px;
+    }
+  </style>
+
+  <div class="lapor-edit-profile-title" style="margin: auto;">
+    <div class="lapor-edit-profile-name" style="display: flex; justify-content: center;">
+      <div>Welcome,&nbsp;</div>
+      <div id="nameDiv" contentEditable="true" data-text="Please enter your name">
+        <% if @user.profile == nil || @user.profile.fullname == '' %>
+          <%= @user.username %> 
+        <% else %>
+          <%= @user.profile.fullname %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+
+  <div class="lapor-edit-image-container">
+    <div id="laporEditProfilePicture" class="lapor-edit-profile-image">
+      <% if @user.profile == nil || @user.profile.profile_picture == '' || @user.profile.profile_picture == nil  %>
+          <%= image_tag "web_assets/anonymous/profile_male.jpg", :class => "lapor-profile-resize" %>
+      <% else %>
+          <%= image_tag @user.profile.profile_picture, :class => "lapor-profile-resize"  %>
+      <% end %>
+      <i class="fas fa-camera fa-8x"></i>
+    </div>
+    <% if @user.profile == nil || @user.profile.home_picture == '' || @user.profile.home_picture == nil  %>
+        <%= image_tag "web_assets/anonymous/profile_background.jpg", :class => "lapor-profile-resize",  :id => "laporEditHomePicture" %>
+    <% else %>
+        <%= image_tag @user.profile.home_picture, :class => "lapor-profile-resize",  :id => "laporEditHomePicture" %>
+    <% end %>
+    <i class="fas fa-camera fa-10x"></i>
+  </div>
+
+  <div class="lapor-profile-motto">
+    <i>
+      <div>"</div>
+      <div id="mottoDiv" class="lapor-edit-life-motto" contenteditable="true" data-text="Add your life motto"><%= @user.profile == nil || @user.profile.lifemotto == nil ? '' : @user.profile.lifemotto %></div>
+      <div>"</div>
+    </i>
+  </div>
+
+  <div style="display: grid; grid-template-columns: 50% 50%;">
+    <div class="lapor-first-new-section">
+        <% if @user.profile != nil &&
+              (
+                @user.profile.dateofbirth != nil && @user.profile.dateofbirth != '' || 
+                @user.profile.gender != nil && @user.profile.gender != '' ||
+                @user.profile.phone != nil && @user.profile.phone != '' ||
+                @user.profile.address != nil && @user.profile.address != '' ||
+                @user.profile.nationality != nil && @user.profile.nationality != '' 
+              )
+      %>
+        <div class="lapor-profile-biodata">
+          <b>Biodata</b>
+          <hr>
+          <div class="lapor-portfolio-item">
+            <div>
+              <i class="fas fa-birthday-cake"></i>
+            </div>
+            <b>Date of Birth</b>
+            <span id="dobDiv" contentEditable="true" data-text="dd/mm/yyyy"><%= @user.profile.dateofbirth == nil ? '' : @user.profile.dateofbirth.strftime("%d %B %Y") %></span>
+          </div>
+          <div class="lapor-portfolio-item">
+            <div>
+              <i class="fas fa-<%= @user.profile.gender == 'Male' ? 'mars' : 'venus' %>"></i>
+            </div>
+            <b>Sex</b> 
+            <span id="genderDiv" contentEditable="true" data-text="Male/Female"><%= @user.profile.gender %></span> 
+          </div>
+          <div class="lapor-portfolio-item">
+            <div>
+              <i class="fas fa-phone"></i>
+            </div>
+            <b>Phone</b> 
+            <span id="phoneDiv" contentEditable="true" data-text="Phone"><%= @user.profile.phone %></span> 
+          </div>
+          <div class="lapor-portfolio-item">
+            <div>
+              <i class="fas fa-map-marker-alt"></i>
+            </div>
+            <b>Address</b> 
+            <span id="addressDiv" contentEditable="true" data-text="Address"><%= @user.profile.address %></span> 
+          </div>
+          <div class="lapor-portfolio-item">
+            <div>
+              <i class="fas fa-flag"></i>
+            </div>
+            <b>Nationality</b> 
+            <span id="nationDiv" contentEditable="true" data-text="Nationality"><%= @user.profile.nationality %></span> 
+          </div>
+        </div>
+      <% end %>
+    </div>
+    <div class="lapor-second-new-section">
+      <% if @user.profile != nil && @user.profile.summary != nil && @user.profile.summary != ''%>
+        <div class="lapor-profile-description">
+          <div id="sumDiv" contentEditable="true" data-text="Describe yourself..."><%= @user.profile.summary %></div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+  
+  <div id="laporAddSection">
+    <div class="lapor-add-section-sub-button">
+      <i class="fas fa-user" style="font-size: 0pt; line-height: 0px;"></i>
+    </div>
+    <div class="lapor-add-section-sub-button">
+      <i class="fas fa-stream" style="font-size: 0pt; line-height: 0px;"></i>
+    </div>
+    <div class="lapor-add-section-sub-button">
+      <i class="fas fa-quote-left" style="font-size: 0pt; line-height: 0px;"></i>
+    </div>
+    <i class="fas fa-plus fa-4x"></i>
+  </div>
+
+  <script>
+    if (!Element.prototype.matches) {
+      Element.prototype.matches = 
+        Element.prototype.matchesSelector || 
+        Element.prototype.webkitMatchesSelector ||
+        Element.prototype.mozMatchesSelector ||
+        Element.prototype.msMatchesSelector || 
+        Element.prototype.oMatchesSelector || 
+        function(s) {
+            var matches = (this.document || this.ownerDocument).querySelectorAll(s),
+                i = matches.length;
+            while (--i >= 0 && matches.item(i) !== this) {}
+            return i > -1;            
+        };
+    }
+
+    function delegate(el, evt, sel, handler) {
+      el.addEventListener(evt, function(event) {
+        var t = event.target;
+        while (t && t !== this) {
+          if (t.matches(sel)) {
+            handler.call(t, event);
+          }
+          t = t.parentNode;
+        }
+      });
+    }
+
+    function contentIsEmptyCheck(elementId){
+      if(document.getElementById(elementId).innerHTML == ''){
+        document.getElementById(elementId).style.width = "300px";
+        document.getElementById(elementId).style.height = "39px";
+      }
+      else{
+        document.getElementById(elementId).removeAttribute("style");
+      }
+    }
+
+    function lifemottoQuotationCheck(){
+      if($('.lapor-edit-life-motto[contentEditable=true]').is(':empty'))
+      {
+        $('.lapor-edit-life-motto[contentEditable=true]:empty').prev().hide();
+        $('.lapor-edit-life-motto[contentEditable=true]:empty').next().hide();
+      }
+      else{
+        $('.lapor-edit-life-motto[contentEditable=true]:focus').prev().show();
+        $('.lapor-edit-life-motto[contentEditable=true]:focus').next().show();
+      }
+      contentIsEmptyCheck('mottoDiv');
+    }
+    
+    $(document).ready(function(){
+      lifemottoQuotationCheck();
+      $('.lapor-edit-life-motto[contentEditable=true]').on('input', function(){
+        lifemottoQuotationCheck();
+      });
+    });
+
+    $('.lapor-edit-image-container > div.lapor-edit-profile-image ~ img ~ i').on('mouseenter', function(){
+      $('.lapor-edit-image-container > div.lapor-edit-profile-image ~ img').css({'opacity':'.5'});
+    });
+
+    $('.lapor-edit-image-container > div.lapor-edit-profile-image ~ img ~ i').mouseout(function(){
+      $('.lapor-edit-image-container > div.lapor-edit-profile-image ~ img').removeAttr("style");
+    });
+
+    $('#laporEditProfilePicture').on('click', function(){
+        $('#modal').fadeIn(500, function(){
+            $('#profilePictureForm').fadeIn(500);
+        });
+    });
+
+    $('#laporEditHomePicture, #laporEditHomePicture ~ i').on('click', function(){
+        $('#modal').fadeIn(500, function(){
+            $('#homePictureForm').fadeIn(500);
+        });
+    });
+
+    $('.lapor-first-new-section').on('blur', '.lapor-profile-section > b', function(){
+      if(!document.querySelectorAll('.lapor-profile-add-section-item')[0] && $('.lapor-profile-section > b').html() != ''){
+        document.querySelectorAll('.lapor-profile-section')[0].innerHTML += '<div class="lapor-profile-add-section-item">\
+          aaaaaaaaaaaaaaaaaaaaaa\
+        </div>';  
+      }
+    });
+
+    $('#modal').on('click', function(e){
+        if (e.target !== this)
+          return;
+        else
+        $('#modal').fadeOut(500, function(){
+            $('#profilePictureForm').hide();
+            $('#homePictureForm').hide();
+        });
+    });
+
+    delegate(document, "click", "#laporAddSection", function(){
+      let subButton = document.getElementsByClassName('lapor-add-section-sub-button');
+      let subButtonIcons = document.querySelectorAll('.lapor-add-section-sub-button > i');
+      for(let i = 0; i < subButton.length; i++){
+        if(subButton[i].getAttribute("style")){
+          subButton[i].removeAttribute("style");
+          subButtonIcons[i].style.fontSize = "0pt";
+          subButtonIcons[i].style.lineHeight = "0px";
+        }
+        else{
+          subButton[i].style.width = "35px";
+          subButton[i].style.height = "35px";
+          subButton[i].style.opacity = "1";
+          subButtonIcons[i].removeAttribute("style");
+        }
+      }
+    });
+
+    delegate(document, "click", ".lapor-add-section-sub-button:nth-child(1)", function(){
+      if(!document.querySelectorAll('.lapor-profile-biodata')[0]){
+        document.querySelectorAll('.lapor-profile-form')[0].innerHTML += '<input id="dobInput" type="hidden" value="" name="profile[dateofbirth]">\
+          <input id="genderInput" type="hidden" value="" name="profile[gender]">\
+          <input id="phoneInput" type="hidden" value="" name="profile[phone]">\
+          <input id="addressInput" type="hidden" value="" name="profile[address]">\
+          <input id="nationInput" type="hidden" value="" name="profile[nationality]">';
+        document.querySelectorAll('.lapor-first-new-section')[0].innerHTML += '<div class="lapor-profile-biodata">\
+            <b>Biodata</b>\
+            <hr>\
+            <div class="lapor-portfolio-item">\
+              <div>\
+                <i class="fas fa-birthday-cake"></i>\
+              </div>\
+              <b>Date of Birth</b>\
+              <span id="dobDiv" contentEditable="true" data-text="dd/mm/yyyy"></span>\
+            </div>\
+            <div class="lapor-portfolio-item">\
+              <div>\
+                <i class="fas fa-genderless"></i>\
+              </div>\
+              <b>Sex</b>\
+              <span id="genderDiv" contentEditable="true" data-text="Male/Female"></span>\
+            </div>\
+            <div class="lapor-portfolio-item">\
+              <div>\
+                <i class="fas fa-phone"></i>\
+              </div>\
+              <b>Phone</b>\
+              <span id="phoneDiv" contentEditable="true" data-text="Phone"></span>\
+            </div>\
+            <div class="lapor-portfolio-item">\
+              <div>\
+                <i class="fas fa-map-marker-alt"></i>\
+              </div>\
+              <b>Address</b>\
+              <span id="addressDiv" contentEditable="true" data-text="Address"></span>\
+            </div>\
+            <div class="lapor-portfolio-item">\
+              <div>\
+                <i class="fas fa-flag"></i>\
+              </div>\
+              <b>Nationality</b>\
+              <span id="nationDiv" contentEditable="true" data-text="Nationality"></span>\
+            </div>\
+          </div>';
+      };
+    });
+
+    delegate(document, "click", ".lapor-add-section-sub-button:nth-child(2)", function(){
+      if(!document.querySelectorAll('.lapor-profile-description')[0]){
+        document.querySelectorAll('.lapor-profile-form')[0].innerHTML += '<input id="sumInput" type="hidden" value="" name="profile[summary]">';
+        document.querySelectorAll('.lapor-second-new-section')[0].innerHTML += '<div class="lapor-profile-description">\
+            <input id="sumInput" type="hidden" value="" name="profile[summary]">\
+            <div id="sumDiv" contentEditable="true" data-text="Describe yourself..."></div>\
+          </div>';
+      };
+    });
+
+    delegate(document, "click", ".lapor-add-section-sub-button:nth-child(3)", function(){
+      document.querySelectorAll('.lapor-first-new-section')[0].innerHTML += '<div id="laporLapor" class="lapor-profile-section">\
+          <b contentEditable="true" data-text="Section Head.."></b>\
+          <hr>\
+          <div class="lapor-portfolio-section-item">\
+          </div>\
+        </div>';
+    });
+
+    delegate(document, "click", "#nameDiv", function(){
+      let nameDiv = document.getElementById('nameDiv'),
+      nameInput = document.getElementById('nameInput');
+      
+      nameDiv.onblur = function() {
+        nameInput.value = nameDiv.innerHTML;
+      }
+    });
+    delegate(document, "paste", "#nameDiv", function(e){
+      e.preventDefault();
+      return false;
+    });
+    delegate(document, "keypress", "#nameDiv", function(e){
+      if(e.which == 13)
+        e.preventDefault();
+        return false;
+    });
+
+    delegate(document, "click", "#mottoDiv", function(){
+      let mottoDiv = document.getElementById('mottoDiv'),
+      mottoInput = document.getElementById('mottoInput');
+
+      mottoDiv.onblur = function() {
+        mottoInput.value = mottoDiv.innerHTML;
+      }
+    });
+    delegate(document, "paste", "#mottoDiv", function(e){
+      e.preventDefault();
+      return false;
+    });
+    delegate(document, "keypress", "#mottoDiv", function(e){
+      if(e.which == 13)
+        e.preventDefault();
+        return false;
+    });
+
+    delegate(document, "click", "#sumDiv", function(e){
+      let sumDiv = document.getElementById('sumDiv'),
+      sumInput = document.getElementById('sumInput');
+
+      sumDiv.onblur = function() {
+        sumInput.value = sumDiv.innerHTML;
+      }
+    });
+    delegate(document, "paste", "#sumDiv", function(e){
+      e.preventDefault();
+      var text = (e.originalEvent || e).clipboardData.getData('text/plain');
+      document.execCommand("insertHTML", false, text);
+      return false;
+    });
+
+    delegate(document, "click", "#dobDiv", function(e){
+      let dobDiv = document.getElementById('dobDiv'),
+      dobInput = document.getElementById('dobInput');
+
+      dobDiv.onblur = function() {
+        dobInput.value = dobDiv.innerHTML;
+      }
+    });
+    delegate(document, "paste", "#dobDiv", function(e){
+      e.preventDefault();
+      return false;
+    });
+    delegate(document, "keypress", "#dobDiv", function(e){
+      if(e.which == 13)
+        e.preventDefault();
+        return false;
+    });
+
+    delegate(document, "click", "#genderDiv", function(e){
+      let genderDiv = document.getElementById('genderDiv'),
+      genderInput = document.getElementById('genderInput');
+      
+      genderDiv.onblur = function() {
+        genderInput.value = genderDiv.innerHTML;
+      }
+    });
+    delegate(document, "paste", "#genderDiv", function(e){
+      e.preventDefault();
+      return false;
+    });
+    delegate(document, "keypress", "#genderDiv", function(e){
+      if(e.which == 13)
+        e.preventDefault();
+        return false;
+    });
+
+    delegate(document, "click", "#phoneDiv", function(e){
+      let phoneDiv = document.getElementById('phoneDiv'),
+      phoneInput = document.getElementById('phoneInput');
+
+      phoneDiv.onblur = function() {
+        phoneInput.value = phoneDiv.innerHTML;
+      }
+    });
+    delegate(document, "paste", "#phoneDiv", function(e){
+      e.preventDefault();
+      return false;
+    });
+    delegate(document, "keypress", "#phoneDiv", function(e){
+      if(e.which == 13)
+        e.preventDefault();
+        return false;
+    });
+
+    delegate(document, "click", "#addressDiv", function(e){
+      let addressDiv = document.getElementById('addressDiv'),
+      addressInput = document.getElementById('addressInput');
+
+      addressDiv.onblur = function() {
+        addressInput.value = addressDiv.innerHTML;
+      }
+    });
+    delegate(document, "paste", "#addressDiv", function(e){
+      e.preventDefault();
+      return false;
+    });
+    delegate(document, "keypress", "#addressDiv", function(e){
+      if(e.which == 13)
+        e.preventDefault();
+        return false;
+    });
+
+    delegate(document, "click", "#nationDiv", function(e){
+      let nationDiv = document.getElementById('nationDiv'),
+      nationInput = document.getElementById('nationInput');
+
+      nationDiv.onblur = function() {
+        nationInput.value = nationDiv.innerHTML;
+      }
+    });
+    delegate(document, "paste", "#nationDiv", function(e){
+      e.preventDefault();
+      return false;
+    });
+    delegate(document, "keypress", "#nationDiv", function(e){
+      if(e.which == 13)
+        e.preventDefault();
+        return false;
+    });
+  </script>

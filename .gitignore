@@ -20,4 +20,6 @@
 /node_modules
 /yarn-error.log
 
+/app/assets/images/user_assets/*
+
 .byebug_history

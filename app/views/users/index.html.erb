@@ -1,12 +1,165 @@
-<p id="notice"><%= notice %></p>
+<div class="lapor-edit-profile-title">
+  <div class="lapor-edit-profile-name lapor-edit-profile-name-move">
+    Welcome, 
+    <% if @user.profile == nil || @user.profile.fullname == '' %>
+      <%= @user.username %> 
+    <% else %>
+      <%= @user.profile.fullname %>
+    <% end %>
+  </div>
+  <div class="lapor-edit-profile-button lapor-edit-form-show">
+    <i class="fas fa-pencil-alt fa-1x"></i>
+  </div>
+</div>
 
-<h1>
-  Welcome, 
-  <%= @user.profile.nil? ?  @user.username : @user.profile.fullname %>
-</h1>
+<div class="lapor-edit-image-container">
+  <div id="laporEditProfilePicture" class="lapor-edit-profile-image">
+    <% if @user.profile == nil || @user.profile.profile_picture == '' || @user.profile.profile_picture == nil  %>
+        <%= image_tag "web_assets/anonymous/profile_male.jpg", :class => "lapor-profile-resize" %>
+    <% else %>
+        <%= image_tag @user.profile.profile_picture, :class => "lapor-profile-resize"  %>
+    <% end %>
+    <i class="fas fa-camera fa-8x"></i>
+  </div>
+  <% if @user.profile == nil || @user.profile.home_picture == '' || @user.profile.home_picture == nil  %>
+      <%= image_tag "web_assets/anonymous/profile_background.jpg", :class => "lapor-profile-resize",  :id => "laporEditHomePicture" %>
+  <% else %>
+      <%= image_tag @user.profile.home_picture, :class => "lapor-profile-resize",  :id => "laporEditHomePicture" %>
+  <% end %>
+  <i class="fas fa-camera fa-10x"></i>
+</div>
 
-<% if @user.profile == nil %>
-  <%= render 'createProfile', profile: @profile %>
-<% else %>
-  <%= render 'editProfile', profile: @profile %>
+<% if @user.profile != nil && @user.profile.lifemotto != nil && @user.profile.lifemotto != ''%>
+  <div class="lapor-profile-motto">
+    <i>"<%= @user.profile.lifemotto %>"</i>
+  </div>
 <% end %>
+
+<div style="display: grid; grid-template-columns: 50% 50%;">
+  <div>
+    <% if @user.profile != nil &&
+          (
+            @user.profile.dateofbirth != nil && @user.profile.dateofbirth != '' || 
+            @user.profile.gender != nil && @user.profile.gender != '' ||
+            @user.profile.phone != nil && @user.profile.phone != '' ||
+            @user.profile.address != nil && @user.profile.address != '' ||
+            @user.profile.nationality != nil && @user.profile.nationality != ''
+          )
+    %>
+      <div class="lapor-profile-biodata">
+        <b>Biodata</b>
+        <div id="laporEditBiodata" class="lapor-edit-profile-button lapor-edit-form-show">
+          <i class="fas fa-pencil-alt fa-1x"></i>
+        </div>
+        <hr>
+        <% if @user.profile.dateofbirth != nil && @user.profile.dateofbirth != '' %>
+          <div class="lapor-portfolio-item">
+            <div>
+              <i class="fas fa-birthday-cake"></i>
+            </div>
+            <b>Date of Birth</b>
+            <%= @user.profile.dateofbirth == nil ? '' : @user.profile.dateofbirth.strftime("%d %B %Y") %>
+          </div>
+        <% end %>
+        <% if @user.profile.gender != nil && @user.profile.gender != '' %>
+          <div class="lapor-portfolio-item">
+            <div>
+              <i class="fas fa-<%= @user.profile.gender == 'Male' ? 'mars' : 'venus' %>"></i>
+            </div>
+            <b>Sex</b>
+            <%= @user.profile.gender %>
+          </div>
+        <% end %>
+        <% if @user.profile.phone != nil && @user.profile.phone != '' %>
+          <div class="lapor-portfolio-item">
+            <div>
+              <i class="fas fa-phone"></i>
+            </div>
+            <b>Phone</b>
+            <%= @user.profile.phone %>
+          </div>
+        <% end %>
+        <% if @user.profile.address != nil && @user.profile.address != '' %>
+          <div class="lapor-portfolio-item">
+            <div>
+              <i class="fas fa-map-marker-alt"></i>
+            </div>
+            <b>Address</b>
+            <%= @user.profile.address %>
+          </div>
+        <% end %>
+        <% if @user.profile.nationality != nil && @user.profile.nationality != '' %>
+          <div class="lapor-portfolio-item">
+            <div>
+              <i class="fas fa-flag"></i>
+            </div>
+            <b>Nationality</b>
+            <%= @user.profile.nationality %>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+  <div>
+    <% if @user.profile != nil && @user.profile.summary != nil && @user.profile.summary != ''%>
+      <div class="lapor-profile-description">
+        <div><%= @user.profile.summary %></div>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+<div id="modal" style="z-index: 3; display: none; top: 0; left: 0; position: fixed; background: rgba(192,192,192,0.7); width: 100vw; height: 100vh;">
+    <div id="profilePictureForm" style="display: none; background: white; left: calc((100vw - 400px) / 2); width: 400px; padding: 20px; top: calc((100vh - 300px) / 2); position: absolute;">
+        <h1>Profile Picture</h1>
+        <%= render 'uploadProfilePicture', profile: @profile %>    
+    </div>
+    <div id="homePictureForm" style="display: none; background: white; left: calc((100vw - 400px) / 2); width: 400px; padding: 20px; top: calc((100vh - 300px) / 2); position: absolute;">
+        <h1>Home Picture</h1>
+        <%= render 'uploadHomePicture', profile: @profile %>    
+    </div>
+    <div id="noticePopUp" style="display: none; background: white; left: calc((100vw - 400px) / 2); width: 400px; padding: 20px; top: calc((100vh - 300px) / 2); position: absolute;">
+      <%= notice %>
+    </div>
+</div>  
+
+<script>
+  $(document).ready(function(){
+    if($.trim($('#noticePopUp').text()) != ''){
+      $('#modal').fadeIn(500, function(){
+          $('#noticePopUp').fadeIn(500);
+      });
+    }
+    $('.lapor-edit-image-container > div.lapor-edit-profile-image ~ img ~ i').on('mouseenter', function(){
+      $('.lapor-edit-image-container > div.lapor-edit-profile-image ~ img').css({'opacity':'.5'});
+    });
+    $('.lapor-edit-image-container > div.lapor-edit-profile-image ~ img ~ i').mouseout(function(){
+      $('.lapor-edit-image-container > div.lapor-edit-profile-image ~ img').removeAttr("style");
+    });
+    $('#laporEditProfilePicture').on('click', function(){
+        $('#modal').fadeIn(500, function(){
+            $('#profilePictureForm').fadeIn(500);
+        });
+    });
+    $('#laporEditHomePicture, #laporEditHomePicture ~ i').on('click', function(){
+        $('#modal').fadeIn(500, function(){
+            $('#homePictureForm').fadeIn(500);
+        });
+    });
+    $('#modal').on('click', function(e){
+      if (e.target !== this)
+        return;
+      else
+        $('#modal').fadeOut(500, function(){
+          $('#profilePictureForm').hide();
+          $('#homePictureForm').hide();
+          $('#noticePopUp').hide();
+          $('#noticePopUp').text('');
+        });
+    });
+      
+    $('.lapor-edit-form-show').on('click', function(){
+      window.location.href= '/profile';
+    });
+  });
+</script>
