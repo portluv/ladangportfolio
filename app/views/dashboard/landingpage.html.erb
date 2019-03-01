@@ -1,164 +1,10 @@
 <style>
-.lapor-navbar{
-    position: fixed;
-    transform: translateY(-42px);
-}
-.lapor-landing-page-navbar{
-    width: 100vw;
-    height: 48px;
-
-    background: white;
-    color: #dd5858;
-    box-shadow: 1px 1px 23px -1px rgba(17, 17, 17, .5);
-
-    position: fixed;
-    z-index: 2;
-    transition: all .5s;
-    transform: translateY(-48px);
-}
-.lapor-landing-page-navbar-container{
-    width: 100%;
-    height: 100%;
-    position: relative;
-}
-.slide-img{
-    width: 100%;
-    height: 100%;
-    opacity: .225;
-    margin-bottom: 40px;
-}
-.lapor-how-to-card{
-    margin: 10px;
-    width: 240px;
-    height: 335px;
-    background: white;
-    box-shadow: 0px 0px 13px 0px rgba(17, 17, 17, .5);
-    border-radius: 6px;
-    line-height: 16pt;
-
-    padding: 15px;
-    font-size: 12pt;
-    text-align: center;
-
-    cursor: pointer;
-}
-.lapor-landing-page-button{
-    font-family: 'Oswald', sans-serif;
-    font-size: 15pt;
-    color: white; 
-    text-decoration: none;
-    
-    position: absolute; 
-    z-index: 1; 
-    right: 18px;
-    top: 14px;
-     
-    cursor: pointer;
-}
-.lapor-landing-page-title{
-    font-family: 'Oswald', sans-serif;
-    font-size: 18pt;
-    color: white; 
-    text-decoration: none;
-    
-    position: absolute; 
-    z-index: 1; 
-    top: 14px;
-    right: 0;
-    left: 0;
-    text-align: center;
-     
-    cursor: pointer;
-}
-.lapor-red-font{
-    color: #dd5858;
-}
-.lapor-landing-page-signup-button{
-    width: 84px;
-    display: block;
-
-    font-size: 12pt;
-    color: white;
-    text-decoration: none;
-    text-align: center;
-    
-    padding: 12px;
-    margin: 15px;
-    border: 1px solid white;
-    border-radius: 8px;
-    
-    cursor: pointer;
-}
-.lapor-landing-page-signup-button:hover{
-    background: white;
-    color: #dd5858;
-}
-.lapor-landing-page-background{
-    background: #af4646; 
-    position: relative; 
-    
-    width: 100%; 
-    height: calc(100vw / 2); 
-    overflow: hidden;
-}
-.lapor-landing-page-background-desc{
-    width: 100%; 
-    display: none;
-
-    position: absolute; 
-    z-index: 1; 
-    top: 30%; 
-    left: 72px;
-}
-.lapor-landing-page-large-title{
-    font-family: 'Oswald', sans-serif;
-    font-size: 36pt; 
-    width: 100%; 
-    
-    margin-top: 54px; 
-    margin-bottom: 54px; 
-    text-align: center; 
-}
-.lapor-landing-page-large-desc{
-    width: 70vw;
-    padding-top: 10px;   
-    margin: auto; 
-    
-    font-size: 16pt;
-    text-align: center;
-    line-height: 24pt;
-    letter-spacing: 2px;
-
-    display: flex;
-    justify-content: space-between;
-}
-.lapor-landing-page-card-container{
-    width: 60vw;
-}
-.lapor-landing-page-large-title > span:hover, .lapor-how-to-card:hover{
-    color: #686868;
-}
-.lapor-landing-page-footer-title{
-    font-family: 'Lato', sans-serif;
-    font-size: 12pt;
-    top: auto;
-    bottom: 10px;
-}
-.lapor-landing-page-footer-signup-button{
-    display: inline;
-}
-.lapor-landing-page-footer-desc, .lapor-landing-page-footer-social{
-    position: absolute; 
-    z-index: 1; 
-    top: 40%; 
-}
-.lapor-landing-page-footer-desc{
-    left: 72px;
-}
-.lapor-landing-page-footer-social{
-    right: 72px;
-}
+    .lapor-navbar{
+        position: fixed;
+        transform: translateY(-42px);
+    }
 </style>
+
 <div class="lapor-landing-page-navbar">
     <div class="lapor-landing-page-navbar-container">
         <%= link_to("LADANGPORTFOLIO.com", root_path, :class => 'lapor-landing-page-title lapor-red-font') %>
@@ -179,7 +25,6 @@
             Register now for a free account.
         </span>
         <%= link_to("Sign Up", signup_path, :class => 'lapor-landing-page-signup-button') %>
-        <!--<h1 style="font-family: 'Oswald', sans-serif; color: white; width: 100%; font-size: 32pt; text-align: left; letter-spacing: 8px;">WITH LADANGPORTFOLIO</h1>-->
     </div>
     <%= link_to("LADANGPORTFOLIO.com", root_path, :class => 'lapor-landing-page-title') %>
     <% if user_is_logged_in? %>
@@ -187,7 +32,7 @@
     <% else %>
         <%= link_to("Sign In", signin_path, :class => 'lapor-landing-page-button') %>
     <% end %>
-    <%= image_tag "web_assets/dashboard/home_slider_1.jpg", :class => "slide-img" %>
+    <div class="slide-img"></div>
 </div>
 
 <h1 id="whatIs" class="lapor-landing-page-large-title">

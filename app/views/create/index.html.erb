@@ -2,21 +2,6 @@
     <%= notice %>
 </p>
 
-<style>
-    .lapor-workbook{
-        width: 36px; 
-        height: 100%; 
-        background: dodgerBlue; 
-        cursor: pointer; 
-
-        position: relative;
-    }
-    .lapor-portfolio-containter{
-        margin-top: 20px;
-        display: flex;
-    }
-</style>
-
 <div class="lapor-profile" style="justify-content: space-between">
     <div style="display: flex">
         <div class="lapor-profile-picture" style="overflow: hidden">
@@ -37,11 +22,6 @@
     <div id="uploadModalShow" style="text-align: center; cursor: pointer; line-height: 27px; width: 100px; height: 28px; background: #dd5858; color: white; border-radius: 5px;">
         Upload
     </div>
-    <!--
-    <%= form_tag create_convert_path, method: :post do %>
-        <%= submit_tag 'Call Action' %>
-    <% end %>
-    -->
 </div>
 
     <% @previousType = 0 %>
@@ -114,12 +94,5 @@
                 $('#workbookView').hide();
             });
         });
-        // $('#modal *').on('click', function(e){
-        //     e.stopPropagation();
-        // });
     });
-    // setTimeout(function(){
-    //     document.getElementById('laporNavbar').style.transform = 'translateY(-42px)';
-    //     document.getElementById('laporBody').style.transform = 'translateY(-42px)';
-    // }, 200);
 </script>

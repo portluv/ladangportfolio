@@ -36,6 +36,21 @@
     top: -128px;
     left: 201px;
 }
+
 .lapor-frame-image-resize{
     width: 100%;
+}
+
+.lapor-workbook{
+    width: 36px; 
+    height: 100%; 
+    background: dodgerBlue; 
+    cursor: pointer; 
+
+    position: relative;
+}
+
+.lapor-portfolio-containter{
+    margin-top: 20px;
+    display: flex;
 }
