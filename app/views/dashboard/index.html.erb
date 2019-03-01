@@ -39,7 +39,7 @@
             </div>
             <h1><%= session[:username] %></h1>
         </div>
-        <div class="lapor-twitbox" style="width: 60%;">
+        <div class="lapor-twitbox">
             <%= form_for(:status, url: newstatus_path(@status), local: true) do |form| %>
                 <div class="lapor-twitbox-form">
                     <%= form.text_area(:status, :id => "statusTwitbox", :rows => "9", :cols => "70", :maxlength => "500", :class => "lapor-twitbox-input") %>

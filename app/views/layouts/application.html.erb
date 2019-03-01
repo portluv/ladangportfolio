@@ -27,7 +27,24 @@
         <% else %>
           <%= link_to("Sign In", signin_path, :class => 'lapor-navbar-item lapor-signin-button') %>
         <% end %>
+        <label for="burger-shower">
+          <div></div>
+          <div></div>
+          <div></div>
+        </label>
     </header>
+    <input type="checkbox" id="burger-shower" class="burger-shower">
+    <section class="lapor-alt-navbar">
+        <%= link_to("Dashboard", dashboard_path, :class => 'lapor-alt-navbar-item' ) %>
+        <%= link_to("Profile", editProfile_path, :class => 'lapor-alt-navbar-item') %>
+        <%= link_to("Create", { :controller => 'create', :action => 'index'}, :class => 'lapor-alt-navbar-item' ) %>
+        <%= link_to("Connect", { :controller => 'connection', :action => 'index'}, :class => 'lapor-alt-navbar-item' ) %>
+        <% if user_is_logged_in? %>
+          <%= link_to("Sign Out", signout_path, :class => 'lapor-alt-navbar-item') %>
+        <% else %>
+          <%= link_to("Sign In", signin_path, :class => 'lapor-alt-navbar-item') %>
+        <% end %>
+    </section>
     <% if current_page?(root_url) %>
       <main>
         <%= yield %>

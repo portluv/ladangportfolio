@@ -2,12 +2,19 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-.lapor-profile-resize{
-    width: 100%;
-    height: 100%;
+@media screen and (min-width: 425px){
+  .lapor-userbox{
+      width: 350px;
+  }
 }
+
+@media screen and (max-width: 425px){
+  .lapor-userbox{
+      width: 100%;
+  }
+}
+
 .lapor-userbox{
-    width: 350px;
     height: 125px;
 
     background: white;
@@ -18,6 +25,11 @@
 
     position: relative;
     display: flex;
+}
+
+.lapor-profile-resize{
+    width: 100%;
+    height: 100%;
 }
 .lapor-userbox-profile{
     width: 60px;

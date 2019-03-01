@@ -2,9 +2,33 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-.lapor-dashboard-main{
-    display: flex; 
-    justify-content: space-between;
+@media screen and (min-width: 1200px){
+    .lapor-dashboard-main{
+        display: flex; 
+        justify-content: space-between;
+    }
+
+    .lapor-twitbox{
+        width: 60%;
+    }
+}
+@media screen and (max-width: 1200px){
+    .lapor-dashboard-main{
+        display: flex; 
+        flex-direction: column; 
+    }
+
+    .lapor-twitbox{
+        width: 100%;
+        margin-top: 40px;
+    }
+}
+
+.lapor-twitbox-form{
+    background: white; 
+    border-radius: 13px;
+    box-shadow: 6px 6px 52px -1px rgba(0,0,0,0.4); 
+    padding: 10px;
 }
 
 .lapor-feedbox{
@@ -72,16 +96,11 @@
     box-shadow: 6px 6px 52px -1px rgba(117,117,117,0.5);
 }
 
-.lapor-twitbox-form{
-    background: white; 
-    border-radius: 13px;
-    box-shadow: 6px 6px 52px -1px rgba(0,0,0,0.4); 
-    padding: 10px;
-}
-
 .lapor-twitbox-input{
     padding: 15px;
     border-radius: 15px;
+    box-sizing: border-box;
+    width: 100%;
     resize: none;
     outline: none;
     position: relative;
