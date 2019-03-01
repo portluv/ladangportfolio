@@ -1,0 +1,48 @@
+<%= form_with(model: profile, url: patch_profile_path(@profile), local: true, html: { autocomplete: "off" }) do |form| %>
+  <% if profile.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(profile.errors.count, "error") %> prohibited this user from being saved:</h2>
+
+      <ul>
+      <% profile.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+  
+  <div class="field datepick">
+    <%= form.label :dateofbirth, 'Birth Date' %>
+    <%= form.text_field :dateofbirth, id: :biodataDateOfBirth, class: 'lapor-form-input' , value: @profile.dateofbirth == nil ? '' : @profile.dateofbirth.strftime("%d %B %Y") %>
+  </div>
+
+  <div class="field">
+    <%= form.label :gender %>
+    <%= form.text_field :gender, id: :profileGender, class: 'lapor-form-input' %>
+  </div>
+
+  <div class="field">
+    <%= form.label :phone %>
+    <%= form.text_field :phone, id: :profilePhone, class: 'lapor-form-input' %>
+  </div>
+
+  <div class="field">
+    <%= form.label :address %>
+    <%= form.text_field :address, id: :profileAddress, class: 'lapor-form-input' %>
+  </div>
+
+  <div class="field">
+    <%= form.label :nationality %>
+    <%= form.text_field :nationality, id: :profileNationality, class: 'lapor-form-input' %>
+  </div>
+  
+  <div class="actions">
+    <%= form.submit "Save Edits", class: 'lapor-form-button' %>
+  </div>
+<% end %>
+
+<script>
+  $('#biodataDateOfBirth').datepicker({ dateFormat: 'dd MM yy' });
+</script>
+
+

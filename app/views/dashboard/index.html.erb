@@ -1,63 +1,126 @@
 <p id="notice">
     <%= notice %>
 </p>
-<div id="inboxBtn" class="lapor-feedbox-button">
-    Inbox
-</div>
-<div id="outboxBtn" class="lapor-feedbox-button">
-    Outbox
-</div>
-<div class="lapor-feedbox">
-    <div id="inboxContent" class="lapor-feedbox-content">
-        <div>Inbox</div>
-        <div>Inbox</div>
-        <div>Inbox</div>
-        <div>Inbox</div>
-        <div>Inbox</div>
-        <div>Inbox</div>
-        <div>Inbox</div>
-        <div>Inbox</div>
-        <div>Inbox</div>
-        <div>Inbox</div>
-        <div>Inbox</div>
-        <div>Inbox</div>
-    </div>
-    <div id="outboxContent" class="lapor-feedbox-content">
-        <div>Outbox</div>
-        <div>Outbox</div>
-        <div>Outbox</div>
-        <div>Outbox</div>
-        <div>Outbox</div>
-        <div>Outbox</div>
-        <div>Outbox</div>
-        <div>Outbox</div>
-        <div>Outbox</div>
-        <div>Outbox</div>
-        <div>Outbox</div>
-        <div>Outbox</div>
-    </div>
-</div>
 
-<script type="text/javascript">
-    inboxContent = document.getElementById('inboxContent');
-    outboxContent = document.getElementById('outboxContent');
-    inboxBtn = document.getElementById('inboxBtn');
-    outboxBtn = document.getElementById('outboxBtn');
-
-    outboxContent.style.display = 'none';
-    inboxBtn.classList.add('lapor-active');
-
-    inboxBtn.onclick = function(){
-        outboxContent.style.display = 'none';
-        inboxContent.style.display = 'block';
-        inboxBtn.classList.add('lapor-active');
-        outboxBtn.classList.remove('lapor-active');
-    }
-
-    outboxBtn.onclick = function(){
-        inboxContent.style.display = 'none';
-        outboxContent.style.display = 'block';
-        outboxBtn.classList.add('lapor-active');
-        inboxBtn.classList.remove('lapor-active');
-    }
+<script>
+    $(document).ready(function(){
+        function countChar(val) {
+            var len = val.length;
+            if (len > 500) {
+                val = val.substring(0, 500);
+            } else {
+                $('#statusCount').text(len + '/500');
+                if(len > 450 && len <= 500){
+                    $('#statusCount').css("color", "red");
+                }
+                else{
+                    $('#statusCount').css("color", "#282828");
+                }
+            }
+        };
+        $('#statusTwitbox').on('keyup', function() {
+            countChar($('#statusTwitbox').val());
+        });
+        $('#statusTwitbox').on('keypress', function() {
+            countChar($('#statusTwitbox').val());
+        });
+    })
 </script>
+
+<% if session[:username] %>
+    <div class="lapor-dashboard-main">
+        <div class="lapor-userbox">
+            <div class="lapor-userbox-profile">
+                <% if @user.profile == nil || @user.profile.profile_picture == '' || @user.profile.profile_picture == nil %>
+                    <%= image_tag "web_assets/anonymous/profile_male.jpg", :class => "lapor-profile-resize" %>
+                <% else %>
+                    <%= image_tag @user.profile.profile_picture, :class => "lapor-profile-resize"  %>
+                <% end %>
+            </div>
+            <h1><%= session[:username] %></h1>
+        </div>
+        <div class="lapor-twitbox" style="width: 60%;">
+            <%= form_for(:status, url: newstatus_path(@status), local: true) do |form| %>
+                <div class="lapor-twitbox-form">
+                    <%= form.text_area(:status, :id => "statusTwitbox", :rows => "9", :cols => "70", :maxlength => "500", :class => "lapor-twitbox-input") %>
+                    <div class="lapor-twitbox-form-accessories">
+                        <div id="statusCount">0/500</div>
+                        <%= form.submit "Post", class: 'lapor-twitbox-small-button' %>
+                    </div>
+                </div>
+            <% end %>
+            <% if @userStatus != nil %>
+                <% @userStatus.each do |status| %>
+                    <div class="lapor-twitbox-space-circles"></div>
+                    <div class="lapor-twitbox-status-box">
+                        <% if status.status_type == 2 %>
+                            <%= @user.username %>
+                        <% end %>
+                        <%= status.status %>
+                    </div>
+                <% end %>
+            <% end %>
+        </div>
+    </div>
+<% else %>
+    <div id="inboxBtn" class="lapor-feedbox-button">
+        Inbox
+    </div>
+    <div id="outboxBtn" class="lapor-feedbox-button">
+        Outbox
+    </div>
+    <div class="lapor-feedbox">
+        <div id="inboxContent" class="lapor-feedbox-content">
+            <div>Inbox</div>
+            <div>Inbox</div>
+            <div>Inbox</div>
+            <div>Inbox</div>
+            <div>Inbox</div>
+            <div>Inbox</div>
+            <div>Inbox</div>
+            <div>Inbox</div>
+            <div>Inbox</div>
+            <div>Inbox</div>
+            <div>Inbox</div>
+            <div>Inbox</div>
+        </div>
+        <div id="outboxContent" class="lapor-feedbox-content">
+            <div>Outbox</div>
+            <div>Outbox</div>
+            <div>Outbox</div>
+            <div>Outbox</div>
+            <div>Outbox</div>
+            <div>Outbox</div>
+            <div>Outbox</div>
+            <div>Outbox</div>
+            <div>Outbox</div>
+            <div>Outbox</div>
+            <div>Outbox</div>
+            <div>Outbox</div>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        inboxContent = document.getElementById('inboxContent');
+        outboxContent = document.getElementById('outboxContent');
+        inboxBtn = document.getElementById('inboxBtn');
+        outboxBtn = document.getElementById('outboxBtn');
+
+        outboxContent.style.display = 'none';
+        inboxBtn.classList.add('lapor-active');
+
+        inboxBtn.onclick = function(){
+            outboxContent.style.display = 'none';
+            inboxContent.style.display = 'block';
+            inboxBtn.classList.add('lapor-active');
+            outboxBtn.classList.remove('lapor-active');
+        }
+
+        outboxBtn.onclick = function(){
+            inboxContent.style.display = 'none';
+            outboxContent.style.display = 'block';
+            outboxBtn.classList.add('lapor-active');
+            inboxBtn.classList.remove('lapor-active');
+        }
+    </script>
+<% end %>

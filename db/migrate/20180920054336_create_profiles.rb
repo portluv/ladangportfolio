@@ -9,6 +9,7 @@ class CreateProfiles < ActiveRecord::Migration[5.1]
       t.string :nationality
       t.string :degree
       t.text :lifemotto
+      t.string :profile_picture
       t.references :user, foreign_key: true
 
       t.timestamps

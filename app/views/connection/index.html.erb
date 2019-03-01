@@ -1,0 +1,64 @@
+<p id="notice">
+    <%= notice %>
+</p>
+
+<div style="display: flex; justify-content: space-between;">
+    <div class="lapor-userbox">
+        <div class="lapor-userbox-profile">
+            <% if @user.profile == nil || @user.profile.profile_picture == '' || @user.profile.profile_picture == nil %>
+                <%= image_tag "web_assets/anonymous/profile_male.jpg", :class => "lapor-profile-resize" %>
+            <% else %>
+                <%= image_tag @user.profile.profile_picture, :class => "lapor-profile-resize"  %>
+            <% end %>
+        </div>
+        <h1><%= session[:username] %></h1>
+    </div>
+    <div style="width: 60%;">
+        <% @users.each do |user| %>
+            <% @counter = 0 %>
+            <% if user.id != session[:user_id] %>
+                <div class="lapor-connect-userbox">
+                    <div class="lapor-userbox-profile">
+                        <% if user.profile == nil || user.profile.profile_picture == '' || user.profile.profile_picture == nil %>
+                            <%= image_tag "web_assets/anonymous/profile_male.jpg", :class => "lapor-profile-resize" %>
+                        <% else %>
+                            <%= image_tag user.profile.profile_picture, :class => "lapor-profile-resize"  %>
+                        <% end %>
+                    </div>
+                    <div style="grid-area: name;">
+                        <h1><%= user.username %></h1>
+                    </div>
+                    <div style="position: relative; grid-area: add;">
+                            <% @friendship.each do |i| %>
+                                <% if i.user_id == user.id && i.friend == session[:user_id] && i.status == 1 || i.user_id == session[:user_id] && i.friend == user.id && i.status == 1 %>
+                                    <a class="lapor-connect-add-button lapor-connect-remove-button" href="<%= removeFriend_path(user.id) %>">
+                                        <i class="fas fa-check"></i>
+                                        <span>Connected</span>
+                                    </a>
+                                    <% @counter+=1 %>
+                                    <% break %>
+                                <% end %>
+                            <% end %>
+                            <% if @counter == 0 %>
+                                    <a class="lapor-connect-add-button" href="<%= addFriend_path(user.id) %>">
+                                        <i class="fas fa-plus"></i>
+                                        <span>Add</span>
+                                    </a>
+                            <% end %>
+                    </div>
+                </div>
+            <% end %>
+        <% end %>
+    </div>
+</div>
+
+<script>
+    $('.lapor-connect-remove-button').mouseover(function(){
+        $(this).children('.fas').removeClass('fa-check').addClass('fa-times');
+        $(this).children('span').text('Remove');
+    });
+    $('.lapor-connect-remove-button').mouseout(function(){
+        $(this).children('.fas').removeClass('fa-times').addClass('fa-check');
+        $(this).children('span').text('Connected');
+    });
+</script>

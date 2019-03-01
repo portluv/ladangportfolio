@@ -1,0 +1,4 @@
+$('#modal').fadeIn(500, function(){
+    $('#workbookView').fadeIn(500);
+});
+$('#modal').prepend('<%= escape_javascript(render :partial => 'bookView', :locals => {:thing => @thing}) %>')

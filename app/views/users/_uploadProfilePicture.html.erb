@@ -1,0 +1,12 @@
+<%= form_with(model: profile, url: @profile.user_id == nil ? profile_update_path(@profile) : patch_profile_path(@profile), local: true) do |form| %>
+
+  <div class="field">
+    <%= form.label :profile_picture, 'Choose file to upload' %><br>
+    <%= form.file_field :profile_picture %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit "Update Profile Picture", class: 'lapor-form-button' %>
+  </div>
+<% end %>
+

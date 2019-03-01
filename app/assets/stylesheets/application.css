@@ -1,220 +1,92 @@
 /*
- * This is a manifest file that'll be compiled into application.css, which will include all the files
- * listed below.
- *
- * Any CSS and SCSS file within this directory, lib/assets/stylesheets, or any plugin's
- * vendor/assets/stylesheets directory can be referenced here using a relative path.
- *
- * You're free to add application-wide styles to this file and they'll appear at the bottom of the
- * compiled file so the styles you add here take precedence over styles defined in any other CSS/SCSS
- * files in this directory. Styles in this file should be added after the last require_* statement.
- * It is generally better to create a new file per style scope.
- *
- *= require_tree .
- *= require_self
- */
+* This is a manifest file that'll be compiled into application.css, which will include all the files
+* listed below.
+*
+* Any CSS and SCSS file within this directory, lib/assets/stylesheets, or any plugin's
+* vendor/assets/stylesheets directory can be referenced here using a relative path.
+*
+* You're free to add application-wide styles to this file and they'll appear at the bottom of the
+* compiled file so the styles you add here take precedence over styles defined in any other CSS/SCSS
+* files in this directory. Styles in this file should be added after the last require_* statement.
+* It is generally better to create a new file per style scope.
+*
+*= require_tree .
+*= require_self
+*/
 
- body{
-     width: 100vw;
-     height: 100vh;
-     margin: 0;
-     font-family: 'Lato', sans-serif;
-     user-select: none;
-     user-zoom: none;
- }
+body{
+    width: 100vw;
+    overflow-x: hidden;
+    margin: 0;
+    font-family: 'Lato', sans-serif;
+    user-select: none;
+    user-zoom: none;
+}
 
- input:-webkit-autofill {
+.ui-page-active { 
+    outline: none; 
+}
+::-webkit-scrollbar{
+    width: 8px;
+}
+::-webkit-scrollbar-thumb{
+    border-radius: 10px;
+    background-color: #a6a6a6;
+    box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+}
+::-webkit-scrollbar-track{
+    border-radius: 10px;
+}
+
+input:-webkit-autofill {
     -webkit-box-shadow: 0 0 0 30px white inset;
- }
+}
 
- .lapor-navbar{
-     background: #dd5858;
-     width: 100%;
-     height: 42px;
-     display: flex;
-
-     transition: all .5s;
- }
-
- .lapor-navbar-item{
-     --fontSize: 18px;
-     --parentHeight: 42px;
-     
-     font-size: var(--fontSize);
-     color: white;
-     text-decoration: none;
-
-     margin-left: 15px;
-     margin-right: 15px;
-     line-height: var(--parentHeight);
-
-     transition: all .4s;
- }
-
- .lapor-navbar-item:hover{
-     cursor: pointer;
-     text-shadow: 2px 2px 8px #ffebeb;
- }
-
- .lapor-body{
-    transition: all .5s;
- }
-
- .lapor-profile{
+.lapor-navbar{
+    background: #dd5858;
+    background-image: linear-gradient(#c93434, #dd5858);
+    width: 100%;
+    height: 42px;
     display: flex;
 }
 
- .lapor-profile-picture{
-     width: 150px;
-     height: 150px;
-
-     border-radius: 50%;
-     background: #d82f2f;
-
-     margin-left: 10px;
-     margin-right: 10px;
- }
-
- .lapor-profile-name{
-     margin: 0;
-     line-height: 150px;
- }
-
- .lapor-main{
-     --paddingSize: calc(30px * 2);
-     --navbarSize: 42px;
-     width: 80vw;
-     height: calc((100vh - var(--paddingSize)) - var(--navbarSize));
-     
-     margin: auto;
-     padding-top: 30px;
-     padding-bottom: 30px;
- }
-
- .lapor-feedbox{
-     width: 90%;
-     height: 400px;
-     
-     background: white;
-     border-radius: 15px;
-
-     padding-top: 10px;
-     padding-bottom: 10px;
-
-     position: relative;
- }
-
- .lapor-feedbox-button{
-    --elementHeight: 40px;
-    min-width: 90px;
-    height: var(--elementHeight);
-
-    font-size: 15pt;
-    line-height: var(--elementHeight);
-    text-align: center;
-
-    background: #bb4a4a;
+.lapor-navbar-item{
+    --fontSize: 18px;
+    --parentHeight: 42px;
+    
+    font-size: var(--fontSize);
     color: white;
-    border-radius: 15px 15px 0 0;
+    text-decoration: none;
 
-    display: inline-block;
-    position: relative;
-    left: 20px;
+    margin-left: 15px;
+    margin-right: 15px;
+    line-height: var(--parentHeight);
 
+    transition: all .5s;
+}
+
+.lapor-navbar-item:hover{
     cursor: pointer;
- }
+    text-shadow: 2px 2px 8px #ffebeb;
+}
 
- .lapor-feedbox:before, .lapor-feedbox-button:before {
-    content: "";
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    z-index: -1;
-    border-radius: 15px 15px 0 0;
-    box-shadow: 6px 6px 52px -1px rgba(117,117,117,0.5);
-  }
+.lapor-body{
+    transition: all .5s;
+}
 
-  .lapor-active{
-    background: #dd5858;
-  }
+.lapor-main{
+    --paddingSize: calc(30px * 2);
+    --navbarSize: 42px;
+    width: 80vw;
+    
+    margin: auto;
+    padding-top: 30px;
+    padding-bottom: 30px;
+}
 
-  .lapor-feedbox-content{
-      width: 95%;
-      height: 400px;
-      margin: auto;
-      overflow-x: hidden;
-  }
-
-  .lapor-feedbox-content > div{
-    min-height: 40px;
-  }
-
-  .lapor-feedbox-content > div:nth-child(1n){
-    background: #f0f0f0;
-  }
-
-  .lapor-feedbox-content > div:nth-child(2n){
-    background: white;
-  }
-  .lapor-form-input{
-      width: 100%;
-      height: 24px;
-      padding: 2px;
-      background: transparent;
-      border: none;
-      border-bottom: 1px solid #989898;
-      outline: none;
-  }
-  .lapor-form-button{
-      width: 100%;
-      height: 60px;
-      color: white;
-      background: #dd5858;
-      border: none;
-      border-radius: 10px;
-      font-size: 16pt;
-  }
-  .lapor-form-button:hover{
-    background: #a73737;
-    cursor: pointer;
-  }
-  .lapor-signup-form{
-      width: 400px;
-      padding: 25px;
-      margin: auto;
-  }
-  .lapor-signup-form > form > *{
-      margin-top: 30px;
-      margin-bottom: 30px;
-  }
-  .lapor-signup-form > h1{
-      letter-spacing: 2px;
-  }
-  .lapor-signup-title{
-    display: block;
-    margin: auto; 
-
-    font-size: 24pt;  
-    letter-spacing: 3px;
-    text-align: center; 
-  }
-  .lapor-signup-content{
-      width: 100%;
-      height: 100%;
-      display: grid;
-      grid-template-columns: calc(100% - 500px) 500px;
-  }
-  .lapor-signup-form > form > div > a{
-      display: block;
-      margin-top : 10px;
-      text-decoration: none;
-      color: #282828
-  }
-  .lapor-signup-form > form > div > a:hover{
-      text-decoration: underline;
-  }
-  .lapor-signin-button{
+.lapor-signin-button{
     margin-left: auto;
-  }
+}
+.lapor-active{
+    background: #dd5858;
+}

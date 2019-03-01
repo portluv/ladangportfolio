@@ -1,3 +1,297 @@
 // Place all the styles related to the profiles controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+.lapor-profile-resize{
+    width: 100%;
+    height: 100%;
+}
+.lapor-userbox{
+    width: 350px;
+    height: 125px;
+
+    background: white;
+    border-radius: 15px 0 15px 0;
+
+    padding-top: 10px;
+    padding-bottom: 10px;
+
+    position: relative;
+    display: flex;
+}
+.lapor-userbox-profile{
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    margin: 10px;
+    overflow: hidden;
+}
+.lapor-userbox > h1{
+    height: auto;
+    margin: 10px;
+    font-size: 26px;
+    --size: calc((60px - 26px) / 2);
+    margin-top: calc(var(--size) + 10px);
+}
+
+.lapor-profile{
+    display: flex;
+}
+
+.lapor-profile-picture{
+    width: 150px;
+    height: 150px;
+
+    border-radius: 50%;
+    /* background: #d82f2f; */
+
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.lapor-profile-name{
+    margin: 0;
+    line-height: 150px;
+}
+.lapor-edit-profile-button{ 
+  color: #dd5858; 
+  background: currentColor; 
+  padding: 8px; 
+  border-radius: 3px;
+  
+  position: absolute;
+  top: 15px; 
+  left: calc((100% - 27px) / 2);
+
+  transition: all .5s ease;
+  opacity: 0;
+
+  cursor: pointer; 
+}
+.lapor-edit-biodata-button{ 
+  color: #dd5858; 
+  background: currentColor; 
+  padding: 8px; 
+  border-radius: 3px;
+  
+  position: absolute;
+  top: -7px;
+  right: 0px;
+
+  transition: all .5s ease;
+  opacity: 0;
+
+  cursor: pointer; 
+}
+.lapor-edit-profile-button::before{
+  content: "";
+  background: currentColor;
+  width: 13px;
+  height: 13px;
+  transform: rotate(45deg);
+  position: absolute;
+  top: 27px;
+}
+.lapor-edit-profile-button > i, .lapor-edit-biodata-button > i{
+  color: white;
+}
+.lapor-edit-profile-button:hover, .lapor-edit-biodata-button:hover{
+  color: #c93434;
+}
+.lapor-edit-profile-title{
+  position: relative; padding-top: 50px;
+}
+.lapor-edit-profile-title:hover > .lapor-edit-profile-button{
+  opacity: 1;
+  top: 10px;
+}  
+.lapor-edit-profile-name{
+  text-align: center; 
+  font-weight: bold; 
+  font-size: 30pt;
+
+  transition: all .5s ease;
+  cursor: pointer; 
+}
+.lapor-edit-profile-title:hover > .lapor-edit-profile-name-move{
+  padding-top: 15px;
+}
+.lapor-edit-profile-image{
+  width: 200px; 
+  height: 200px; 
+  
+  background: grey; 
+  position: absolute; 
+  z-index: 2;
+  border: 13px solid white; 
+  border-radius: 50%; 
+  overflow: hidden; 
+  
+  top: -106.5px; 
+  left: calc((100% - 226px) / 2); 
+  cursor: pointer;
+}
+.lapor-edit-profile-image:hover > img{
+  opacity: .5;
+}
+.lapor-edit-profile-image i{
+  color: white; 
+  
+  position: absolute; 
+  top: calc((100% - 104px) / 2); 
+  left: calc((100% - 104px) / 2);
+
+  opacity: 0;
+}
+.lapor-edit-profile-image i.fa-camera::after{
+  content: "Change Profile Picture";
+  position: absolute;
+  top: 104px;
+  left: 0px;
+
+  width: 120px;
+
+  font-family: 'Lato', sans-serif;
+  color: currentColor;
+  font-size: 8pt;
+}
+.lapor-edit-profile-image i.fa-window-close::after{
+  content: "Cannot change Profile Picture during Edit Mode";
+  position: absolute;
+  top: 104px;
+  left: calc((120px - 100%) / -2);
+
+  width: 120px;
+  text-align: center;
+
+  font-family: 'Lato', sans-serif;
+  color: currentColor;
+  font-size: 8pt;
+}
+.lapor-edit-profile-image:hover i{
+  opacity: 1;
+  transition: all .3s ease;
+}
+.lapor-edit-image-container{
+  width: 100%; 
+  height: 400px; 
+  
+  background: dimgrey; 
+  position: relative; 
+  margin-top: 200px;
+
+  cursor: pointer;
+}
+.lapor-edit-image-container > div.lapor-edit-profile-image ~ img{
+  transition: all .3s ease;
+}
+.lapor-edit-image-container:hover > div.lapor-edit-profile-image ~ img:hover,
+.lapor-edit-image-container:hover > div.lapor-edit-profile-image ~ img:hover ~ i:hover{
+  opacity: .5;
+}
+.lapor-edit-image-container > div.lapor-edit-profile-image ~ img ~ i{
+  color: white;
+  opacity: 0;
+  position: absolute;
+
+  top: calc((100% - 130px) / 2);
+  left: calc((100% - 130px) / 2);
+  transition: all .3s ease;
+}
+.lapor-edit-image-container > div.lapor-edit-profile-image ~ img:hover ~ i,
+.lapor-edit-image-container > div.lapor-edit-profile-image ~ img ~ i:hover{
+  opacity: 1;
+}
+.lapor-edit-image-container > div.lapor-edit-profile-image ~ img ~ i.fa-camera::after{
+  content: "Change Image";
+  position: absolute;
+  top: 130px;
+  left: 10px;
+
+  font-family: 'Lato', sans-serif;
+  color: currentColor;
+  font-size: 12pt;
+}
+.lapor-edit-image-container > div.lapor-edit-profile-image ~ img ~ i.fa-window-close::after{
+  content: "Cannot change Cover Image during Edit Mode";
+  position: absolute;
+  top: 130px;
+  left: calc((200px - 100%) / -2);
+
+  width: 200px;
+
+  font-family: 'Lato', sans-serif;
+  color: currentColor;
+  font-size: 12pt;
+  text-align: center;
+}
+.lapor-profile-motto{
+  font-size: 24pt;
+  text-align: center;
+  
+  margin-top: 45px;
+  margin-bottom: 45px;
+}
+.lapor-profile-biodata,
+.lapor-profile-section{
+  margin: 20px;
+  position: relative;
+}
+.lapor-profile-section{
+  margin-top: 20px;
+}
+.lapor-profile-biodata > b,
+.lapor-profile-section > b{
+  display: block;
+  margin-top: 40px;
+  margin-bottom: 20px;
+
+  font-family: 'Open Sans', sans-serif;
+  font-size: 22pt;
+  font-weight: 700;
+}
+.lapor-profile-biodata > div.lapor-portfolio-item,
+.lapor-profile-section > div.lapor-portfolio-section-item > div.lapor-portfolio-item{
+  display: grid;
+  grid-template-columns: 40px 150px calc(100% - 40px - 150px);
+  margin-top: 15px;
+
+  font-family: 'Open Sans', sans-serif;
+  font-size: 16pt;
+  font-weight: 400;
+  line-height: 35px;
+}
+.lapor-profile-biodata > div.lapor-portfolio-item > div ~ b,
+  .lapor-profile-section > div.lapor-portfolio-section-item > div.lapor-portfolio-item > div ~ b{
+  display: block;
+  width: 150px;
+
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 700;
+  line-height: 35px;
+}
+.lapor-profile-biodata > div.lapor-portfolio-item > div,
+.lapor-profile-section > div.lapor-portfolio-section-item > div.lapor-portfolio-item > div{
+  width: 35px;
+  height: 35px;
+
+  margin-right: 10px;
+}
+.lapor-profile-biodata > div.lapor-portfolio-item > div > i,
+.lapor-profile-section > div.lapor-portfolio-section-item > div.lapor-portfolio-item > div > i{
+  width: 100%;
+  text-align: center;
+}
+.lapor-profile-description > div{
+  font-size: 17pt;
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 200;
+  font-style: italic;
+
+  text-align: center;
+  letter-spacing: 1px;
+  line-height: 24pt;
+
+  margin-top: 20px;
+  color: #282828;
+}
