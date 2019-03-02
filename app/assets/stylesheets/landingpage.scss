@@ -29,7 +29,6 @@
 .lapor-how-to-card{
     margin: 10px;
     width: 240px;
-    height: 335px;
     background: white;
     box-shadow: 0px 0px 13px 0px rgba(17, 17, 17, .5);
     border-radius: 6px;
@@ -40,6 +39,92 @@
     text-align: center;
 
     cursor: pointer;
+}
+.lapor-landing-page-background-desc > h1{
+    font-family: 'Oswald', sans-serif; 
+    color: white; 
+    
+    width: 100%; 
+    font-size: 54pt; 
+    text-align: left; 
+    line-height: 50pt; 
+}
+.lapor-landing-page-background-desc span{
+    color: white; 
+    font-size: 12pt
+}
+.lapor-landing-page-footer{
+    background: #323232; 
+    height: 160px; 
+    margin-top: 30px; 
+    position: relative;
+}
+@media screen and (min-width: 865px){
+    .lapor-landing-page-footer > div:nth-child(2){
+        display: none;
+    }
+    .lapor-landing-page-signup-button{
+        margin: 15px;
+    }
+}
+@media screen and (max-width: 865px){
+    .lapor-landing-page-footer > div:nth-child(1){
+        display: none;
+    }
+    .lapor-landing-page-footer > div:nth-child(2){
+        padding-top: 20px;
+        width: 100vw;
+        display: flex;
+        flex-direction: column;
+        text-align: center;
+    }
+    .lapor-landing-page-signup-button{
+        margin: auto;
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
+}
+@media screen and (min-width: 954px){
+    .lapor-landing-page-background-desc{
+        top: 30%;
+        left: 72px;
+    }
+    .lapor-landing-page-card-container{
+        width: 60vw;
+    }
+    .lapor-landing-page-large-desc{
+        width: 70vw;
+        display: flex;
+    }
+}
+@media screen and (min-width: 515px) and (max-width: 954px){
+    .lapor-landing-page-background-desc{
+        top: 23%;
+        left: 36px;
+        padding-left: 18px;
+        padding-right: 18px;
+    }
+    .lapor-landing-page-large-desc{
+        width: 90vw;
+        display: flex;
+    }
+}
+@media screen and (max-width: 515px){
+    .lapor-landing-page-button{
+        display: none;
+    }
+    .lapor-landing-page-background-desc{
+        padding-left: 15px;
+        padding-right: 15px;
+        top: 15%;
+        left: 0;
+    }
+    .lapor-landing-page-large-desc{
+        width: 90vw;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
 }
 .lapor-landing-page-button{
     font-family: 'Oswald', sans-serif;
@@ -82,7 +167,6 @@
     text-align: center;
     
     padding: 12px;
-    margin: 15px;
     border: 1px solid white;
     border-radius: 8px;
     
@@ -101,17 +185,14 @@
     overflow: hidden;
 }
 .lapor-landing-page-background-desc{
-    width: 100%; 
     display: none;
-
     position: absolute; 
     z-index: 1; 
-    top: 30%; 
-    left: 72px;
 }
 .lapor-landing-page-large-title{
     font-family: 'Oswald', sans-serif;
     font-size: 36pt; 
+    line-height: 34pt;
     width: 100%; 
     
     margin-top: 54px; 
@@ -119,7 +200,6 @@
     text-align: center; 
 }
 .lapor-landing-page-large-desc{
-    width: 70vw;
     padding-top: 10px;   
     margin: auto; 
     
@@ -128,11 +208,7 @@
     line-height: 24pt;
     letter-spacing: 2px;
 
-    display: flex;
     justify-content: space-between;
-}
-.lapor-landing-page-card-container{
-    width: 60vw;
 }
 .lapor-landing-page-large-title > span:hover, .lapor-how-to-card:hover{
     color: #686868;
