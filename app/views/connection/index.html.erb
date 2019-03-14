@@ -2,7 +2,7 @@
     <%= notice %>
 </p>
 
-<div style="display: flex; justify-content: space-between;">
+<div class="lapor-connect-dashboard">
     <div class="lapor-userbox">
         <div class="lapor-userbox-profile">
             <% if @user.profile == nil || @user.profile.profile_picture == '' || @user.profile.profile_picture == nil %>
@@ -13,7 +13,7 @@
         </div>
         <h1><%= session[:username] %></h1>
     </div>
-    <div style="width: 60%;">
+    <div>
         <% @users.each do |user| %>
             <% @counter = 0 %>
             <% if user.id != session[:user_id] %>
@@ -25,10 +25,10 @@
                             <%= image_tag user.profile.profile_picture, :class => "lapor-profile-resize"  %>
                         <% end %>
                     </div>
-                    <div style="grid-area: name;">
+                    <div>
                         <h1><%= user.username %></h1>
                     </div>
-                    <div style="position: relative; grid-area: add;">
+                    <div>
                             <% @friendship.each do |i| %>
                                 <% if i.user_id == user.id && i.friend == session[:user_id] && i.status == 1 || i.user_id == session[:user_id] && i.friend == user.id && i.status == 1 %>
                                     <a class="lapor-connect-add-button lapor-connect-remove-button" href="<%= removeFriend_path(user.id) %>">

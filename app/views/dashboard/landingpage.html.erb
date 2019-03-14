@@ -11,7 +11,7 @@
         <% if user_is_logged_in? %>
             <%= link_to("Dashboard", dashboard_path, :class => 'lapor-landing-page-button lapor-red-font') %>
         <% else %>
-            <%= link_to("Sign In", signin_path, :class => 'lapor-landing-page-button lapor-red-font') %>
+            <%= link_to("Sign Up", signup_path, :class => 'lapor-landing-page-button lapor-red-font') %>
         <% end %>
     </div>
 </div>
@@ -22,9 +22,15 @@
             <b>Keeping your achievements safe, while making you a profile to show off!</b> 
             <br />
             Upload your work, and see you progress through the times.
-            Register now for a free account.
+            <% if !user_is_logged_in? %>
+                Register now for a free account.
+            <% end %>
         </span>
-        <%= link_to("Sign In", signin_path, :class => 'lapor-landing-page-signup-button') %>
+        <% if user_is_logged_in? %>
+            <%= link_to("Dashboard", dashboard_path, :class => 'lapor-landing-page-signup-button') %>
+        <% else %>
+            <%= link_to("Sign Up", signup_path, :class => 'lapor-landing-page-signup-button') %>
+        <% end %>
     </div>
     <%= link_to("PORTLUV", root_path, :class => 'lapor-landing-page-title') %>
     <% if user_is_logged_in? %>
@@ -86,7 +92,11 @@
         <span>
             Create something awesome today!
         </span>
-        <%= link_to("Sign In", signin_path, :class => 'lapor-landing-page-signup-button lapor-landing-page-footer-signup-button') %>
+        <% if user_is_logged_in? %>
+            <%= link_to("Dashboard", dashboard_path, :class => 'lapor-landing-page-signup-button lapor-landing-page-footer-signup-button') %>
+        <% else %>
+            <%= link_to("Sign Up", signup_path, :class => 'lapor-landing-page-signup-button lapor-landing-page-footer-signup-button') %>
+        <% end %>
     </div>
     <span>
         Have a problem?

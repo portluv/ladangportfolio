@@ -22,15 +22,15 @@
     <%= form.hidden_field :summary, id: :sumInput %>
   <% end %>
 
-  <div id="modal" style="z-index: 3; display: none; top: 0; left: 0; position: fixed; background: rgba(192,192,192,0.7); width: 100vw; height: 100vh;">
-    <div id="profilePictureForm" style="display: none; background: white; left: calc((100vw - 400px) / 2); width: 400px; padding: 20px; top: calc((100vh - 300px) / 2); position: absolute;">
+  <div id="modal" class="lapor-edit-profile-modal">
+    <div id="profilePictureForm">
       <h1>Profile Picture</h1>
       <div class="field">
         <%= form.label :profile_picture, 'Choose file to upload' %><br>
         <%= form.file_field :profile_picture %>
       </div>
     </div>
-    <div id="homePictureForm" style="display: none; background: white; left: calc((100vw - 400px) / 2); width: 400px; padding: 20px; top: calc((100vh - 300px) / 2); position: absolute;">
+    <div id="homePictureForm">
       <h1>Home Picture</h1>
       <div class="field">
         <%= form.label :home_picture, 'Choose file to upload' %><br>
@@ -44,93 +44,8 @@
   </div>
 <% end %> 
 
-  <style>
-    .lapor-profile-motto > i{
-      display: flex;
-      justify-content: center;
-    } 
-    .lapor-edit-profile-submit{
-      position: fixed;
-      width: 240px;
-      bottom: 10px;
-      right: 30px;
-      z-index: 25;
-      transition: all .5s;
-    }
-    [contentEditable=true]{
-      outline: none;
-    }
-    [contentEditable=true]:empty:not(:focus):before{
-      content:attr(data-text);
-      color: grey;
-    }
-    
-    .lapor-profile-description > div[contentEditable=true]:empty:not(:focus):before{
-      font-weight: 400;
-      font-style: normal;
-      font-size: 20pt;
-
-      letter-spacing: 0px;
-      text-align: left;
-    }
-    #laporAddSection{
-      background: white; 
-      box-shadow: 0px 0px 20px 5px #cecece; 
-      border-radius: 50%; 
-      
-      width: 75px; 
-      height: 75px; 
-      
-      position: fixed; 
-      bottom: 10px; 
-      left: 30px; 
-      
-      cursor: pointer;
-    }
-    #laporAddSection > i{
-      display: inline-block; 
-      text-align: center; 
-      width: 100%; 
-      line-height: 75px; 
-      color: #888888;
-    }
-    .lapor-add-section-sub-button{
-      position: absolute;
-
-      width: 0px; 
-      height: 0px;
-      opacity: 0;  
-      
-      background: white; 
-      box-shadow: 0px 0px 10px 2px #cecece;
-      border-radius: 50%;
-
-      transition: all .5s ease;
-    }
-    .lapor-add-section-sub-button > i{
-      display: inline-block; 
-      text-align: center; 
-      width: 100%; 
-      line-height: 35px; 
-      color: #888888;
-      transition: all .5s ease;
-    }
-    .lapor-add-section-sub-button:nth-child(1){
-      top: -50px; 
-      left: calc((75px / 2) - (35px / 2));
-    }
-    .lapor-add-section-sub-button:nth-child(2){
-      top: -25px; 
-      left: 75px;
-    }
-    .lapor-add-section-sub-button:nth-child(3){
-      top: calc((100px / 2) - (35px / 2)); 
-      left: 90px;
-    }
-  </style>
-
-  <div class="lapor-edit-profile-title" style="margin: auto;">
-    <div class="lapor-edit-profile-name" style="display: flex; justify-content: center;">
+  <div class="lapor-edit-profile-title">
+    <div class="lapor-edit-profile-name">
       <div>Welcome,&nbsp;</div>
       <div id="nameDiv" contentEditable="true" data-text="Please enter your name">
         <% if @user.profile == nil || @user.profile.fullname == '' %>
@@ -149,7 +64,7 @@
       <% else %>
           <%= image_tag @user.profile.profile_picture, :class => "lapor-profile-resize"  %>
       <% end %>
-      <i class="fas fa-camera fa-8x"></i>
+      <i class="fas fa-camera lapor-edit-profile-logo"></i>
     </div>
     <% if @user.profile == nil || @user.profile.home_picture == '' || @user.profile.home_picture == nil  %>
         <%= image_tag "web_assets/anonymous/profile_background.jpg", :class => "lapor-profile-resize",  :id => "laporEditHomePicture" %>
@@ -167,7 +82,7 @@
     </i>
   </div>
 
-  <div style="display: grid; grid-template-columns: 50% 50%;">
+  <div class="lapor-profile-section-container">
     <div class="lapor-first-new-section">
         <% if @user.profile != nil &&
               (
@@ -230,13 +145,13 @@
   
   <div id="laporAddSection">
     <div class="lapor-add-section-sub-button">
-      <i class="fas fa-user" style="font-size: 0pt; line-height: 0px;"></i>
+      <i class="fas fa-user"></i>
     </div>
     <div class="lapor-add-section-sub-button">
-      <i class="fas fa-stream" style="font-size: 0pt; line-height: 0px;"></i>
+      <i class="fas fa-stream"></i>
     </div>
     <div class="lapor-add-section-sub-button">
-      <i class="fas fa-quote-left" style="font-size: 0pt; line-height: 0px;"></i>
+      <i class="fas fa-quote-left"></i>
     </div>
     <i class="fas fa-plus fa-4x"></i>
   </div>

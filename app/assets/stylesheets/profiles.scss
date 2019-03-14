@@ -111,16 +111,19 @@
   color: #c93434;
 }
 .lapor-edit-profile-title{
-  position: relative; padding-top: 50px;
+  position: relative;
+  margin: auto;
 }
 .lapor-edit-profile-title:hover > .lapor-edit-profile-button{
   opacity: 1;
   top: 10px;
 }  
 .lapor-edit-profile-name{
+  display: flex;
+  justify-content: center;
+
   text-align: center; 
   font-weight: bold; 
-  font-size: 30pt;
 
   transition: all .5s ease;
   cursor: pointer; 
@@ -129,18 +132,11 @@
   padding-top: 15px;
 }
 .lapor-edit-profile-image{
-  width: 200px; 
-  height: 200px; 
-  
   background: grey; 
   position: absolute; 
   z-index: 2;
-  border: 13px solid white; 
   border-radius: 50%; 
   overflow: hidden; 
-  
-  top: -106.5px; 
-  left: calc((100% - 226px) / 2); 
   cursor: pointer;
 }
 .lapor-edit-profile-image:hover > img{
@@ -148,24 +144,14 @@
 }
 .lapor-edit-profile-image i{
   color: white; 
-  
   position: absolute; 
-  top: calc((100% - 104px) / 2); 
-  left: calc((100% - 104px) / 2);
-
   opacity: 0;
 }
 .lapor-edit-profile-image i.fa-camera::after{
   content: "Change Profile Picture";
   position: absolute;
-  top: 104px;
-  left: 0px;
-
-  width: 120px;
-
   font-family: 'Lato', sans-serif;
   color: currentColor;
-  font-size: 8pt;
 }
 .lapor-edit-profile-image i.fa-window-close::after{
   content: "Cannot change Profile Picture during Edit Mode";
@@ -185,12 +171,10 @@
   transition: all .3s ease;
 }
 .lapor-edit-image-container{
-  width: 100%; 
-  height: 400px; 
-  
+  width: 80vw; 
+  height: calc(80vw / 2.6); 
   background: dimgrey; 
   position: relative; 
-  margin-top: 200px;
 
   cursor: pointer;
 }
@@ -240,9 +224,6 @@
 .lapor-profile-motto{
   font-size: 24pt;
   text-align: center;
-  
-  margin-top: 45px;
-  margin-bottom: 45px;
 }
 .lapor-profile-biodata,
 .lapor-profile-section{
@@ -259,17 +240,13 @@
   margin-bottom: 20px;
 
   font-family: 'Open Sans', sans-serif;
-  font-size: 22pt;
   font-weight: 700;
 }
 .lapor-profile-biodata > div.lapor-portfolio-item,
 .lapor-profile-section > div.lapor-portfolio-section-item > div.lapor-portfolio-item{
   display: grid;
-  grid-template-columns: 40px 150px calc(100% - 40px - 150px);
-  margin-top: 15px;
 
   font-family: 'Open Sans', sans-serif;
-  font-size: 16pt;
   font-weight: 400;
   line-height: 35px;
 }
@@ -295,15 +272,286 @@
   text-align: center;
 }
 .lapor-profile-description > div{
-  font-size: 17pt;
   font-family: 'Open Sans', sans-serif;
   font-weight: 200;
   font-style: italic;
 
   text-align: center;
   letter-spacing: 1px;
-  line-height: 24pt;
 
-  margin-top: 20px;
   color: #282828;
+}
+@media screen and (min-width: 765px){
+  .lapor-profile-description > div{
+    font-size: 17pt;
+    line-height: 24pt;
+    margin-top: 20px;
+  }
+}
+@media screen and (min-width: 435px) and (max-width: 765px){
+  .lapor-profile-description > div{
+    font-size: 14pt;
+    line-height: 21pt;
+    margin-top: 10px;
+  }
+}
+@media screen and (max-width: 435px){
+  .lapor-profile-description > div{
+    font-size: 12pt;
+    line-height: 18pt;
+  }
+}
+@media screen and (min-width: 506px){
+  .lapor-profile-biodata > div.lapor-portfolio-item, 
+  .lapor-profile-section > div.lapor-portfolio-section-item > div.lapor-portfolio-item{
+    grid-template-columns: 40px 150px calc(100% - 40px - 150px);
+    font-size: 16pt;
+    margin-top: 15px;
+  }
+  .lapor-profile-biodata > b,
+  .lapor-profile-section > b{
+    font-size: 22pt;
+  }
+}
+@media screen and (min-width: 416px) and (max-width: 506px){
+  .lapor-profile-biodata > div.lapor-portfolio-item, 
+  .lapor-profile-section > div.lapor-portfolio-section-item > div.lapor-portfolio-item{
+    grid-template-columns: 40px 120px calc(100% - 40px - 120px);
+    font-size: 12pt;
+    margin-top: 10px;
+  }
+  .lapor-profile-biodata > b,
+  .lapor-profile-section > b{
+    font-size: 18pt;
+  }
+}
+@media screen and (max-width: 416px){
+  .lapor-profile-biodata > div.lapor-portfolio-item, 
+  .lapor-profile-section > div.lapor-portfolio-section-item > div.lapor-portfolio-item{
+    grid-template-columns: 40px 110px calc(100% - 40px - 110px);
+    font-size: 10pt;
+  }
+  .lapor-profile-biodata > b,
+  .lapor-profile-section > b{
+    font-size: 16pt;
+  }
+}
+.lapor-edit-profile-modal{
+  z-index: 3; 
+  display: none; 
+  top: 0; 
+  left: 0; 
+  position: fixed; 
+  background: rgba(192,192,192,0.7); 
+  
+  width: 100vw; 
+  height: 100vh;
+}
+.lapor-edit-profile-modal > div#profilePictureForm,
+.lapor-edit-profile-modal > div#homePictureForm{
+  display: none; 
+  background: white; 
+  left: calc((100vw - 400px) / 2); 
+  width: 400px; 
+  padding: 20px; 
+  top: calc((100vh - 300px) / 2); 
+  position: absolute;
+}
+@media screen and (min-width: 745px){
+  .lapor-edit-profile-image{
+    width: 200px; 
+    height: 200px; 
+  
+    border: 13px solid white; 
+    top: -106.5px; 
+    left: calc((100% - 226px) / 2); 
+  }
+  .lapor-edit-profile-image i{
+    top: calc((100% - 104px) / 2); 
+    left: calc((100% - 104px) / 2);
+  }
+  .lapor-edit-profile-image i.fa-camera::after{
+    top: 104px;
+    left: 0px;
+    width: 104px;
+    font-size: 8pt;
+    text-align: center;
+  }
+  .lapor-edit-profile-logo{
+    font-size: 8em;
+  }
+  .lapor-edit-profile-name{
+    font-size: 30pt;
+    line-height: 30pt;
+  }
+  .lapor-profile-motto{
+    font-size: 24pt;
+    margin-top: 45px;
+    margin-bottom: 45px;
+  }
+  .lapor-edit-image-container{
+    margin-top: 150px;
+  }
+  .lapor-edit-profile-title{
+    padding-top: 50px;
+  }
+}
+@media screen and (min-width: 612px) and (max-width: 745px){
+  .lapor-edit-profile-image{
+    width: 175px; 
+    height: 175px; 
+  
+    border: 10px solid white; 
+    top: -97.5px; 
+    left: calc((100% - 195px) / 2); 
+  }
+  .lapor-edit-profile-image i{
+    top: calc((100% - 78px) / 2); 
+    left: calc((100% - 78px) / 2);
+  }
+  .lapor-edit-profile-image i.fa-camera::after{
+    top: 78px;
+    left: 0px;
+    width: 78px;
+    font-size: 7pt;
+    text-align: center;
+  }
+  .lapor-edit-profile-logo{
+    font-size: 6em;
+  }
+  .lapor-edit-profile-name{
+    font-size: 26pt;
+    line-height: 26pt;
+  }
+  .lapor-profile-motto{
+    font-size: 20pt;
+    margin-top: 25px;
+    margin-bottom: 25px;
+  }
+  .lapor-edit-image-container{
+    margin-top: 120px;
+  }
+  .lapor-edit-profile-title{
+    padding-top: 35px;
+  }
+}
+@media screen and (min-width: 426px) and (max-width: 612px){
+  .lapor-edit-profile-image{
+    width: 150px; 
+    height: 150px; 
+  
+    border: 7px solid white; 
+    top: -82px; 
+    left: calc((100% - 164px) / 2); 
+  }
+  .lapor-edit-profile-image i{
+    top: calc((100% - 65px) / 2); 
+    left: calc((100% - 65px) / 2);
+  }
+  .lapor-edit-profile-image i.fa-camera::after{
+    top: 65px;
+    left: 0px;
+    width: 65px;
+    font-size: 7pt;
+    text-align: center;
+  }
+  .lapor-edit-profile-logo{
+    font-size: 5em;
+  }
+  .lapor-edit-profile-name{
+    font-size: 26pt;
+    line-height: 26pt;
+    flex-direction: column;
+  }
+  .lapor-profile-motto{
+    font-size: 14pt;
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
+  .lapor-edit-image-container{
+    margin-top: 110px;
+  }
+  .lapor-edit-profile-title{
+    padding-top: 25px;
+  }
+}
+@media screen and (min-width: 354px) and (max-width: 426px){
+  .lapor-edit-profile-image{
+    width: 125px; 
+    height: 125px; 
+  
+    border: 5px solid white; 
+    top: -66.5px; 
+    left: calc((100% - 135px) / 2); 
+  }
+  .lapor-edit-profile-image i{
+    top: calc((100% - 52px) / 2); 
+    left: calc((100% - 52px) / 2);
+  }
+  .lapor-edit-profile-image i.fa-camera::after{
+    top: 52px;
+    left: 0px;
+    width: 52px;
+    font-size: 7pt;
+    text-align: center;
+  }
+  .lapor-edit-profile-logo{
+    font-size: 4em;
+  }
+  .lapor-edit-profile-name{
+    font-size: 20pt;
+    line-height: 20pt;
+    flex-direction: column;
+  }
+  .lapor-profile-motto{
+    font-size: 12pt;
+    margin-top: 20px;
+    margin-bottom: 15px;
+  }
+  .lapor-edit-image-container{
+    margin-top: 90px;
+  }
+  .lapor-edit-profile-title{
+    padding-top: 20px;
+  }
+}
+@media screen and (max-width: 354px){
+  .lapor-edit-profile-image{
+    width: 100px; 
+    height: 100px; 
+  
+    border: 3px solid white; 
+    top: -53px; 
+    left: calc((100% - 106px) / 2); 
+  }
+  .lapor-edit-profile-image i{
+    top: calc((100% - 39px) / 2); 
+    left: calc((100% - 39px) / 2);
+  }
+  .lapor-edit-profile-image i.fa-camera::after{
+    top: 39px;
+    left: calc((53px - 39px) / -2);
+    width: 53px;
+    font-size: 6pt;
+    text-align: center;
+  }
+  .lapor-edit-profile-logo{
+    font-size: 3em;
+  }
+  .lapor-edit-profile-name{
+    font-size: 20pt;
+    line-height: 20pt;
+    flex-direction: column;
+  }
+  .lapor-profile-motto{
+    font-size: 10pt;
+    margin-top: 15px;
+    margin-bottom: 10px;
+  }
+  .lapor-edit-image-container{
+    margin-top: 70px;
+  }
+  .lapor-edit-profile-title{
+    padding-top: 15px;
+  }
 }
