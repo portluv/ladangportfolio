@@ -419,10 +419,10 @@
 .lapor-edit-profile-modal > div#homePictureForm{
   display: none; 
   background: white; 
-  left: calc((100vw - 400px) / 2); 
-  width: 400px; 
-  padding: 20px; 
-  top: calc((100vh - 300px) / 2); 
+  margin: 15px;
+  width: calc(100% - 70px);
+  padding: 20px;
+  top: calc((100vh - 120px) / 2);
   position: absolute;
 }
 .lapor-edit-profile-submit{
