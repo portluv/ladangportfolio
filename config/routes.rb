@@ -10,7 +10,7 @@ Rails.application.routes.draw do
   get    '/home', to: 'dashboard#home'
   get    '/profile/:id', to: 'users#index', as: 'viewProfile'
   get    '/profile', to: 'users#edit', as: 'editProfile'
-  post '/profile/update', to: 'users#createProfile'
+  post '/profile/update', to: 'users#createProfile', as: 'create_new_profile'
   put '/profile/update/:id', to: 'users#updateProfile', as: 'put_profile'
   patch '/profile/update/:id', to: 'users#updateProfile', as: 'patch_profile'
   get   '/dashboard',  to: 'dashboard#index'

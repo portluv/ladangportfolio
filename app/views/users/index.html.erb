@@ -19,7 +19,7 @@
     <% else %>
         <%= image_tag @user.profile.profile_picture, :class => "lapor-profile-resize"  %>
     <% end %>
-    <i class="fas fa-camera fa-8x"></i>
+    <i class="fas fa-camera lapor-edit-profile-logo"></i>
   </div>
   <% if @user.profile == nil || @user.profile.home_picture == '' || @user.profile.home_picture == nil  %>
       <%= image_tag "web_assets/anonymous/profile_background.jpg", :class => "lapor-profile-resize",  :id => "laporEditHomePicture" %>
@@ -35,8 +35,8 @@
   </div>
 <% end %>
 
-<div style="display: grid; grid-template-columns: 50% 50%;">
-  <div>
+<div class="lapor-profile-section-container">
+  <div class="lapor-first-new-section">
     <% if @user.profile != nil &&
           (
             @user.profile.dateofbirth != nil && @user.profile.dateofbirth != '' || 
@@ -58,7 +58,9 @@
               <i class="fas fa-birthday-cake"></i>
             </div>
             <b>Date of Birth</b>
-            <%= @user.profile.dateofbirth == nil ? '' : @user.profile.dateofbirth.strftime("%d %B %Y") %>
+            <span>
+              <%= @user.profile.dateofbirth == nil ? '' : @user.profile.dateofbirth.strftime("%d %B %Y") %>
+            </span>
           </div>
         <% end %>
         <% if @user.profile.gender != nil && @user.profile.gender != '' %>
@@ -67,7 +69,9 @@
               <i class="fas fa-<%= @user.profile.gender == 'Male' ? 'mars' : 'venus' %>"></i>
             </div>
             <b>Sex</b>
-            <%= @user.profile.gender %>
+            <span>
+              <%= @user.profile.gender %>
+            </span>
           </div>
         <% end %>
         <% if @user.profile.phone != nil && @user.profile.phone != '' %>
@@ -76,7 +80,9 @@
               <i class="fas fa-phone"></i>
             </div>
             <b>Phone</b>
-            <%= @user.profile.phone %>
+            <span>
+              <%= @user.profile.phone %>
+            </span>
           </div>
         <% end %>
         <% if @user.profile.address != nil && @user.profile.address != '' %>
@@ -85,7 +91,9 @@
               <i class="fas fa-map-marker-alt"></i>
             </div>
             <b>Address</b>
-            <%= @user.profile.address %>
+            <span>
+              <%= @user.profile.address %>
+            </span>
           </div>
         <% end %>
         <% if @user.profile.nationality != nil && @user.profile.nationality != '' %>
@@ -94,13 +102,15 @@
               <i class="fas fa-flag"></i>
             </div>
             <b>Nationality</b>
-            <%= @user.profile.nationality %>
+            <span>
+              <%= @user.profile.nationality %>
+            </span>
           </div>
         <% end %>
       </div>
     <% end %>
   </div>
-  <div>
+  <div class="lapor-second-new-section">
     <% if @user.profile != nil && @user.profile.summary != nil && @user.profile.summary != ''%>
       <div class="lapor-profile-description">
         <div><%= @user.profile.summary %></div>
@@ -109,16 +119,16 @@
   </div>
 </div>
 
-<div id="modal" style="z-index: 3; display: none; top: 0; left: 0; position: fixed; background: rgba(192,192,192,0.7); width: 100vw; height: 100vh;">
-    <div id="profilePictureForm" style="display: none; background: white; left: calc((100vw - 400px) / 2); width: 400px; padding: 20px; top: calc((100vh - 300px) / 2); position: absolute;">
+<div id="modal" class="lapor-edit-profile-modal lapor-profile-modal">
+    <div id="profilePictureForm">
         <h1>Profile Picture</h1>
         <%= render 'uploadProfilePicture', profile: @profile %>    
     </div>
-    <div id="homePictureForm" style="display: none; background: white; left: calc((100vw - 400px) / 2); width: 400px; padding: 20px; top: calc((100vh - 300px) / 2); position: absolute;">
+    <div id="homePictureForm">
         <h1>Home Picture</h1>
         <%= render 'uploadHomePicture', profile: @profile %>    
     </div>
-    <div id="noticePopUp" style="display: none; background: white; left: calc((100vw - 400px) / 2); width: 400px; padding: 20px; top: calc((100vh - 300px) / 2); position: absolute;">
+    <div id="noticePopUp">
       <%= notice %>
     </div>
 </div>  

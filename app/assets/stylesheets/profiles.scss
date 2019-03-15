@@ -128,9 +128,6 @@
   transition: all .5s ease;
   cursor: pointer; 
 }
-.lapor-edit-profile-title:hover > .lapor-edit-profile-name-move{
-  padding-top: 15px;
-}
 .lapor-edit-profile-image{
   background: grey; 
   position: absolute; 
@@ -420,15 +417,22 @@
   display: none; 
   background: white; 
   margin: 15px;
-  width: calc(100% - 70px);
   padding: 20px;
-  top: calc((100vh - 120px) / 2);
+  top: calc((100vh - 160px) / 2);
   position: absolute;
 }
 .lapor-edit-profile-submit{
     position: fixed;
     z-index: 25;
     transition: all .5s;
+}
+.lapor-profile-modal > div#profilePictureForm, 
+.lapor-profile-modal > div#homePictureForm{
+  top: calc((100vh - 230px) / 2);
+}
+.lapor-profile-modal > div > form > div.actions > input{
+  height: 45px;
+  font-size: 13pt;
 }
 @media screen and (min-width: 745px){
   .lapor-edit-profile-image{
@@ -484,6 +488,14 @@
   .lapor-edit-profile-submit > input.lapor-form-button{
     height: 60px;
     font-size: 16pt;
+  }
+  .lapor-edit-profile-title:hover > .lapor-edit-profile-name-move{
+    padding-top: 15px;
+  }
+  .lapor-edit-profile-modal > div#profilePictureForm,
+  .lapor-edit-profile-modal > div#homePictureForm{
+    width: 426px;
+    left: calc((100% / 2) - (496px / 2));
   }
 }
 @media screen and (min-width: 612px) and (max-width: 745px){
@@ -541,6 +553,14 @@
   .lapor-edit-profile-submit > input.lapor-form-button{
     height: 40px;
     font-size: 14pt;
+  }
+  .lapor-edit-profile-title:hover > .lapor-edit-profile-name-move{
+    padding-top: 20px;
+  }
+  .lapor-edit-profile-modal > div#profilePictureForm,
+  .lapor-edit-profile-modal > div#homePictureForm{
+    width: 426px;
+    left: calc((100% / 2) - (496px / 2));
   }
 }
 @media screen and (min-width: 426px) and (max-width: 612px){
@@ -600,6 +620,14 @@
     height: 40px;
     font-size: 14pt;
   }
+  .lapor-edit-profile-title:hover > .lapor-edit-profile-name-move{
+    padding-top: 27px;
+  }
+  .lapor-edit-profile-modal > div#profilePictureForm,
+  .lapor-edit-profile-modal > div#homePictureForm{
+    width: 380px;
+    left: calc((100% / 2) - (450px / 2));
+  }
 }
 @media screen and (min-width: 354px) and (max-width: 426px){
   .lapor-edit-profile-image{
@@ -658,6 +686,14 @@
     height: 30px;
     font-size: 11pt;
   }
+  .lapor-edit-profile-title:hover > .lapor-edit-profile-name-move{
+    padding-top: 30px;
+  }
+  .lapor-edit-profile-modal > div#profilePictureForm,
+  .lapor-edit-profile-modal > div#homePictureForm{
+    width: calc(100% - 70px);
+    left: 0;
+  }
 }
 @media screen and (max-width: 354px){
   .lapor-edit-profile-image{
@@ -715,5 +751,12 @@
   .lapor-edit-profile-submit > input.lapor-form-button{
     height: 27px;
     font-size: 10pt;
+  }
+  .lapor-edit-profile-title:hover > .lapor-edit-profile-name-move{
+    padding-top: 33px;
+  }
+  .lapor-edit-profile-modal > div#profilePictureForm,
+  .lapor-edit-profile-modal > div#homePictureForm{
+    width: calc(100% - 70px);
   }
 }

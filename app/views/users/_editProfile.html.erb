@@ -1,4 +1,4 @@
-<%= form_with(model: profile, url: @profile.user_id == nil ? profile_update_path(@profile) : patch_profile_path(@profile), local: true, class: "lapor-profile-form", html: { autocomplete: "off" }) do |form| %>
+<%= form_with(model: profile, url: @profile.user_id == nil ? create_new_profile_path(@profile) : put_profile_path(@profile), local: true, class: "lapor-profile-form", html: { autocomplete: "off" }) do |form| %>
   <%= form.hidden_field :fullname, id: :nameInput %>
   <%= form.hidden_field :lifemotto, id: :mottoInput %>
   
