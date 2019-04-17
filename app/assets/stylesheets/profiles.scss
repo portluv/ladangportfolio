@@ -2,21 +2,19 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-@media screen and (min-width: 425px){
+@media screen and (min-width: 1200px){
   .lapor-userbox{
       width: 350px;
   }
 }
 
-@media screen and (max-width: 425px){
+@media screen and (max-width: 1200px){
   .lapor-userbox{
       width: 100%;
   }
 }
 
 .lapor-userbox{
-    height: 125px;
-
     background: white;
     border-radius: 15px 0 15px 0;
 
@@ -24,6 +22,8 @@
     padding-bottom: 10px;
 
     position: relative;
+}
+.lapor-userbox > div:nth-child(1){
     display: flex;
 }
 
@@ -32,22 +32,98 @@
     height: 100%;
 }
 .lapor-userbox-profile{
-    width: 60px;
-    height: 60px;
+    width: 100px;
+    height: 100px;
     border-radius: 50%;
+
+    position: absolute;
+    top: -50px;
+    left: 20px;
+    
     margin: 10px;
     overflow: hidden;
 }
-.lapor-userbox > h1{
-    height: auto;
+.lapor-userbox > div > .lapor-userbox-profile ~ h1.lapor-userbox-name{
+    font-size: 24pt;
     margin: 10px;
-    font-size: 26px;
-    --size: calc((60px - 26px) / 2);
+    margin-left: 150px;
+    --size: calc((40px - 26px) / 2);
     margin-top: calc(var(--size) + 10px);
 }
 
-.lapor-profile{
+.lapor-userbox > div:nth-child(2){
+  margin-top: 20px;
+  margin-bottom: 5px;
+}
+
+.lapor-userbox > div:nth-child(2) > *{
+  font-size: 16pt;
+  color: grey;
+
+  margin-left: 20px;
+}
+
+.lapor-profile,
+div.lapor-profile.lapor-create > div:nth-child(1){
     display: flex;
+}
+div.lapor-profile.lapor-create{
+  justify-content: space-between
+}
+div.lapor-profile.lapor-create > div > div.lapor-profile-picture{
+  overflow: hidden
+}
+div.lapor-profile.lapor-create > div#uploadModalShow{
+  width: 100px; 
+  height: 28px; 
+  background: #dd5858; 
+  color: white; 
+  border-radius: 5px;
+
+  text-align: center;
+  line-height: 27px; 
+
+  cursor: pointer; 
+}
+div#modal.lapor-upload-book-modal{
+  display: none; 
+  top: 0; 
+  left: 0; 
+  position: fixed; 
+  
+  background: rgba(192,192,192,0.7); 
+  width: 100vw; 
+  height: 100vh;
+}
+div#modal.lapor-upload-book-modal > div#uploadWorkbook{
+  display: none; 
+  background: white; 
+  left: calc((100vw - 400px) / 2); 
+  width: 400px; 
+  padding: 20px; 
+  top: calc((100vh - 300px) / 2); 
+  position: absolute;
+}
+div#shelf > div#shelfBookContainer{
+  display: flex; 
+  padding-left: 7px;
+  padding-right: 7px; 
+  width: calc(200px - 14px); 
+  height: calc(594px * 4 / 10);
+}
+
+a#workbook.lapor-workbook > span{
+  position: absolute; 
+  bottom: 0; 
+  left: calc(36px / 4 * 3); 
+  
+  transform: rotate(-90deg); 
+  color: white; 
+  text-decoration: none; 
+  transform-origin: bottom left; 
+  text-align: center; 
+  font-size: 12pt; 
+  width: 237px;
 }
 
 .lapor-profile-picture{
@@ -189,6 +265,7 @@
   transition: all .3s ease;
   font-size: 10vw;
 }
+.lap
 .lapor-edit-image-container > div.lapor-edit-profile-image ~ img:hover ~ i,
 .lapor-edit-image-container > div.lapor-edit-profile-image ~ img ~ i:hover{
   opacity: 1;
@@ -325,6 +402,16 @@
       top: calc((100px / 2) - (35px / 2)); 
       left: 90px;
   }
+  div.lapor-profile-education > div.lapor-twitbox-space-circles{
+    background: white;
+    width: 30px;
+    height: 30px;
+    margin: auto;
+    margin-top: 33px;
+    margin-bottom: 33px;
+    border-radius: 50%;
+    box-shadow: 1px 1px 3px 1px rgba(0, 0, 0, 0.5);
+  }
 }
 @media screen and (min-width: 416px) and (max-width: 506px){
   .lapor-profile-biodata > div.lapor-portfolio-item, 
@@ -356,6 +443,16 @@
   .lapor-add-section-sub-button:nth-child(3){
       top: calc((100px / 2) - (50px / 2)); 
       left: 73px;
+  }
+  div.lapor-profile-education > div.lapor-twitbox-space-circles{
+    background: white;
+    width: 21px;
+    height: 21px;
+    margin: auto;
+    margin-top: 27px;
+    margin-bottom: 27px;
+    border-radius: 50%;
+    box-shadow: 1px 1px 3px 0px rgba(0, 0, 0, 0.5);
   }
 }
 @media screen and (max-width: 416px){
@@ -399,6 +496,16 @@
   .lapor-add-section-sub-button:nth-child(3){
       top: calc((100px / 2) - (80px / 2)); 
       left: 60px;
+  }
+  div.lapor-profile-education > div.lapor-twitbox-space-circles{
+    background: white;
+    width: 15px;
+    height: 15px;
+    margin: auto;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    border-radius: 50%;
+    box-shadow: 1px 1px 3px 0px rgba(0, 0, 0, 0.5);
   }
 }
 .lapor-edit-profile-modal{

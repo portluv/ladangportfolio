@@ -109,6 +109,100 @@
         <% end %>
       </div>
     <% end %>
+    <% if @user.profile.education != nil %>
+      <% @headerFlag = false %>
+      <% @user.profile.education.each_with_index do |education, index| %>
+        <% if education != nil &&
+                (
+                  education.degree != nil && education.degree != '' || 
+                  education.join_date != nil && education.join_date != '' ||
+                  education.end_date != nil && education.end_date != '' ||
+                  education.firm_id != nil && education.firm_id != ''
+                )
+        %>
+          <% if @headerFlag == false %>
+            <div class="lapor-profile-biodata lapor-profile-education">
+              <b>Education</b>
+              <hr>
+          <% end %>
+          <% if @headerFlag == true %>
+            <div class="lapor-twitbox-space-circles"></div>
+          <% end %>
+          <div class="lapor-portfolio-item">
+            <div>
+              <i class="fas fa-graduation-cap"></i>
+            </div>
+            <b>Degree</b>
+            <span id="degDiv" data-text="Degree"><%= education.degree %></span>
+          </div>
+          <div class="lapor-portfolio-item">
+            <div>
+              <i class="fas fa-calendar-alt"></i>
+            </div>
+            <b>Join Date</b>
+            <span id="joinDiv" data-text="dd/mm/yyyy"><%= education.join_date == nil ? '' : education.join_date.strftime("%d %B %Y") %></span>
+          </div>
+          <div class="lapor-portfolio-item">
+            <div>
+              <i class="fas fa-calendar-alt"></i>
+            </div>
+            <b>End Date</b>
+            <span id="endDiv" data-text="dd/mm/yyyy"><%= education.end_date == nil ? '' : education.end_date.strftime("%d %B %Y") %></span>
+          </div>
+          <% @headerFlag = true %>
+          <% if index == @user.profile.education.size - 1 %>
+            </div>
+          <% end %>
+        <% end %>
+      <% end %>
+    <% end %>
+    <% if @user.profile.experience != nil %>
+      <% @headerFlag = false %>
+      <% @user.profile.experience.each_with_index do |experience, index| %>
+        <% if experience != nil &&
+          (
+            experience.position != nil && experience.position != '' || 
+            experience.start_date != nil && experience.start_date != '' ||
+            experience.end_date != nil && experience.end_date != '' ||
+            experience.firm_id != nil && experience.firm_id != ''
+          )
+        %>
+          <% if @headerFlag == false %>
+            <div class="lapor-profile-biodata lapor-profile-education">
+              <b>Experience</b>
+              <hr>
+          <% end %>
+          <% if @headerFlag == true %>
+            <div class="lapor-twitbox-space-circles"></div>
+          <% end %>
+          <div class="lapor-portfolio-item">
+            <div>
+              <i class="fas fa-briefcase"></i>
+            </div>
+            <b>Position</b>
+            <span class="posDiv" contentEditable="true" data-text="Position"><%= experience.position %></span>
+          </div>
+          <div class="lapor-portfolio-item">
+            <div>
+              <i class="fas fa-calendar-alt"></i>
+            </div>
+            <b>Start Date</b>
+            <span class="startExDiv" contentEditable="true" data-text="dd/mm/yyyy"><%= experience.start_date == nil ? '' : experience.start_date.strftime("%d %B %Y") %></span>
+          </div>
+          <div class="lapor-portfolio-item">
+            <div>
+              <i class="fas fa-calendar-alt"></i>
+            </div>
+            <b>End Date</b>
+            <span class="endExDiv" contentEditable="true" data-text="dd/mm/yyyy"><%= experience.end_date == nil ? '' : experience.end_date.strftime("%d %B %Y") %></span>
+          </div>
+          <% @headerFlag = true %>
+          <% if index == @user.profile.experience.size - 1 %>
+            </div>
+          <% end %>
+        <% end %>
+      <% end %>
+    <% end %>
   </div>
   <div class="lapor-second-new-section">
     <% if @user.profile != nil && @user.profile.summary != nil && @user.profile.summary != ''%>
@@ -116,6 +210,8 @@
         <div><%= @user.profile.summary %></div>
       </div>
     <% end %>
+  </div>
+  <div class="lapor-third-new-section">
   </div>
 </div>
 

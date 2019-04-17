@@ -4,8 +4,41 @@
 
 <script>
     $(document).ready(function(){
+        let userBox = document.getElementsByClassName('lapor-userbox')[0];
+        let userBoxHeight = 0;
+        let userBoxDefaultHeight = 0;
+        let userBoxInnerContainer = userBox.getElementsByClassName('lapor-userbox-get-height');
+        let userBoxDefaultInnerContainer = userBox.getElementsByClassName('lapor-userbox-default-height');
+        let innerContainerStyle = 0;
+        for(let i = 0; i < 2; i++){
+            userBoxDefaultHeight += userBoxDefaultInnerContainer[i].clientHeight;
+            if(i == 1){
+                innerContainerStyle = userBoxDefaultInnerContainer[i].currentStyle || window.getComputedStyle(userBoxDefaultInnerContainer[i]);
+                userBoxDefaultHeight += parseInt(
+                    innerContainerStyle.marginTop.substr(0, 
+                        innerContainerStyle.marginTop.lastIndexOf("px")
+                    )
+                );
+                userBoxDefaultHeight += parseInt(
+                    innerContainerStyle.marginBottom.substr(0, 
+                        innerContainerStyle.marginBottom.lastIndexOf("px")
+                    )
+                );
+            }
+        }
+        userBox.style.height = userBoxDefaultHeight.toString() + "px";
+
+        let statusTwitbox = document.getElementById("statusTwitbox");
+        statusTwitbox.value = "";
+        window.onresize = function(){
+            statusTwitbox.style.height =  0;
+            statusTwitbox.style.height = statusTwitbox.scrollHeight + "px";
+            statusTwitbox.style.overflow = "hidden";
+        }
         function countChar(val) {
-            var len = val.length;
+            statusTwitbox.style.height = statusTwitbox.scrollHeight + "px";
+            statusTwitbox.style.overflow = "hidden";
+            let len = val.length;
             if (len > 500) {
                 val = val.substring(0, 500);
             } else {
@@ -24,25 +57,98 @@
         $('#statusTwitbox').on('keypress', function() {
             countChar($('#statusTwitbox').val());
         });
+
+        let laporUserBoxDetail = document.getElementById('laporUserBoxDetail');
+        let toggleButton = document.getElementsByClassName('fa-angle-down')[0];
+        toggleButton.onclick = function(){
+            if(document.getElementsByClassName('fa-angle-up')[0] == toggleButton){
+                toggleButton.classList.remove("fa-angle-up");
+                userBox.style.height = userBoxDefaultHeight.toString() + "px";
+                laporUserBoxDetail.style.display = "none";
+                laporUserBoxDetail.style.opacity = "0";
+            }
+            else{
+                laporUserBoxDetail.style.display = "block";
+                if(userBoxHeight === 0){
+                    for(let i = 0; i < userBoxInnerContainer.length; i++){
+                        console.log(userBoxInnerContainer[i].clientHeight);
+                        userBoxHeight += userBoxInnerContainer[i].clientHeight;
+                        if(i > 0){
+                            innerContainerStyle = userBoxInnerContainer[i].currentStyle || window.getComputedStyle(userBoxInnerContainer[i]);
+                            userBoxHeight += parseInt(
+                                innerContainerStyle.marginTop.substr(0, 
+                                    innerContainerStyle.marginTop.lastIndexOf("px")
+                                )
+                            );
+                            userBoxHeight += parseInt(
+                                innerContainerStyle.marginBottom.substr(0, 
+                                    innerContainerStyle.marginBottom.lastIndexOf("px")
+                                )
+                            );
+                        }
+                    }
+                }
+                toggleButton.classList.add("fa-angle-up");
+                userBox.style.height = userBoxHeight.toString() + "px";
+                setTimeout(function(){
+                    laporUserBoxDetail.style.opacity = "1";
+                }, 300)
+            }
+        }
     })
 </script>
+
+<style>
+    .lapor-userbox{
+        height: 90px;
+        transition: all .3s ease;
+    }
+    #laporUserBoxDetail{
+        transition: all .3s ease-in;
+        margin-top: 20px; 
+        display: none; 
+        opacity: 0;
+    }
+</style>
 
 <% if session[:username] %>
     <div class="lapor-dashboard-main">
         <div class="lapor-userbox">
-            <div class="lapor-userbox-profile">
-                <% if @user.profile == nil || @user.profile.profile_picture == '' || @user.profile.profile_picture == nil %>
-                    <%= image_tag "web_assets/anonymous/profile_male.jpg", :class => "lapor-profile-resize" %>
-                <% else %>
-                    <%= image_tag @user.profile.profile_picture, :class => "lapor-profile-resize"  %>
-                <% end %>
+            <div class="lapor-userbox-default-height lapor-userbox-get-height">
+                <div class="lapor-userbox-profile">
+                    <% if @user.profile == nil || @user.profile.profile_picture == '' || @user.profile.profile_picture == nil %>
+                        <%= image_tag "web_assets/anonymous/profile_male.jpg", :class => "lapor-profile-resize" %>
+                    <% else %>
+                        <%= image_tag @user.profile.profile_picture, :class => "lapor-profile-resize"  %>
+                    <% end %>
+                </div>
+                <h1 class="lapor-userbox-name"><%= session[:username] %></h1>
             </div>
-            <h1><%= session[:username] %></h1>
+            <div class="lapor-userbox-default-height lapor-userbox-get-height">
+                <i>"<%= @user.profile.lifemotto %>"</i>
+            </div>
+            <div id="laporUserBoxDetail" class="lapor-userbox-get-height">
+                <div>
+                    <i>"<%= @user.profile.lifemotto %>"</i>
+                </div>
+                <div>
+                    <i>"<%= @user.profile.lifemotto %>"</i>
+                </div>
+                <div>
+                    <i>"<%= @user.profile.lifemotto %>"</i>
+                </div>
+                <div>
+                    <i>"<%= @user.profile.lifemotto %>"</i>
+                </div>
+            </div>
+            <div class="lapor-profile-height-trigger">
+                <i class="fas fa-angle-down"></i>
+            </div>
         </div>
         <div class="lapor-twitbox">
             <%= form_for(:status, url: newstatus_path(@status), local: true) do |form| %>
                 <div class="lapor-twitbox-form">
-                    <%= form.text_area(:status, :id => "statusTwitbox", :rows => "9", :cols => "70", :maxlength => "500", :class => "lapor-twitbox-input") %>
+                    <%= form.text_area(:status, :id => "statusTwitbox", :placeholder => "Write your thoughts..", :cols => "70", :maxlength => "500", :class => "lapor-twitbox-input") %>
                     <div class="lapor-twitbox-form-accessories">
                         <div id="statusCount">0/500</div>
                         <%= form.submit "Post", class: 'lapor-twitbox-small-button' %>

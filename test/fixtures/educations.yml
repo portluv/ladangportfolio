@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  user: one
+  firm: one
+  degree: MyString
+  join_date: 2019-03-18
+  end_date: 2019-03-18
+
+two:
+  user: two
+  firm: two
+  degree: MyString
+  join_date: 2019-03-18
+  end_date: 2019-03-18

@@ -23,6 +23,11 @@ body{
     user-zoom: none;
 }
 
+textarea{
+    font-family: 'Lato', sans-serif;
+    font-size: 14pt;
+}
+
 .ui-page-active { 
     outline: none; 
 }
@@ -95,15 +100,15 @@ input:-webkit-autofill {
 }
 
 .lapor-navbar-item{
-    --fontSize: 18px;
+    --fontSize: 10pt;
     --parentHeight: 42px;
     
     font-size: var(--fontSize);
     color: white;
     text-decoration: none;
 
-    margin-left: 15px;
-    margin-right: 15px;
+    margin-left: 25px;
+    margin-right: 25px;
     line-height: var(--parentHeight);
 
     transition: all .5s;

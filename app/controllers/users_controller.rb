@@ -7,8 +7,20 @@ class UsersController < ApplicationController
       @user = User.find_by(username: session[:username])
       if(@user.profile != nil)
         @profile = @user.profile
+        if(@profile.education != nil)
+          @education = @profile.education
+        else
+          @education = Education.new
+        end
+        if(@profile.experience != nil)
+          @experience = @profile.experience
+        else
+          @experience = Experience.new
+        end
       else
         @profile = Profile.new
+        @education = Education.new
+        @experience = Experience.new
       end
     else
       redirect_to root_path
@@ -20,8 +32,20 @@ class UsersController < ApplicationController
       @user = User.find_by(username: session[:username])
       if(@user.profile != nil)
         @profile = @user.profile
+        if(@profile.education != nil)
+          @education = @profile.education
+        else
+          @education = Education.new
+        end
+        if(@profile.experience != nil)
+          @experience = @profile.experience
+        else
+          @experience = Experience.new
+        end
       else
         @profile = Profile.new
+        @education = Education.new
+        @experience = Experience.new
       end
     else
       redirect_to root_path
@@ -133,11 +157,25 @@ class UsersController < ApplicationController
       @profile.home_picture = "user_assets/#{session[:username]}/#{session[:username]}_home_picture#{File.extname(file.original_filename) == '.jpg' ? '.jpeg' : File.extname(file.original_filename)}"
     end
     
+    if params[:profile][:education_attributes].present?
+      params[:profile][:education_attributes].each do |index, param|
+        param[:firm_id] = 1
+        param[:profile_id] = @profile.id
+        if param[:id] === "" and param[:degree] != ""
+          createEducation(param)
+        elsif param[:id] != ""
+          education = Education.find_by(id: param[:id])
+          updateEducation(education, param)
+        end
+      end
+    end
+    
     respond_to do |format|
       if @profile.update(profile_params)
         puts @profile.profile_picture
         format.html { redirect_to viewProfile_path, notice: 'Profile updated.' }
       else
+        print(@profile.errors.full_messages)
         format.html { render :index }
         format.json { render json: @profile.errors, status: :unprocessable_entity }
       end
@@ -158,6 +196,40 @@ class UsersController < ApplicationController
   end
 
   private
+  # To create education based on education data sent through param
+    def createEducation(params)
+      @education = Education.new
+      @education.profile_id = params[:profile_id]
+      @education.firm_id = params[:firm_id]
+      @education.degree = params[:degree]
+      @education.join_date = params[:join_date]
+      @education.end_date = params[:end_date]
+      @education.save
+    end
+
+    # To update education based on education model sent through param
+    def updateEducation(education, params)
+      @education = education
+      @education.update(degree: params[:degree], join_date: params[:join_date], end_date: params[:end_date])
+    end
+
+    # To create experience based on experience data sent through param
+    def createExperience(params)
+      @experience = Experience.new
+      @experience.profile_id = params[:profile_id]
+      @experience.firm_id = params[:firm_id]
+      @experience.position = params[:position]
+      @experience.start_date = params[:start_date]
+      @experience.end_date = params[:end_date]
+      @experience.save
+    end
+
+    # To update experience based on experience model sent through param
+    def updateExperience(experience, params)
+      @experience = experience
+      @experience.update(position: params[:position])
+    end
+
     # Use callbacks to share common setup or constraints between actions.
     def set_user
       @user = User.find(params[:id])
@@ -166,6 +238,11 @@ class UsersController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_profile
       @profile = Profile.find(params[:id])
+    end
+
+    # Use callbacks to share common setup or constraints between actions.
+    def set_education
+      @education = Education.find(params[:id])
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
@@ -180,6 +257,6 @@ class UsersController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def profile_params
-      params.require(:profile).permit(:fullname, :dateofbirth, :gender, :phone, :address, :nationality, :degree, :lifemotto, :summary, :id)
+      params.require(:profile).permit(:fullname, :dateofbirth, :gender, :phone, :address, :nationality, :degree, :lifemotto, :summary, :id, :education_attributes)
     end   
 end

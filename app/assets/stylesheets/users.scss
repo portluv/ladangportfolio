@@ -159,19 +159,29 @@
 .lapor-profile-section-container{
     display: grid; 
 }
+.lapor-first-new-section{
+    grid-area: bio;
+}
+.lapor-second-new-section{
+    grid-area: sum;
+}
+.lapor-third-new-section{
+    grid-area: misc;
+}
 @media screen and (min-width: 987px){
     .lapor-profile-section-container{
         grid-template-columns: 50% 50%;
+        grid-template-rows: auto auto;
+        grid-template-areas: "bio sum"
+                             "bio misc";
     }
 }
 @media screen and (max-width: 987px){
     .lapor-profile-section-container{
         grid-template-columns: 100%;
-        grid-template-rows: auto auto;
-        grid-template-areas: "desc"
-                             "bio";
-    }
-    .lapor-second-new-section{
-        grid-area: desc;
+        grid-template-rows: auto auto auto;
+        grid-template-areas: "sum"
+                             "bio"
+                             "misc";
     }
 }

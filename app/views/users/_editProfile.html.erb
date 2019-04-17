@@ -1,4 +1,4 @@
-<%= form_with(model: profile, url: @profile.user_id == nil ? create_new_profile_path(@profile) : put_profile_path(@profile), local: true, class: "lapor-profile-form", html: { autocomplete: "off" }) do |form| %>
+<%= form_with(model: profile, url: @profile.user_id == nil ? create_new_profile_path(@profile) : put_profile_path(@profile), local: true, id: 'editProfileForm', class: "lapor-profile-form", html: { autocomplete: "off" }) do |form| %>
   <%= form.hidden_field :fullname, id: :nameInput %>
   <%= form.hidden_field :lifemotto, id: :mottoInput %>
   
@@ -22,6 +22,21 @@
     <%= form.hidden_field :summary, id: :sumInput %>
   <% end %>
 
+  <div id="addInput">
+    <% if @user.profile != nil && @user.profile.education != nil%>
+      <% @user.profile.education.each do |education| %>
+        <%= form.fields_for :education, education do |education_form| %>
+            <%= education_form.hidden_field :degree, class: :degInput %>
+            <%= education_form.hidden_field :firm_id, class: :firmIDInput %>
+            <%= education_form.hidden_field :profile_id, class: :profileIDInput %>
+            <%= education_form.hidden_field :join_date, class: :joinInput %>
+            <%= education_form.hidden_field :end_date, class: :endInput %>
+        <% end %>
+      <% end %>
+    <% end %>
+    <div id="addInputEducation"></div>
+  </div>
+
   <div id="modal" class="lapor-edit-profile-modal">
     <div id="profilePictureForm">
       <h1>Profile Picture</h1>
@@ -40,7 +55,7 @@
   </div>  
   
   <div class="lapor-edit-profile-submit">
-    <%= form.submit "Save Edits", class: 'lapor-form-button' %>
+    <%= form.submit "Save Edits", id: 'editProfileSubmitButton', class: 'lapor-form-button' %>
   </div>
 <% end %> 
 
@@ -73,9 +88,9 @@
     <% end %>
     <i class="fas fa-camera fa-10x"></i>
   </div>
-
   <div class="lapor-profile-motto">
     <i>
+
       <div>"</div>
       <div id="mottoDiv" class="lapor-edit-life-motto" contenteditable="true" data-text="Add your life motto"><%= @user.profile == nil || @user.profile.lifemotto == nil ? '' : @user.profile.lifemotto %></div>
       <div>"</div>
@@ -84,14 +99,14 @@
 
   <div class="lapor-profile-section-container">
     <div class="lapor-first-new-section">
-        <% if @user.profile != nil &&
-              (
-                @user.profile.dateofbirth != nil && @user.profile.dateofbirth != '' || 
-                @user.profile.gender != nil && @user.profile.gender != '' ||
-                @user.profile.phone != nil && @user.profile.phone != '' ||
-                @user.profile.address != nil && @user.profile.address != '' ||
-                @user.profile.nationality != nil && @user.profile.nationality != '' 
-              )
+      <% if @user.profile != nil &&
+            (
+              @user.profile.dateofbirth != nil && @user.profile.dateofbirth != '' || 
+              @user.profile.gender != nil && @user.profile.gender != '' ||
+              @user.profile.phone != nil && @user.profile.phone != '' ||
+              @user.profile.address != nil && @user.profile.address != '' ||
+              @user.profile.nationality != nil && @user.profile.nationality != '' 
+            )
       %>
         <div class="lapor-profile-biodata">
           <b>Biodata</b>
@@ -132,6 +147,102 @@
             <span id="nationDiv" contentEditable="true" data-text="Nationality"><%= @user.profile.nationality %></span> 
           </div>
         </div>
+
+        
+        <% if @user.profile.education != nil %>
+          <% @headerFlag = false %>
+          <% @user.profile.education.each_with_index do |education, index| %>
+            <% if education != nil &&
+                    (
+                      education.degree != nil && education.degree != '' || 
+                      education.join_date != nil && education.join_date != '' ||
+                      education.end_date != nil && education.end_date != '' ||
+                      education.firm_id != nil && education.firm_id != ''
+                    )
+            %>
+              <% if @headerFlag == false %>
+                <div class="lapor-profile-biodata lapor-profile-education">
+                  <b>Education</b>
+                  <hr>
+              <% end %>
+                <% if @headerFlag == true %>
+                  <div class="lapor-twitbox-space-circles"></div>
+                <% end %>
+                  <div class="lapor-portfolio-item">
+                    <div>
+                      <i class="fas fa-graduation-cap"></i>
+                    </div>
+                    <b>Degree</b>
+                    <span class="degDiv" contentEditable="true" data-text="Degree"><%= education.degree %></span>
+                  </div>
+                  <div class="lapor-portfolio-item">
+                    <div>
+                      <i class="fas fa-calendar-alt"></i>
+                    </div>
+                    <b>Join Date</b>
+                    <span class="joinDiv" contentEditable="true" data-text="dd/mm/yyyy"><%= education.join_date == nil ? '' : education.join_date.strftime("%d %B %Y") %></span>
+                  </div>
+                  <div class="lapor-portfolio-item">
+                    <div>
+                      <i class="fas fa-calendar-alt"></i>
+                    </div>
+                    <b>End Date</b>
+                    <span class="endDiv" contentEditable="true" data-text="dd/mm/yyyy"><%= education.end_date == nil ? '' : education.end_date.strftime("%d %B %Y") %></span>
+                  </div>
+                <% @headerFlag = true %>
+              <% if index == @user.profile.education.size - 1 %>
+                </div>
+              <% end %>
+            <% end %>
+          <% end %>
+        <% end %>
+        <% if @user.profile.experience != nil %>
+          <% @headerFlag = false %>
+            <% @user.profile.experience.each_with_index do |experience, index| %>
+              <% if experience != nil &&
+                      (
+                        experience.degree != nil && experience.degree != '' || 
+                        experience.join_date != nil && experience.join_date != '' ||
+                        experience.end_date != nil && experience.end_date != '' ||
+                        experience.firm_id != nil && experience.firm_id != ''
+                      )
+              %>
+                <% if @headerFlag == false %>
+                  <div class="lapor-profile-biodata lapor-profile-education">
+                    <b>Experience</b>
+                    <hr>
+                <% end %>
+                <% if @headerFlag == true %>
+                  <div class="lapor-twitbox-space-circles"></div>
+                <% end %>
+                <div class="lapor-portfolio-item">
+                  <div>
+                    <i class="fas fa-briefcase"></i>
+                  </div>
+                  <b>Position</b>
+                  <span class="posDiv" contentEditable="true" data-text="Position"><%= experience.position %></span>
+                </div>
+                <div class="lapor-portfolio-item">
+                  <div>
+                    <i class="fas fa-calendar-alt"></i>
+                  </div>
+                  <b>Start Date</b>
+                  <span class="startExDiv" contentEditable="true" data-text="dd/mm/yyyy"><%= experience.start_date == nil ? '' : experience.start_date.strftime("%d %B %Y") %></span>
+                </div>
+                <div class="lapor-portfolio-item">
+                  <div>
+                    <i class="fas fa-calendar-alt"></i>
+                  </div>
+                  <b>End Date</b>
+                  <span class="endExDiv" contentEditable="true" data-text="dd/mm/yyyy"><%= experience.end_date == nil ? '' : experience.end_date.strftime("%d %B %Y") %></span>
+                </div>
+                <% @headerFlag = true %>
+                <% if index == @user.profile.experience.size - 1 %>
+                  </div>
+                <% end %>
+            <% end %>
+          <% end %>
+        <% end %>
       <% end %>
     </div>
     <div class="lapor-second-new-section">
@@ -140,6 +251,8 @@
           <div id="sumDiv" contentEditable="true" data-text="Describe yourself..."><%= @user.profile.summary %></div>
         </div>
       <% end %>
+    </div>
+    <div class="lapor-third-new-section">
     </div>
   </div>
   
@@ -151,12 +264,21 @@
       <i class="fas fa-stream"></i>
     </div>
     <div class="lapor-add-section-sub-button">
-      <i class="fas fa-quote-left"></i>
+      <i class="fas fa-file-alt"></i>
     </div>
     <i class="fas fa-plus fa-4x"></i>
   </div>
 
   <script>
+    document.addEventListener("paste", function(e) {
+        // cancel paste
+        e.preventDefault();
+        // get text representation of clipboard
+        var text = (e.originalEvent || e).clipboardData.getData('text/plain');
+        // insert text manually
+        document.execCommand("insertHTML", false, text);
+    });
+
     if (!Element.prototype.matches) {
       Element.prototype.matches = 
         Element.prototype.matchesSelector || 
@@ -207,6 +329,93 @@
       contentIsEmptyCheck('mottoDiv');
     }
     
+    delegate(document, "click", "#editProfileSubmitButton", function(e){
+      e.preventDefault();
+      let nameDiv = document.getElementById('nameDiv');
+      let mottoDiv = document.getElementById('mottoDiv');
+      let sumDiv = document.getElementById('sumDiv');
+      let dobDiv = document.getElementById('dobDiv');
+      let genderDiv = document.getElementById('genderDiv');
+      let addressDiv = document.getElementById('addressDiv');
+      let nationDiv = document.getElementById('nationDiv');
+      let phoneDiv = document.getElementById('phoneDiv');
+      let degDiv = document.getElementsByClassName('degDiv');
+      let joinDiv = document.getElementsByClassName('joinDiv');
+      let endDiv = document.getElementsByClassName('endDiv');
+      let posDiv = document.getElementsByClassName('posDiv');
+      let startExDiv = document.getElementsByClassName('startExDiv');
+      let endExDiv = document.getElementsByClassName('endExDiv');
+
+      let nameInput = document.getElementById('nameInput');
+      nameInput.value = nameDiv.innerHTML;
+
+      let mottoInput = document.getElementById('mottoInput');
+      mottoInput.value = mottoDiv.innerHTML;
+      
+      if(sumDiv){
+        let sumInput = document.getElementById('sumInput');
+        sumInput.value = sumDiv.innerHTML;
+      }
+      if(dobDiv){
+        let dobInput = document.getElementById('dobInput');
+        dobInput.value = dobDiv.innerHTML;
+      }
+      if(genderDiv){
+        let genderInput = document.getElementById('genderInput');
+        genderInput.value = genderDiv.innerHTML;
+      }
+      if(phoneDiv){
+        let phoneInput = document.getElementById('phoneInput');
+        phoneInput.value = phoneDiv.innerHTML;
+      }
+      if(addressDiv){
+        let addressInput = document.getElementById('addressInput');
+        addressInput.value = addressDiv.innerHTML;
+      }
+      if(nationDiv){
+        let nationInput = document.getElementById('nationInput');
+        nationInput.value = nationDiv.innerHTML;
+      }
+      if(degDiv){
+        let degInput = document.getElementsByClassName('degInput');
+        for(let i = 0; i < degDiv.length; i++){
+          degInput[i].value = degDiv[i].innerHTML;
+        }
+      }
+      if(joinDiv){
+        let joinInput = document.getElementsByClassName('joinInput');
+        for(let i = 0; i < joinDiv.length; i++){
+          joinInput[i].value = joinDiv[i].innerHTML;
+        }
+      }
+      if(endDiv){
+        let endInput = document.getElementsByClassName('endInput');
+        for(let i = 0; i < endDiv.length; i++){
+          endInput[i].value = endDiv[i].innerHTML;
+        }
+      }
+      if(posDiv){
+        let posInput = document.getElementsByClassName('posInput');
+        for(let i = 0; i < posDiv.length; i++){
+          posInput[i].value = posDiv[i].innerHTML;
+        }
+      }
+      if(startExDiv){
+        let startExInput = document.getElementsByClassName('startExInput');
+        for(let i = 0; i < startExDiv.length; i++){
+          startExInput[i].value = startExDiv[i].innerHTML;
+        }
+      }
+      if(endExDiv){
+        let endExInput = document.getElementsByClassName('endExInput');
+        for(let i = 0; i < endExDiv.length; i++){
+          endExInput[i].value = endExDiv[i].innerHTML;
+        }
+      }
+
+      document.getElementById('editProfileForm').submit();
+    });
+
     $(document).ready(function(){
       lifemottoQuotationCheck();
       $('.lapor-edit-life-motto[contentEditable=true]').on('input', function(){
@@ -236,8 +445,12 @@
 
     $('.lapor-first-new-section').on('blur', '.lapor-profile-section > b', function(){
       if(!document.querySelectorAll('.lapor-profile-add-section-item')[0] && $('.lapor-profile-section > b').html() != ''){
-        document.querySelectorAll('.lapor-profile-section')[0].innerHTML += '<div class="lapor-profile-add-section-item">\
-          aaaaaaaaaaaaaaaaaaaaaa\
+        document.querySelectorAll('.lapor-profile-section')[0].innerHTML += '<div class="lapor-portfolio-item">\
+          <div>\
+            <i class="fas fa-birthday-cake"></i>\
+          </div>\
+          <b contentEditable="true" data-text="Title..."></b>\
+          <span contentEditable="true" data-text="..."></span>\
         </div>';  
       }
     });
@@ -245,12 +458,29 @@
     $('#modal').on('click', function(e){
         if (e.target !== this)
           return;
-        else
-        $('#modal').fadeOut(500, function(){
+        else{
+          $('#modal').fadeOut(500, function(){
             $('#profilePictureForm').hide();
             $('#homePictureForm').hide();
-        });
+          });
+        }
     });
+
+    if(document.querySelectorAll('.lapor-profile-biodata')[0]){
+      let addBiodataButton = document.querySelectorAll('.fas.fa-user')[0];
+      if(addBiodataButton){
+        addBiodataButton.classList.add("fa-user-graduate");
+        addBiodataButton.classList.remove("fa-user");
+      }
+    }
+
+    if(document.querySelectorAll('.lapor-profile-description')[0]){
+      let addStreamButton = document.querySelectorAll('.fas.fa-stream')[0];
+      if(addStreamButton){
+        addStreamButton.classList.add("fa-user-tie");
+        addStreamButton.classList.remove("fa-stream");
+      }
+    }
 
     delegate(document, "click", "#laporAddSection", function(){
       let subButton = document.getElementsByClassName('lapor-add-section-sub-button');
@@ -272,7 +502,7 @@
 
     delegate(document, "click", ".lapor-add-section-sub-button:nth-child(1)", function(){
       if(!document.querySelectorAll('.lapor-profile-biodata')[0]){
-        document.querySelectorAll('.lapor-profile-form')[0].innerHTML += '<input id="dobInput" type="hidden" value="" name="profile[dateofbirth]">\
+        document.getElementById('addInput').innerHTML += '<input id="dobInput" type="hidden" value="" name="profile[dateofbirth]">\
           <input id="genderInput" type="hidden" value="" name="profile[gender]">\
           <input id="phoneInput" type="hidden" value="" name="profile[phone]">\
           <input id="addressInput" type="hidden" value="" name="profile[address]">\
@@ -316,21 +546,97 @@
               <span id="nationDiv" contentEditable="true" data-text="Nationality"></span>\
             </div>\
           </div>';
-      };
+
+          let addBiodataButton = document.querySelectorAll('.fas.fa-user')[0];
+          addBiodataButton.classList.add("fa-user-graduate");
+          addBiodataButton.classList.remove("fa-user");
+      }
+      else if(!document.querySelectorAll('.lapor-profile-education')[0]){
+        let degInput = document.getElementsByClassName('degInput');
+        
+        document.getElementById('addInputEducation').innerHTML += '<input class="degInput" type="hidden" value="" name="profile[education_attributes][' + degInput.length + '][degree]">\
+          <input class="joinInput" type="hidden" value="" name="profile[education_attributes][' + degInput.length + '][join_date]">\
+          <input class="endInput" type="hidden" value="" name="profile[education_attributes][' + degInput.length + '][end_date]">\
+          <input class="profileIDInput" type="hidden" value="" name="profile[education_attributes][' + degInput.length + '][profile_id]">\
+          <input class="firmIDInput" type="hidden" value="" name="profile[education_attributes][' + degInput.length + '][firm_id]">;\
+          <input type="hidden" value="" name="profile[education_attributes][' + degInput.length + '][id]">';
+        document.querySelectorAll('.lapor-first-new-section')[0].innerHTML += '<div class="lapor-profile-biodata lapor-profile-education">\
+            <b>Education</b>\
+            <hr>\
+            <div class="lapor-portfolio-item">\
+              <div>\
+                <i class="fas fa-graduation-cap"></i>\
+              </div>\
+              <b>Degree</b>\
+              <span id="degDiv" class="degDiv" contentEditable="true" data-text="Degree"></span>\
+            </div>\
+            <div class="lapor-portfolio-item">\
+              <div>\
+                <i class="fas fa-calendar-alt"></i>\
+              </div>\
+              <b>Join Date</b>\
+              <span id="joinDiv" class="joinDiv" contentEditable="true" data-text="dd/mm/yyyy"></span>\
+            </div>\
+            <div class="lapor-portfolio-item">\
+              <div>\
+                <i class="fas fa-calendar-alt"></i>\
+              </div>\
+              <b>End Date</b>\
+              <span id="endDiv" class="endDiv" contentEditable="true" data-text="dd/mm/yyyy"></span>\
+            </div>\
+          </div>';
+      }
+      else{
+        let degInput = document.getElementsByClassName('degInput');
+        
+        document.getElementById('addInputEducation').innerHTML += '<input class="degInput" type="hidden" value="" name="profile[education_attributes][' + degInput.length + '][degree]">\
+          <input class="joinInput" type="hidden" value="" name="profile[education_attributes][' + degInput.length + '][join_date]">\
+          <input class="endInput" type="hidden" value="" name="profile[education_attributes][' + degInput.length + '][end_date]">\
+          <input class="profileIDInput" type="hidden" value="" name="profile[education_attributes][' + degInput.length + '][profile_id]">\
+          <input class="firmIDInput" type="hidden" value="" name="profile[education_attributes][' + degInput.length + '][firm_id]">\
+          <input type="hidden" value="" name="profile[education_attributes][' + degInput.length + '][id]">';
+        document.querySelectorAll('.lapor-profile-education')[0].innerHTML += '<div class="lapor-twitbox-space-circles"></div>\
+            <div class="lapor-portfolio-item">\
+              <div>\
+                <i class="fas fa-graduation-cap"></i>\
+              </div>\
+              <b>Degree</b>\
+              <span id="degDiv" class="degDiv" contentEditable="true" data-text="Degree"></span>\
+            </div>\
+            <div class="lapor-portfolio-item">\
+              <div>\
+                <i class="fas fa-calendar-alt"></i>\
+              </div>\
+              <b>Join Date</b>\
+              <span id="joinDiv" class="joinDiv" contentEditable="true" data-text="dd/mm/yyyy"></span>\
+            </div>\
+            <div class="lapor-portfolio-item">\
+              <div>\
+                <i class="fas fa-calendar-alt"></i>\
+              </div>\
+              <b>End Date</b>\
+              <span id="endDiv" class="endDiv" contentEditable="true" data-text="dd/mm/yyyy"></span>\
+            </div>\
+          </div>';
+      }
     });
 
     delegate(document, "click", ".lapor-add-section-sub-button:nth-child(2)", function(){
       if(!document.querySelectorAll('.lapor-profile-description')[0]){
-        document.querySelectorAll('.lapor-profile-form')[0].innerHTML += '<input id="sumInput" type="hidden" value="" name="profile[summary]">';
+        document.getElementById('addInput').innerHTML += '<input id="sumInput" type="hidden" value="" name="profile[summary]">';
         document.querySelectorAll('.lapor-second-new-section')[0].innerHTML += '<div class="lapor-profile-description">\
             <input id="sumInput" type="hidden" value="" name="profile[summary]">\
             <div id="sumDiv" contentEditable="true" data-text="Describe yourself..."></div>\
           </div>';
+
+          let addBiodataButton = document.querySelectorAll('.fas.fa-stream')[0];
+          addBiodataButton.classList.add("fa-user-tie");
+          addBiodataButton.classList.remove("fa-stream");
       };
     });
 
     delegate(document, "click", ".lapor-add-section-sub-button:nth-child(3)", function(){
-      document.querySelectorAll('.lapor-first-new-section')[0].innerHTML += '<div id="laporLapor" class="lapor-profile-section">\
+      document.querySelectorAll('.lapor-third-new-section')[0].innerHTML += '<div id="laporLapor" class="lapor-profile-section">\
           <b contentEditable="true" data-text="Section Head.."></b>\
           <hr>\
           <div class="lapor-portfolio-section-item">\

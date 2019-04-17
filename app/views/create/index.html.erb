@@ -2,9 +2,9 @@
     <%= notice %>
 </p>
 
-<div class="lapor-profile" style="justify-content: space-between">
-    <div style="display: flex">
-        <div class="lapor-profile-picture" style="overflow: hidden">
+<div class="lapor-profile lapor-create">
+    <div>
+        <div class="lapor-profile-picture">
             <% if @user.profile == nil || @user.profile.profile_picture == '' || @user.profile.profile_picture == nil  %>
                 <%= image_tag "web_assets/anonymous/profile_male.jpg", :class => "lapor-profile-resize" %>
             <% else %>
@@ -19,7 +19,7 @@
             <% end %>
         </h1>
     </div>
-    <div id="uploadModalShow" style="text-align: center; cursor: pointer; line-height: 27px; width: 100px; height: 28px; background: #dd5858; color: white; border-radius: 5px;">
+    <div id="uploadModalShow">
         Upload
     </div>
 </div>
@@ -30,16 +30,16 @@
         <% if thing.thingtype_id == 1 %>
             <% if @previousType != thing.thingtype_id %>
                 <div id="shelf">
-                    <div id="shelfBookContainer" style="display: flex; padding-left: 7px; padding-right: 7px; width: calc(200px - 14px); height: calc(594px * 4 / 10);">
+                    <div id="shelfBookContainer">
                         <a id="workbook" class="lapor-workbook" data-remote="true" href="<%= loadBookView_path(thing.id)%>">
-                            <span style="position: absolute; bottom: 0; left: calc(36px / 4 * 3); transform: rotate(-90deg); color: white; text-decoration: none; transform-origin: bottom left; text-align: center; font-size: 12pt; width: 237px;">
+                            <span>
                                 <%= thing.name %>
                             </span>
                         </a>
                 <% @previousType = thing.thingtype_id %>
             <% elsif @previousType == thing.thingtype_id %>
                         <a id="workbook" class="lapor-workbook" data-remote="true" href="<%= loadBookView_path(thing.id)%>">
-                            <span style="position: absolute; bottom: 0; left: calc(36px / 4 * 3); transform: rotate(-90deg); color: white; text-decoration: none; transform-origin: bottom left; text-align: center; font-size: 12pt; width: 237px;">
+                            <span>
                                 <%= thing.name %>
                             </span>
                         </a>
@@ -48,12 +48,12 @@
         <% else %>
             <% if @previousType == 1 %>
                     </div>
-                    <div id="woodenShelf" style="width: 270px; height: 27px; border-radius: 7px; background: brown;"></div>
+                    <div id="woodenShelf"></div>
                 </div>
             <% end %>
             <% if thing.thingtype_id == 2 %>
-                <div style="margin-left: 50px; margin-right: 50px; width: 400px; rposition: relative;">
-                    <div class="lapor-frame-box">
+                <div class="lapor-frame-box">
+                    <div>
                         <%= image_tag "user_assets/#{session[:username]}/#{thing.name}/#{thing.name}.jpg", :class => "lapor-frame-image-resize"  %>
                     </div>
                 </div>
@@ -63,15 +63,15 @@
         <% if index == @user.thing.size - 1 %>
             <% if @previousType == 1 %>
                     </div>
-                    <div id="woodenShelf" style="width: 270px; height: 27px; border-radius: 7px; background: brown;"></div>
+                    <div id="woodenShelf"></div>
                 </div>
             <% end %>
         <% end %>
     <% end %>
     </div>
 
-<div id="modal" style="display: none; top: 0; left: 0; position: fixed; background: rgba(192,192,192,0.7); width: 100vw; height: 100vh;">
-    <div id="uploadWorkbook" style="display: none; background: white; left: calc((100vw - 400px) / 2); width: 400px; padding: 20px; top: calc((100vh - 300px) / 2); position: absolute;">
+<div id="modal" class="lapor-upload-book-modal">
+    <div id="uploadWorkbook">
         <h1>Upload a Thing</h1>
         <%= render 'upload', thing: @thing %>    
     </div>
@@ -91,7 +91,8 @@
         $('#closeModal').on('click', function(){
             $('#modal').fadeOut(500, function(){
                 $('#uploadWorkbook').hide();
-                $('#workbookView').hide();
+                $('#workbookView').remove();
+                $('#workBookViewJS').remove();
             });
         });
     });

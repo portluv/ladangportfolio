@@ -10,10 +10,52 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190119025742) do
+ActiveRecord::Schema.define(version: 20190318130237) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "educations", force: :cascade do |t|
+    t.bigint "profile_id"
+    t.bigint "firm_id"
+    t.string "degree"
+    t.date "join_date"
+    t.date "end_date"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["firm_id"], name: "index_educations_on_firm_id"
+    t.index ["profile_id"], name: "index_educations_on_profile_id"
+  end
+
+  create_table "experiences", force: :cascade do |t|
+    t.bigint "profile_id"
+    t.bigint "firm_id"
+    t.string "position"
+    t.date "start_date"
+    t.date "end_date"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["firm_id"], name: "index_experiences_on_firm_id"
+    t.index ["profile_id"], name: "index_experiences_on_profile_id"
+  end
+
+  create_table "firms", force: :cascade do |t|
+    t.string "name"
+    t.string "address"
+    t.string "profile_picture"
+    t.string "home_picture"
+    t.bigint "followers"
+    t.bigint "firmtype_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["firmtype_id"], name: "index_firms_on_firmtype_id"
+  end
+
+  create_table "firmtypes", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "friendships", force: :cascade do |t|
     t.bigint "user_id"
@@ -42,21 +84,21 @@ ActiveRecord::Schema.define(version: 20190119025742) do
     t.index ["user_id"], name: "index_profiles_on_user_id"
   end
 
-  create_table "section_details", force: :cascade do |t|
-    t.string "detail_title"
-    t.string "detail_description"
-    t.bigint "section_header_id"
+  create_table "sections", force: :cascade do |t|
+    t.bigint "profile_id"
+    t.string "title"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["section_header_id"], name: "index_section_details_on_section_header_id"
+    t.index ["profile_id"], name: "index_sections_on_profile_id"
   end
 
-  create_table "section_headers", force: :cascade do |t|
-    t.string "title"
-    t.bigint "user_id"
+  create_table "specialities", force: :cascade do |t|
+    t.bigint "profile_id"
+    t.string "name"
+    t.string "position"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["user_id"], name: "index_section_headers_on_user_id"
+    t.index ["profile_id"], name: "index_specialities_on_profile_id"
   end
 
   create_table "statuses", force: :cascade do |t|
@@ -67,6 +109,16 @@ ActiveRecord::Schema.define(version: 20190119025742) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_statuses_on_user_id"
+  end
+
+  create_table "sub_sections", force: :cascade do |t|
+    t.bigint "section_id"
+    t.string "title"
+    t.string "data"
+    t.string "logo"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["section_id"], name: "index_sub_sections_on_section_id"
   end
 
   create_table "things", force: :cascade do |t|
@@ -93,12 +145,18 @@ ActiveRecord::Schema.define(version: 20190119025742) do
     t.datetime "updated_at", null: false
   end
 
+  add_foreign_key "educations", "firms"
+  add_foreign_key "educations", "profiles"
+  add_foreign_key "experiences", "firms"
+  add_foreign_key "experiences", "profiles"
+  add_foreign_key "firms", "firmtypes"
   add_foreign_key "friendships", "users"
   add_foreign_key "friendships", "users", column: "friend"
   add_foreign_key "profiles", "users"
-  add_foreign_key "section_details", "section_headers"
-  add_foreign_key "section_headers", "users"
+  add_foreign_key "sections", "profiles"
+  add_foreign_key "specialities", "profiles"
   add_foreign_key "statuses", "users"
+  add_foreign_key "sub_sections", "sections"
   add_foreign_key "things", "thingtypes"
   add_foreign_key "things", "users"
 end
