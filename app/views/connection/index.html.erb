@@ -3,21 +3,11 @@
 </p>
 
 <div class="lapor-connect-dashboard">
-    <div class="lapor-userbox">
-        <div class="lapor-userbox-profile">
-            <% if @user.profile == nil || @user.profile.profile_picture == '' || @user.profile.profile_picture == nil %>
-                <%= image_tag "web_assets/anonymous/profile_male.jpg", :class => "lapor-profile-resize" %>
-            <% else %>
-                <%= image_tag @user.profile.profile_picture, :class => "lapor-profile-resize"  %>
-            <% end %>
-        </div>
-        <h1><%= session[:username] %></h1>
-    </div>
-    <div>
-        <% @users.each do |user| %>
-            <% @counter = 0 %>
-            <% if user.id != session[:user_id] %>
-                <div class="lapor-connect-userbox">
+    <% @users.each do |user| %>
+        <% @counter = 0 %>
+        <% if user.id != session[:user_id] %>
+            <div class="lapor-userbox">
+                <div class="lapor-userbox-default-height lapor-userbox-get-height">
                     <div class="lapor-userbox-profile">
                         <% if user.profile == nil || user.profile.profile_picture == '' || user.profile.profile_picture == nil %>
                             <%= image_tag "web_assets/anonymous/profile_male.jpg", :class => "lapor-profile-resize" %>
@@ -25,40 +15,229 @@
                             <%= image_tag user.profile.profile_picture, :class => "lapor-profile-resize"  %>
                         <% end %>
                     </div>
-                    <div>
-                        <h1><%= user.username %></h1>
-                    </div>
-                    <div>
-                            <% @friendship.each do |i| %>
-                                <% if i.user_id == user.id && i.friend == session[:user_id] && i.status == 1 || i.user_id == session[:user_id] && i.friend == user.id && i.status == 1 %>
-                                    <a class="lapor-connect-add-button lapor-connect-remove-button" href="<%= removeFriend_path(user.id) %>">
-                                        <i class="fas fa-check"></i>
-                                        <span>Connected</span>
-                                    </a>
-                                    <% @counter+=1 %>
-                                    <% break %>
-                                <% end %>
-                            <% end %>
-                            <% if @counter == 0 %>
-                                    <a class="lapor-connect-add-button" href="<%= addFriend_path(user.id) %>">
-                                        <i class="fas fa-plus"></i>
-                                        <span>Add</span>
-                                    </a>
-                            <% end %>
-                    </div>
+                    <h1 class="lapor-userbox-name"><%= user.username %></h1>
                 </div>
-            <% end %>
+                <div class="lapor-userbox-default-height lapor-userbox-get-height">
+                    <% if user.profile.lifemotto != nil && user.profile.lifemotto != '' %>
+                        <i>"<%= user.profile.lifemotto %>"</i>
+                    <% end %>
+                </div>
+                <div>
+                    <% @friendship.each do |i| %>
+                        <% if i.user_id == user.id && i.friend == session[:user_id] && i.status == 1 || i.user_id == session[:user_id] && i.friend == user.id && i.status == 1 %>
+                            <a id="laporConnectRemoveButton" class="lapor-connect-friend-button lapor-connect-remove-button" href="<%= removeFriend_path(user.id) %>">
+                                <i class="fas fa-check"></i>
+                            </a>
+                            <% @counter+=1 %>
+                            <% break %>
+                        <% end %>
+                    <% end %>
+                    <% if @counter == 0 %>
+                            <a class="lapor-connect-friend-button" href="<%= addFriend_path(user.id) %>">
+                                <i class="fas fa-plus"></i>
+                            </a>
+                    <% end %>
+                </div>
+                <div class="lapor-userbox-get-height lapor-userbox-detail">
+                    <% if user.email != nil && user.email != '' %>
+                        <div>
+                            <i class="fas fa-envelope"></i>
+                            <span>
+                                <%= user.email %>
+                            </span>
+                        </div>
+                    <% end %>
+                    <% if user.profile != nil && user.profile.phone != '' && user.profile.phone != nil %>
+                        <div>
+                            <i class="fas fa-phone"></i>
+                            <span>
+                                <%= user.profile.phone %>
+                            </span>
+                        </div>
+                    <% end %>
+                    <% if user.profile != nil && user.profile.address != '' && user.profile.address != nil %>
+                        <div>
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>
+                                <%= user.profile.address %>
+                            </span>
+                        </div>
+                    <% end %>
+                </div>
+                <div class="lapor-profile-height-trigger">
+                    <i class="fas fa-angle-down"></i>
+                </div>
+            </div>
         <% end %>
-    </div>
+    <% end %>
 </div>
 
 <script>
-    $('.lapor-connect-remove-button').mouseover(function(){
-        $(this).children('.fas').removeClass('fa-check').addClass('fa-times');
-        $(this).children('span').text('Remove');
-    });
-    $('.lapor-connect-remove-button').mouseout(function(){
-        $(this).children('.fas').removeClass('fa-times').addClass('fa-check');
-        $(this).children('span').text('Connected');
-    });
+    var laporConnectRemoveButton = document.getElementsByClassName("lapor-connect-remove-button");
+    var laporConnectRemoveButtonChildren;
+    if(laporConnectRemoveButton){
+        for(let i = 0; i < laporConnectRemoveButton.length; i++){
+            laporConnectRemoveButton[i].onmouseover = function(){
+                laporConnectRemoveButtonChildren = laporConnectRemoveButton[i].children[0];
+                laporConnectRemoveButtonChildren.classList.add('fa-times');
+                laporConnectRemoveButtonChildren.classList.remove('fa-check');
+            }
+            laporConnectRemoveButton[i].onmouseout = function(){
+                laporConnectRemoveButtonChildren = laporConnectRemoveButton[i].children[0];
+                laporConnectRemoveButtonChildren.classList.add('fa-check');
+                laporConnectRemoveButtonChildren.classList.remove('fa-times');
+            }
+        }
+    }
+
+    var userBox = document.getElementsByClassName('lapor-userbox');
+    var userBoxHeight = [];
+    var userBoxDefaultHeight = [];
+    var userBoxInnerContainer = []
+    var userBoxDefaultInnerContainer = []
+    for(let i = 0; i < userBox.length; i++){
+        userBoxInnerContainer.push(userBox[i].getElementsByClassName('lapor-userbox-get-height'));
+        userBoxDefaultInnerContainer.push(userBox[i].getElementsByClassName('lapor-userbox-default-height'));
+    }
+    var innerContainerStyle;
+    
+    function setUserBoxHeight(){
+        for(let j = 0; j < userBox.length; j++){
+            userBoxHeight[j] = 0;
+            for(let i = 0; i < userBoxInnerContainer[j].length; i++){
+                userBoxHeight[j] += userBoxInnerContainer[j][i].clientHeight;
+                if(i > 0){
+                    innerContainerStyle = userBoxInnerContainer[j][i].currentStyle || window.getComputedStyle(userBoxInnerContainer[j][i]);
+                    userBoxHeight[j] += parseInt(
+                        innerContainerStyle.marginTop.substr(0, 
+                            innerContainerStyle.marginTop.lastIndexOf("px")
+                        )
+                    );
+                    userBoxHeight[j] += parseInt(
+                        innerContainerStyle.marginBottom.substr(0, 
+                            innerContainerStyle.marginBottom.lastIndexOf("px")
+                        )
+                    );
+                }
+            }
+            userBox[j].style.height = userBoxHeight[j].toString() + "px";
+        }
+    }
+
+    function setUserBoxDefaultHeight(){
+        for(let j = 0; j < userBox.length; j++){
+            userBoxDefaultHeight[j] = 0;
+            for(var i = 0; i < 2; i++){
+                userBoxDefaultHeight[j] += userBoxDefaultInnerContainer[j][i].clientHeight;
+                if(i == 1){
+                    innerContainerStyle = userBoxDefaultInnerContainer[j][i].currentStyle || window.getComputedStyle(userBoxDefaultInnerContainer[j][i]);
+                    userBoxDefaultHeight[j] += parseInt(
+                        innerContainerStyle.marginTop.substr(0, 
+                            innerContainerStyle.marginTop.lastIndexOf("px")
+                        )
+                    );
+                    userBoxDefaultHeight[j] += parseInt(
+                        innerContainerStyle.marginBottom.substr(0, 
+                            innerContainerStyle.marginBottom.lastIndexOf("px")
+                        )
+                    );
+                }
+            }
+            userBox[j].style.height = userBoxDefaultHeight[j].toString() + "px";
+        }
+    }
+    setUserBoxDefaultHeight();
+
+    function setSpecificUserBoxHeight(thisUserBox){
+        let thisUserBoxHeight = 0;
+        let thisUserBoxInnerContainer = thisUserBox.getElementsByClassName('lapor-userbox-get-height');
+        for(let i = 0; i < thisUserBoxInnerContainer.length; i++){
+            thisUserBoxHeight += thisUserBoxInnerContainer[i].clientHeight;
+            if(i > 0){
+                innerContainerStyle = thisUserBoxInnerContainer[i].currentStyle || window.getComputedStyle(thisUserBoxInnerContainer[i]);
+                thisUserBoxHeight += parseInt(
+                    innerContainerStyle.marginTop.substr(0, 
+                        innerContainerStyle.marginTop.lastIndexOf("px")
+                    )
+                );
+                thisUserBoxHeight += parseInt(
+                    innerContainerStyle.marginBottom.substr(0, 
+                        innerContainerStyle.marginBottom.lastIndexOf("px")
+                    )
+                );
+            }
+        }
+        thisUserBox.style.height = thisUserBoxHeight.toString() + "px";
+    }
+
+    function setSpecificUserBoxDefaultHeight(thisUserBox){
+        let thisUserBoxDefaultHeight = 0;
+        let thisUserBoxInnerContainer = thisUserBox.getElementsByClassName('lapor-userbox-default-height');
+        for(var i = 0; i < 2; i++){
+            thisUserBoxDefaultHeight += thisUserBoxInnerContainer[i].clientHeight;
+            if(i == 1){
+                innerContainerStyle = thisUserBoxInnerContainer[i].currentStyle || window.getComputedStyle(thisUserBoxInnerContainer[i]);
+                thisUserBoxDefaultHeight += parseInt(
+                    innerContainerStyle.marginTop.substr(0, 
+                        innerContainerStyle.marginTop.lastIndexOf("px")
+                    )
+                );
+                thisUserBoxDefaultHeight += parseInt(
+                    innerContainerStyle.marginBottom.substr(0, 
+                        innerContainerStyle.marginBottom.lastIndexOf("px")
+                    )
+                );
+            }
+        }
+        thisUserBox.style.height = thisUserBoxDefaultHeight.toString() + "px";
+    }
+
+    var laporUserBoxDetail = document.getElementsByClassName('lapor-userbox-detail');
+    var toggleButton = document.getElementsByClassName('fa-angle-down');
+    var toggleButtonUp;
+    var toggeledUserBox;
+    for(let i = 0; i < userBox.length; i++){
+        toggleButton[i].onclick = function(){
+            toggleButtonUp = document.getElementsByClassName('fa-angle-up');
+            toggeledUserBox = toggleButton[i].parentNode.parentNode;
+            if(toggleButtonUp.length === 0){
+                laporUserBoxDetail[i].style.display = "block";
+                setSpecificUserBoxHeight(toggeledUserBox);
+                toggleButton[i].classList.add("fa-angle-up");
+                setTimeout(function(){
+                    laporUserBoxDetail[i].style.opacity = "1";
+                }, 300)
+            }
+            else{
+                for(let j = 0; j < toggleButtonUp.length; j++){
+                    if(toggleButtonUp[j] == toggleButton[i]){
+                        toggleButton[i].classList.remove("fa-angle-up");
+                        setSpecificUserBoxDefaultHeight(toggeledUserBox);
+                        laporUserBoxDetail[i].style.display = "none";
+                        laporUserBoxDetail[i].style.opacity = "0";
+                    }
+                    else{
+                        laporUserBoxDetail[i].style.display = "block";
+                        setSpecificUserBoxHeight(toggeledUserBox);
+                        toggleButton[i].classList.add("fa-angle-up");
+                        setTimeout(function(){
+                            laporUserBoxDetail[i].style.opacity = "1";
+                        }, 300)
+                    }
+                }
+            }
+        }
+    }
+
+    window.onresize = function(){
+        for(let i = 0; i < userBox.length; i++){
+            let thisToggleButtonUp = userBox[i].getElementsByClassName("fa-angle-up");
+            if(thisToggleButtonUp.length === 0){
+                setSpecificUserBoxDefaultHeight(userBox[i]);
+            }
+            else{
+                setSpecificUserBoxHeight(userBox[i]);
+            }
+        }
+    }
 </script>

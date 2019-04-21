@@ -43,10 +43,10 @@ class CreateController < ApplicationController
         elsif @thing.thingtype_id == 2
           dir = Rails.root.join('app','assets', 'images', 'user_assets', session[:username], @thing.name) #GET DIRECTORY
           FileUtils.mkdir_p(dir) unless File.directory?(dir) #IF DIRECTORY EXISTS
-          File.open(Rails.root.join(dir, "#{@thing.name}.#{File.extname(file)}"), 'wb') do |f|
+          File.open(Rails.root.join(dir, "#{@thing.name}#{File.extname(file.path)}"), 'wb') do |f|
             f.write(file.read)
           end
-          @thing.path = "#{session[:username]}/#{@thing.name}"
+          @thing.path = "#{session[:username]}/#{@thing.name}/#{@thing.name}#{File.extname(file.path)}"
           @status.status = " just uploaded #{@thing.name}"
         end
       end

@@ -2,115 +2,6 @@
     <%= notice %>
 </p>
 
-<script>
-    $(document).ready(function(){
-        let userBox = document.getElementsByClassName('lapor-userbox')[0];
-        let userBoxHeight = 0;
-        let userBoxDefaultHeight = 0;
-        let userBoxInnerContainer = userBox.getElementsByClassName('lapor-userbox-get-height');
-        let userBoxDefaultInnerContainer = userBox.getElementsByClassName('lapor-userbox-default-height');
-        let innerContainerStyle = 0;
-        for(let i = 0; i < 2; i++){
-            userBoxDefaultHeight += userBoxDefaultInnerContainer[i].clientHeight;
-            if(i == 1){
-                innerContainerStyle = userBoxDefaultInnerContainer[i].currentStyle || window.getComputedStyle(userBoxDefaultInnerContainer[i]);
-                userBoxDefaultHeight += parseInt(
-                    innerContainerStyle.marginTop.substr(0, 
-                        innerContainerStyle.marginTop.lastIndexOf("px")
-                    )
-                );
-                userBoxDefaultHeight += parseInt(
-                    innerContainerStyle.marginBottom.substr(0, 
-                        innerContainerStyle.marginBottom.lastIndexOf("px")
-                    )
-                );
-            }
-        }
-        userBox.style.height = userBoxDefaultHeight.toString() + "px";
-
-        let statusTwitbox = document.getElementById("statusTwitbox");
-        statusTwitbox.value = "";
-        window.onresize = function(){
-            statusTwitbox.style.height =  0;
-            statusTwitbox.style.height = statusTwitbox.scrollHeight + "px";
-            statusTwitbox.style.overflow = "hidden";
-        }
-        function countChar(val) {
-            statusTwitbox.style.height = statusTwitbox.scrollHeight + "px";
-            statusTwitbox.style.overflow = "hidden";
-            let len = val.length;
-            if (len > 500) {
-                val = val.substring(0, 500);
-            } else {
-                $('#statusCount').text(len + '/500');
-                if(len > 450 && len <= 500){
-                    $('#statusCount').css("color", "red");
-                }
-                else{
-                    $('#statusCount').css("color", "#282828");
-                }
-            }
-        };
-        $('#statusTwitbox').on('keyup', function() {
-            countChar($('#statusTwitbox').val());
-        });
-        $('#statusTwitbox').on('keypress', function() {
-            countChar($('#statusTwitbox').val());
-        });
-
-        let laporUserBoxDetail = document.getElementById('laporUserBoxDetail');
-        let toggleButton = document.getElementsByClassName('fa-angle-down')[0];
-        toggleButton.onclick = function(){
-            if(document.getElementsByClassName('fa-angle-up')[0] == toggleButton){
-                toggleButton.classList.remove("fa-angle-up");
-                userBox.style.height = userBoxDefaultHeight.toString() + "px";
-                laporUserBoxDetail.style.display = "none";
-                laporUserBoxDetail.style.opacity = "0";
-            }
-            else{
-                laporUserBoxDetail.style.display = "block";
-                if(userBoxHeight === 0){
-                    for(let i = 0; i < userBoxInnerContainer.length; i++){
-                        console.log(userBoxInnerContainer[i].clientHeight);
-                        userBoxHeight += userBoxInnerContainer[i].clientHeight;
-                        if(i > 0){
-                            innerContainerStyle = userBoxInnerContainer[i].currentStyle || window.getComputedStyle(userBoxInnerContainer[i]);
-                            userBoxHeight += parseInt(
-                                innerContainerStyle.marginTop.substr(0, 
-                                    innerContainerStyle.marginTop.lastIndexOf("px")
-                                )
-                            );
-                            userBoxHeight += parseInt(
-                                innerContainerStyle.marginBottom.substr(0, 
-                                    innerContainerStyle.marginBottom.lastIndexOf("px")
-                                )
-                            );
-                        }
-                    }
-                }
-                toggleButton.classList.add("fa-angle-up");
-                userBox.style.height = userBoxHeight.toString() + "px";
-                setTimeout(function(){
-                    laporUserBoxDetail.style.opacity = "1";
-                }, 300)
-            }
-        }
-    })
-</script>
-
-<style>
-    .lapor-userbox{
-        height: 90px;
-        transition: all .3s ease;
-    }
-    #laporUserBoxDetail{
-        transition: all .3s ease-in;
-        margin-top: 20px; 
-        display: none; 
-        opacity: 0;
-    }
-</style>
-
 <% if session[:username] %>
     <div class="lapor-dashboard-main">
         <div class="lapor-userbox">
@@ -125,21 +16,35 @@
                 <h1 class="lapor-userbox-name"><%= session[:username] %></h1>
             </div>
             <div class="lapor-userbox-default-height lapor-userbox-get-height">
-                <i>"<%= @user.profile.lifemotto %>"</i>
+                <% if @user.profile != nil && @user.profile.lifemotto != nil && @user.profile.lifemotto != '' %>
+                    <i>"<%= @user.profile.lifemotto %>"</i>
+                <% end %>
             </div>
-            <div id="laporUserBoxDetail" class="lapor-userbox-get-height">
-                <div>
-                    <i>"<%= @user.profile.lifemotto %>"</i>
-                </div>
-                <div>
-                    <i>"<%= @user.profile.lifemotto %>"</i>
-                </div>
-                <div>
-                    <i>"<%= @user.profile.lifemotto %>"</i>
-                </div>
-                <div>
-                    <i>"<%= @user.profile.lifemotto %>"</i>
-                </div>
+            <div class="lapor-userbox-get-height lapor-userbox-detail">
+                <% if @user.email != nil && @user.email != '' %>
+                    <div>
+                        <i class="fas fa-envelope"></i>
+                        <span>
+                            <%= @user.email %>
+                        </span>
+                    </div>
+                <% end %>
+                <% if @user.profile != nil && @user.profile.phone != '' && @user.profile.phone != nil %>
+                    <div>
+                        <i class="fas fa-phone"></i>
+                        <span>
+                            <%= @user.profile.phone %>
+                        </span>
+                    </div>
+                <% end %>
+                <% if @user.profile != nil && @user.profile.address != '' && @user.profile.address != nil %>
+                    <div>
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>
+                            <%= @user.profile.address %>
+                        </span>
+                    </div>
+                <% end %>
             </div>
             <div class="lapor-profile-height-trigger">
                 <i class="fas fa-angle-down"></i>
@@ -230,3 +135,186 @@
         }
     </script>
 <% end %>
+
+
+<script>
+    var statusTwitbox = document.getElementById("statusTwitbox");
+    statusTwitbox.value = "";
+
+    function countChar(val) {
+        statusTwitbox.style.height = statusTwitbox.scrollHeight + "px";
+        statusTwitbox.style.overflow = "hidden";
+        var len = val.length;
+        if (len > 500) {
+            val = val.substring(0, 500);
+        } else {
+            $('#statusCount').text(len + '/500');
+            if(len > 450 && len <= 500){
+                $('#statusCount').css("color", "red");
+            }
+            else{
+                $('#statusCount').css("color", "#282828");
+            }
+        }
+    };
+    $('#statusTwitbox').on('keyup', function() {
+        countChar($('#statusTwitbox').val());
+    });
+    $('#statusTwitbox').on('keypress', function() {
+        countChar($('#statusTwitbox').val());
+    });
+
+    var userBox = document.getElementsByClassName('lapor-userbox');
+    var userBoxHeight = [];
+    var userBoxDefaultHeight = [];
+    var userBoxInnerContainer = []
+    var userBoxDefaultInnerContainer = []
+    for(let i = 0; i < userBox.length; i++){
+        userBoxInnerContainer.push(userBox[i].getElementsByClassName('lapor-userbox-get-height'));
+        userBoxDefaultInnerContainer.push(userBox[i].getElementsByClassName('lapor-userbox-default-height'));
+    }
+    var innerContainerStyle;
+    
+    function setUserBoxHeight(){
+        for(let j = 0; j < userBox.length; j++){
+            userBoxHeight[j] = 0;
+            for(let i = 0; i < userBoxInnerContainer[j].length; i++){
+                userBoxHeight[j] += userBoxInnerContainer[j][i].clientHeight;
+                if(i > 0){
+                    innerContainerStyle = userBoxInnerContainer[j][i].currentStyle || window.getComputedStyle(userBoxInnerContainer[j][i]);
+                    userBoxHeight[j] += parseInt(
+                        innerContainerStyle.marginTop.substr(0, 
+                            innerContainerStyle.marginTop.lastIndexOf("px")
+                        )
+                    );
+                    userBoxHeight[j] += parseInt(
+                        innerContainerStyle.marginBottom.substr(0, 
+                            innerContainerStyle.marginBottom.lastIndexOf("px")
+                        )
+                    );
+                }
+            }
+            userBox[j].style.height = userBoxHeight[j].toString() + "px";
+        }
+    }
+
+    function setUserBoxDefaultHeight(){
+        for(let j = 0; j < userBox.length; j++){
+            userBoxDefaultHeight[j] = 0;
+            for(var i = 0; i < 2; i++){
+                userBoxDefaultHeight[j] += userBoxDefaultInnerContainer[j][i].clientHeight;
+                if(i == 1){
+                    innerContainerStyle = userBoxDefaultInnerContainer[j][i].currentStyle || window.getComputedStyle(userBoxDefaultInnerContainer[j][i]);
+                    userBoxDefaultHeight[j] += parseInt(
+                        innerContainerStyle.marginTop.substr(0, 
+                            innerContainerStyle.marginTop.lastIndexOf("px")
+                        )
+                    );
+                    userBoxDefaultHeight[j] += parseInt(
+                        innerContainerStyle.marginBottom.substr(0, 
+                            innerContainerStyle.marginBottom.lastIndexOf("px")
+                        )
+                    );
+                }
+            }
+            userBox[j].style.height = userBoxDefaultHeight[j].toString() + "px";
+        }
+    }
+    setUserBoxDefaultHeight();
+
+    function setSpecificUserBoxHeight(thisUserBox){
+        let thisUserBoxHeight = 0;
+        let thisUserBoxInnerContainer = thisUserBox.getElementsByClassName('lapor-userbox-get-height');
+        for(let i = 0; i < thisUserBoxInnerContainer.length; i++){
+            thisUserBoxHeight += thisUserBoxInnerContainer[i].clientHeight;
+            if(i > 0){
+                innerContainerStyle = thisUserBoxInnerContainer[i].currentStyle || window.getComputedStyle(thisUserBoxInnerContainer[i]);
+                thisUserBoxHeight += parseInt(
+                    innerContainerStyle.marginTop.substr(0, 
+                        innerContainerStyle.marginTop.lastIndexOf("px")
+                    )
+                );
+                thisUserBoxHeight += parseInt(
+                    innerContainerStyle.marginBottom.substr(0, 
+                        innerContainerStyle.marginBottom.lastIndexOf("px")
+                    )
+                );
+            }
+        }
+        thisUserBox.style.height = thisUserBoxHeight.toString() + "px";
+    }
+
+    function setSpecificUserBoxDefaultHeight(thisUserBox){
+        let thisUserBoxDefaultHeight = 0;
+        let thisUserBoxInnerContainer = thisUserBox.getElementsByClassName('lapor-userbox-default-height');
+        for(var i = 0; i < 2; i++){
+            thisUserBoxDefaultHeight += thisUserBoxInnerContainer[i].clientHeight;
+            if(i == 1){
+                innerContainerStyle = thisUserBoxInnerContainer[i].currentStyle || window.getComputedStyle(thisUserBoxInnerContainer[i]);
+                thisUserBoxDefaultHeight += parseInt(
+                    innerContainerStyle.marginTop.substr(0, 
+                        innerContainerStyle.marginTop.lastIndexOf("px")
+                    )
+                );
+                thisUserBoxDefaultHeight += parseInt(
+                    innerContainerStyle.marginBottom.substr(0, 
+                        innerContainerStyle.marginBottom.lastIndexOf("px")
+                    )
+                );
+            }
+        }
+        thisUserBox.style.height = thisUserBoxDefaultHeight.toString() + "px";
+    }
+
+    var laporUserBoxDetail = document.getElementsByClassName('lapor-userbox-detail');
+    var toggleButton = document.getElementsByClassName('fa-angle-down');
+    var toggleButtonUp;
+    var toggeledUserBox;
+    for(let i = 0; i < userBox.length; i++){
+        toggleButton[i].onclick = function(){
+            toggleButtonUp = document.getElementsByClassName('fa-angle-up');
+            toggeledUserBox = toggleButton[i].parentNode.parentNode;
+            if(toggleButtonUp.length === 0){
+                laporUserBoxDetail[i].style.display = "block";
+                setSpecificUserBoxHeight(toggeledUserBox);
+                toggleButton[i].classList.add("fa-angle-up");
+                setTimeout(function(){
+                    laporUserBoxDetail[i].style.opacity = "1";
+                }, 300)
+            }
+            else{
+                for(let j = 0; j < toggleButtonUp.length; j++){
+                    if(toggleButtonUp[j] == toggleButton[i]){
+                        toggleButton[i].classList.remove("fa-angle-up");
+                        setSpecificUserBoxDefaultHeight(toggeledUserBox);
+                        laporUserBoxDetail[i].style.display = "none";
+                        laporUserBoxDetail[i].style.opacity = "0";
+                    }
+                    else{
+                        laporUserBoxDetail[i].style.display = "block";
+                        setSpecificUserBoxHeight(toggeledUserBox);
+                        toggleButton[i].classList.add("fa-angle-up");
+                        setTimeout(function(){
+                            laporUserBoxDetail[i].style.opacity = "1";
+                        }, 300)
+                    }
+                }
+            }
+        }
+    }
+
+    window.onresize = function(){
+        statusTwitbox.style.height =  0;
+        statusTwitbox.style.height = statusTwitbox.scrollHeight + "px";
+        statusTwitbox.style.overflow = "hidden";
+        for(let i = 0; i < userBox.length; i++){
+            let thisToggleButtonUp = userBox[i].getElementsByClassName("fa-angle-up");
+            if(thisToggleButtonUp.length === 0){
+                setSpecificUserBoxDefaultHeight(userBox[i]);
+            }
+            else{
+                setSpecificUserBoxHeight(userBox[i]);
+            }
+        }
+    }
+</script>

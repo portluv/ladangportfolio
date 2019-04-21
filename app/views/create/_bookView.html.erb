@@ -60,67 +60,65 @@
     </div>
 </div>
 
-<script id="workBookViewJS" type="text/javascript">
-    $(document).ready(function(){
-        let count = 1;
-        function moveBack(element){
-            $(element).css('z-index', element.dataset.page);
-            setTimeout(function(){
-                $(element).find(".lapor-page-a4-front").removeAttr('style');
-                $(element).find(".lapor-page-a4-back").removeAttr('style');
-            }, 150);
-            setTimeout(function(){
-                bindClickEvent()
-            }, 800);
-        }
-        function bindClickEvent(){
-            $('.lapor-page-container-a4').bind('click', function(){
-                if($(this).hasClass('lapor-page-a4-turn')){
-                    let highestIndex = 0;
-                    let currElement;
-                    $(".lapor-page-container-a4").each(function() {
-                        if($(this).hasClass('lapor-page-a4-turn')){
-                            var currentIndex = parseInt($(this).css("zIndex"), 10);
-                            if(currentIndex > highestIndex) {
-                                highestIndex = currentIndex;
-                                currElement = this;
-                            }
+<script id="workbookViewJS" type="text/javascript">
+    var count = 1;
+    function moveBack(element){
+        $(element).css('z-index', element.dataset.page);
+        setTimeout(function(){
+            $(element).find(".lapor-page-a4-front").removeAttr('style');
+            $(element).find(".lapor-page-a4-back").removeAttr('style');
+        }, 150);
+        setTimeout(function(){
+            bindClickEvent()
+        }, 800);
+    }
+    function bindClickEvent(){
+        $('.lapor-page-container-a4').bind('click', function(){
+            if($(this).hasClass('lapor-page-a4-turn')){
+                let highestIndex = 0;
+                let currElement;
+                $(".lapor-page-container-a4").each(function() {
+                    if($(this).hasClass('lapor-page-a4-turn')){
+                        var currentIndex = parseInt($(this).css("zIndex"), 10);
+                        if(currentIndex > highestIndex) {
+                            highestIndex = currentIndex;
+                            currElement = this;
                         }
-                    });
-                    $(currElement).removeClass('lapor-page-a4-turn');
-                    $('.lapor-page-container-a4').unbind();
-                    moveBack(currElement);
-                    count--;
-                }
-                else{
-                    let highestIndex = 0;
-                    let currElement;
-                    $(".lapor-page-container-a4").each(function() {
-                        if(!$(this).hasClass('lapor-page-a4-turn')){
-                            var currentIndex = parseInt($(this).css("zIndex"), 10);
-                            if(currentIndex > highestIndex) {
-                                highestIndex = currentIndex;
-                                currElement = this;
-                            }
+                    }
+                });
+                $(currElement).removeClass('lapor-page-a4-turn');
+                $('.lapor-page-container-a4').unbind();
+                moveBack(currElement);
+                count--;
+            }
+            else{
+                let highestIndex = 0;
+                let currElement;
+                $(".lapor-page-container-a4").each(function() {
+                    if(!$(this).hasClass('lapor-page-a4-turn')){
+                        var currentIndex = parseInt($(this).css("zIndex"), 10);
+                        if(currentIndex > highestIndex) {
+                            highestIndex = currentIndex;
+                            currElement = this;
                         }
-                    });
-                    $(currElement).addClass('lapor-page-a4-turn');
-                    $(currElement).css('z-index', count);
-                    setTimeout(function(){
-                        backfaceChange(currElement)
-                    }, 150)
-                    $('.lapor-page-container-a4').unbind();
-                    setTimeout(function(){
-                        bindClickEvent()
-                    }, 800);
-                    count++;
-                }
-            });
-        }
-        function backfaceChange(element){
-            $(element).find(".lapor-page-a4-front").css('backface-visibility', 'visible');
-            $(element).find(".lapor-page-a4-back").css('backface-visibility', 'visible');
-        }
-        bindClickEvent();
-    });
+                    }
+                });
+                $(currElement).addClass('lapor-page-a4-turn');
+                $(currElement).css('z-index', count);
+                setTimeout(function(){
+                    backfaceChange(currElement)
+                }, 150)
+                $('.lapor-page-container-a4').unbind();
+                setTimeout(function(){
+                    bindClickEvent()
+                }, 800);
+                count++;
+            }
+        });
+    }
+    function backfaceChange(element){
+        $(element).find(".lapor-page-a4-front").css('backface-visibility', 'visible');
+        $(element).find(".lapor-page-a4-back").css('backface-visibility', 'visible');
+    }
+    bindClickEvent();
 </script>

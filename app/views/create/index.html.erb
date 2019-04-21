@@ -25,7 +25,7 @@
 </div>
 
     <% @previousType = 0 %>
-    <div class="lapor-portfolio-containter">
+    <div class="lapor-portfolio-container">
     <% @user.thing.each_with_index do |thing, index| %>
         <% if thing.thingtype_id == 1 %>
             <% if @previousType != thing.thingtype_id %>
@@ -52,10 +52,8 @@
                 </div>
             <% end %>
             <% if thing.thingtype_id == 2 %>
-                <div class="lapor-frame-box">
-                    <div>
-                        <%= image_tag "user_assets/#{session[:username]}/#{thing.name}/#{thing.name}.jpg", :class => "lapor-frame-image-resize"  %>
-                    </div>
+                <div class="lapor-picture-frame">
+                    <%= image_tag "user_assets/#{thing.path}", :class => "lapor-frame-image-resize"  %>
                 </div>
             <% end %>
             <% @previousType = thing.thingtype_id %>
@@ -75,25 +73,53 @@
         <h1>Upload a Thing</h1>
         <%= render 'upload', thing: @thing %>    
     </div>
-    <div id="closeModal" class="lapor-exit-box">
-        X
-    </div>
 </div>  
 
 <script type="text/javascript">
-    $(document).ready(function(){
-        $('#uploadModalShow').on('click', function(){
-            // $('#modal').show();
-            $('#modal').fadeIn(500, function(){
-               $('#uploadWorkbook').fadeIn(500);
-            });
-        });
-        $('#closeModal').on('click', function(){
-            $('#modal').fadeOut(500, function(){
-                $('#uploadWorkbook').hide();
-                $('#workbookView').remove();
-                $('#workBookViewJS').remove();
-            });
-        });
-    });
+    var modal = document.getElementById('modal');
+    var workbookView = document.getElementById('workbookView');
+    var workbookViewJS = document.getElementById('workbookViewJS');
+    var uploadWorkbook = document.getElementById('uploadWorkbook');
+    var uploadModalShow = document.getElementById('uploadModalShow');
+    var homePictureForm = document.getElementById('homePictureForm');
+    var profilePictureForm = document.getElementById('profilePictureForm');
+
+    uploadModalShow.onclick = function(){
+        modal.style.opacity = "0";
+        uploadWorkbook.style.opacity = "0";
+        modal.style.transition = "all .3s ease";
+        modal.style.display = "block";
+        setTimeout(() => {
+            modal.style.opacity = "1";
+            uploadWorkbook.style.transition = "all .3s ease";
+            uploadWorkbook.style.display = "block";
+            setTimeout(() => {
+                uploadWorkbook.style.opacity = "1";
+            }, 300);
+        }, 300);
+    }
+    modal.onclick = function(e){
+        if (e.target !== this)
+            return;
+        else{
+            modal.style.opacity = "0";
+            setTimeout(() => {
+                modal.removeAttribute('style');
+                uploadWorkbook.removeAttribute('style');
+                workbookView = document.getElementById('workbookView');
+                workbookViewJS = document.getElementById('workbookViewJS');
+                
+                if(homePictureForm){
+                    homePictureForm.style.display = "none";
+                }
+                if(profilePictureForm){
+                    profilePictureForm.style.display = "none";
+                }
+                if(workbookView){
+                    workbookView.parentNode.removeChild(workbookViewJS);
+                    workbookView.parentNode.removeChild(workbookView);
+                }
+            }, 300);
+        }
+    };
 </script>
