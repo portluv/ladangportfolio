@@ -60,9 +60,6 @@ class CreateController < ApplicationController
           format.json { render json: @thing.errors, status: :unprocessable_entity }
         end
       end
-      # dir = Rails.root.join('app','assets', 'images', 'anonymous', 'asd.pdf')
-      # done = Docsplit.extract_images(dir, output: Rails.root.join('app','assets', 'images', 'anonymous'), :format => [:jpg])
-      # puts done
     end
 
     private

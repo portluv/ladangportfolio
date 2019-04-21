@@ -18,7 +18,7 @@
                     <h1 class="lapor-userbox-name"><%= user.username %></h1>
                 </div>
                 <div class="lapor-userbox-default-height lapor-userbox-get-height">
-                    <% if user.profile.lifemotto != nil && user.profile.lifemotto != '' %>
+                    <% if user.profile != nil && user.profile.lifemotto != nil && user.profile.lifemotto != '' %>
                         <i>"<%= user.profile.lifemotto %>"</i>
                     <% end %>
                 </div>
@@ -68,8 +68,14 @@
                     <i class="fas fa-angle-down"></i>
                 </div>
             </div>
+        <% end %>  <%# IF END %>
+        <% if @users.length == 1 && user.id == session[:user_id] %>
+            <div class="lapor-connect-search">
+                <i class="fas fa-search fa-10x"></i>
+                <span>No Users Found</span>
+            </div>
         <% end %>
-    <% end %>
+    <% end %> <%# FOR END %>
 </div>
 
 <script>
