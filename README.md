@@ -1,24 +1,26 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Rails installer site:
+http://railsinstaller.org/en
 
-Things you may want to cover:
+Click this link to download compatible rails version:
+https://s3.amazonaws.com/railsinstaller/Windows/railsinstaller-3.4.0.exe
 
-* Ruby version
+Version:
+Ruby 2.3.3
+Rails 5.1
+Bundler 2
 
-* System dependencies
+Database creation:
+1. Install postgres
+2. Create database name ladangportfolio_dev
+3. Update database credentials on database.yml
 
-* Configuration
+To initialize Database:
+rails db:migrate
 
-* Database creation
+To install dependencies:
+bundle install
 
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+To run application:
+rails server
