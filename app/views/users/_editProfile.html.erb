@@ -316,6 +316,10 @@
       }
     }
 
+    function removeSymbols(str){
+      return str.replace(/&amp;|&nbsp;|&lt;|&gt;|;|&|<|>|:|"|'|\[|\]|\\|\||\/|\.|,|\-|_|=|!|@|#|\$|%|\^|&|\*|\(|\)|`|~|\}|\{|/g,'')
+    }
+
     function lifemottoQuotationCheck(){
       if($('.lapor-edit-life-motto[contentEditable=true]').is(':empty'))
       {
@@ -329,7 +333,7 @@
       contentIsEmptyCheck('mottoDiv');
     }
     
-    delegate(document, "click", "#editProfileSubmitButton", function(e){
+    $("#editProfileSubmitButton").on('click', function(e){
       e.preventDefault();
       let nameDiv = document.getElementById('nameDiv');
       let mottoDiv = document.getElementById('mottoDiv');
@@ -347,69 +351,69 @@
       let endExDiv = document.getElementsByClassName('endExDiv');
 
       let nameInput = document.getElementById('nameInput');
-      nameInput.value = nameDiv.innerHTML;
+      nameInput.value = removeSymbols(nameDiv.innerHTML.trim());
 
       let mottoInput = document.getElementById('mottoInput');
-      mottoInput.value = mottoDiv.innerHTML;
+      mottoInput.value = removeSymbols(mottoDiv.innerHTML.trim());
       
       if(sumDiv){
         let sumInput = document.getElementById('sumInput');
-        sumInput.value = sumDiv.innerHTML;
+        sumInput.value = removeSymbols(sumDiv.innerHTML.trim());
       }
       if(dobDiv){
         let dobInput = document.getElementById('dobInput');
-        dobInput.value = dobDiv.innerHTML;
+        dobInput.value = removeSymbols(dobDiv.innerHTML.trim());
       }
       if(genderDiv){
         let genderInput = document.getElementById('genderInput');
-        genderInput.value = genderDiv.innerHTML;
+        genderInput.value = removeSymbols(genderDiv.innerHTML.trim());
       }
       if(phoneDiv){
         let phoneInput = document.getElementById('phoneInput');
-        phoneInput.value = phoneDiv.innerHTML;
+        phoneInput.value = removeSymbols(phoneDiv.innerHTML.trim());
       }
       if(addressDiv){
         let addressInput = document.getElementById('addressInput');
-        addressInput.value = addressDiv.innerHTML;
+        addressInput.value = removeSymbols(addressDiv.innerHTML.trim());
       }
       if(nationDiv){
         let nationInput = document.getElementById('nationInput');
-        nationInput.value = nationDiv.innerHTML;
+        nationInput.value = removeSymbols(nationDiv.innerHTML.trim());
       }
       if(degDiv){
         let degInput = document.getElementsByClassName('degInput');
         for(let i = 0; i < degDiv.length; i++){
-          degInput[i].value = degDiv[i].innerHTML;
+          degInput[i].value = removeSymbols(degDiv[i].innerHTML.trim());
         }
       }
       if(joinDiv){
         let joinInput = document.getElementsByClassName('joinInput');
         for(let i = 0; i < joinDiv.length; i++){
-          joinInput[i].value = joinDiv[i].innerHTML;
+          joinInput[i].value = removeSymbols(joinDiv[i].innerHTML.trim());
         }
       }
       if(endDiv){
         let endInput = document.getElementsByClassName('endInput');
         for(let i = 0; i < endDiv.length; i++){
-          endInput[i].value = endDiv[i].innerHTML;
+          endInput[i].value = removeSymbols(endDiv[i].innerHTML.trim());
         }
       }
       if(posDiv){
         let posInput = document.getElementsByClassName('posInput');
         for(let i = 0; i < posDiv.length; i++){
-          posInput[i].value = posDiv[i].innerHTML;
+          posInput[i].value = removeSymbols(posDiv[i].innerHTML.trim());
         }
       }
       if(startExDiv){
         let startExInput = document.getElementsByClassName('startExInput');
         for(let i = 0; i < startExDiv.length; i++){
-          startExInput[i].value = startExDiv[i].innerHTML;
+          startExInput[i].value = removeSymbols(startExDiv[i].innerHTML.trim());
         }
       }
       if(endExDiv){
         let endExInput = document.getElementsByClassName('endExInput');
         for(let i = 0; i < endExDiv.length; i++){
-          endExInput[i].value = endExDiv[i].innerHTML;
+          endExInput[i].value = removeSymbols(endExDiv[i].innerHTML.trim());
         }
       }
 
@@ -482,7 +486,7 @@
       }
     }
 
-    delegate(document, "click", "#laporAddSection", function(){
+    $("#laporAddSection").on('click', function(){
       let subButton = document.getElementsByClassName('lapor-add-section-sub-button');
       let subButtonIcons = document.querySelectorAll('.lapor-add-section-sub-button > i');
       for(let i = 0; i < subButton.length; i++){
@@ -500,7 +504,7 @@
       }
     });
 
-    delegate(document, "click", ".lapor-add-section-sub-button:nth-child(1)", function(){
+    $(".lapor-add-section-sub-button:nth-child(1)").on('click', function(){
       if(!document.querySelectorAll('.lapor-profile-biodata')[0]){
         document.getElementById('addInput').innerHTML += '<input id="dobInput" type="hidden" value="" name="profile[dateofbirth]">\
           <input id="genderInput" type="hidden" value="" name="profile[gender]">\
@@ -558,7 +562,7 @@
           <input class="joinInput" type="hidden" value="" name="profile[education_attributes][' + degInput.length + '][join_date]">\
           <input class="endInput" type="hidden" value="" name="profile[education_attributes][' + degInput.length + '][end_date]">\
           <input class="profileIDInput" type="hidden" value="" name="profile[education_attributes][' + degInput.length + '][profile_id]">\
-          <input class="firmIDInput" type="hidden" value="" name="profile[education_attributes][' + degInput.length + '][firm_id]">;\
+          <input class="firmIDInput" type="hidden" value="" name="profile[education_attributes][' + degInput.length + '][firm_id]">\
           <input type="hidden" value="" name="profile[education_attributes][' + degInput.length + '][id]">';
         document.querySelectorAll('.lapor-first-new-section')[0].innerHTML += '<div class="lapor-profile-biodata lapor-profile-education">\
             <b>Education</b>\
@@ -621,7 +625,7 @@
       }
     });
 
-    delegate(document, "click", ".lapor-add-section-sub-button:nth-child(2)", function(){
+    $(".lapor-add-section-sub-button:nth-child(2)").on('click', function(){
       if(!document.querySelectorAll('.lapor-profile-description')[0]){
         document.getElementById('addInput').innerHTML += '<input id="sumInput" type="hidden" value="" name="profile[summary]">';
         document.querySelectorAll('.lapor-second-new-section')[0].innerHTML += '<div class="lapor-profile-description">\
@@ -635,7 +639,7 @@
       };
     });
 
-    delegate(document, "click", ".lapor-add-section-sub-button:nth-child(3)", function(){
+    $(".lapor-add-section-sub-button:nth-child(3)").on('click', function(){
       document.querySelectorAll('.lapor-third-new-section')[0].innerHTML += '<div id="laporLapor" class="lapor-profile-section">\
           <b contentEditable="true" data-text="Section Head.."></b>\
           <hr>\
@@ -644,7 +648,7 @@
         </div>';
     });
 
-    delegate(document, "click", "#nameDiv", function(){
+    $("#nameDiv").on('click', function(){
       let nameDiv = document.getElementById('nameDiv'),
       nameInput = document.getElementById('nameInput');
       
@@ -662,7 +666,7 @@
         return false;
     });
 
-    delegate(document, "click", "#mottoDiv", function(){
+    $("#mottoDiv").on('click', function(){
       let mottoDiv = document.getElementById('mottoDiv'),
       mottoInput = document.getElementById('mottoInput');
 
@@ -680,7 +684,7 @@
         return false;
     });
 
-    delegate(document, "click", "#sumDiv", function(e){
+    $("#sumDiv").on('click', function(e){
       let sumDiv = document.getElementById('sumDiv'),
       sumInput = document.getElementById('sumInput');
 
@@ -695,7 +699,7 @@
       return false;
     });
 
-    delegate(document, "click", "#dobDiv", function(e){
+    $("#dobDiv").on('click', function(e){
       let dobDiv = document.getElementById('dobDiv'),
       dobInput = document.getElementById('dobInput');
 
@@ -713,7 +717,7 @@
         return false;
     });
 
-    delegate(document, "click", "#genderDiv", function(e){
+    $("#genderDiv").on('click', function(e){
       let genderDiv = document.getElementById('genderDiv'),
       genderInput = document.getElementById('genderInput');
       
@@ -731,7 +735,7 @@
         return false;
     });
 
-    delegate(document, "click", "#phoneDiv", function(e){
+    $("#phoneDiv").on('click', function(e){
       let phoneDiv = document.getElementById('phoneDiv'),
       phoneInput = document.getElementById('phoneInput');
 
@@ -749,7 +753,7 @@
         return false;
     });
 
-    delegate(document, "click", "#addressDiv", function(e){
+    $("#addressDiv").on('click', function(e){
       let addressDiv = document.getElementById('addressDiv'),
       addressInput = document.getElementById('addressInput');
 
@@ -767,7 +771,7 @@
         return false;
     });
 
-    delegate(document, "click", "#nationDiv", function(e){
+    $("#nationDiv").on('click', function(e){
       let nationDiv = document.getElementById('nationDiv'),
       nationInput = document.getElementById('nationInput');
 
