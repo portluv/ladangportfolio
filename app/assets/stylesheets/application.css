@@ -547,7 +547,7 @@ input:-webkit-autofill {
 .slide-img{
     width: 100vw;
     height: 100vh;
-    background-image: image-url("web_assets/dashboard/home_slider_1.jpg");
+    background-image: url("web_assets/dashboard/home_slider_1.jpg");
     background-size: cover;
     background-repeat: no-repeat;
     background-position: 50% 50%;
