@@ -19,6 +19,8 @@ gem 'uglifier', '>= 1.3.0'
 # See https://github.com/rails/execjs#readme for more supported runtimes
 # gem 'therubyracer', platforms: :ruby
 
+# Use jQuery for js actions
+gem 'jquery-rails'
 # Use CoffeeScript for .coffee assets and views
 gem 'coffee-rails', '~> 4.2'
 # Turbolinks makes navigating your web application faster. Read more: https://github.com/turbolinks/turbolinks
@@ -33,8 +35,8 @@ gem 'rails-jquery-autocomplete'
 gem 'docsplit'
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
-# Use AWS for heroku file management
-gem 'aws-sdk', '~> 2'
+# Use sweetalert for notices
+gem 'rails-assets-sweetalert2', source: 'https://rails-assets.org'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
