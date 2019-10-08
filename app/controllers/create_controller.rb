@@ -9,7 +9,7 @@ class CreateController < ApplicationController
         redirect_to root_path
       end
     end
-
+    
     def showBook
       respond_to do |format|
         format.js
@@ -30,23 +30,20 @@ class CreateController < ApplicationController
       if params[:path].present?
         file = params[:path]
         if @thing.thingtype_id == 1
-          dir = Rails.root.join('app','assets', 'images', 'user_assets', session[:username], @thing.name) #GET DIRECTORY
-          FileUtils.mkdir_p(dir) unless File.directory?(dir) #IF DIRECTORY EXISTS
-          File.open(Rails.root.join(dir, "#{@thing.name}.pdf"), 'wb') do |f|
-            f.write(file.read)
-          end
-          @thing.path = "#{session[:username]}/#{@thing.name}"
-          dir = Rails.root.join(dir, "#{@thing.name}.pdf")
-          Docsplit.extract_images(dir, output: Rails.root.join('app','assets', 'images', 'user_assets', session[:username], @thing.name), :format => [:jpg])
-          File.delete(dir) if File.exist?(dir)
+          Docsplit.extract_images(file.path, output: Rails.root.join('app','assets', 'images', 'user_assets', session[:username], @thing.name), :format => [:jpg])
+          @thing.path = "user_assets/#{session[:username]}/#{@thing.name}/#{File.basename(file.path, '.pdf')}"
           @status.status = " just uploaded #{@thing.name}"
         elsif @thing.thingtype_id == 2
           dir = Rails.root.join('app','assets', 'images', 'user_assets', session[:username], @thing.name) #GET DIRECTORY
           FileUtils.mkdir_p(dir) unless File.directory?(dir) #IF DIRECTORY EXISTS
-          File.open(Rails.root.join(dir, "#{@thing.name}#{File.extname(file.path)}"), 'wb') do |f|
+          random_id = (SecureRandom.random_number(9e5) + 1e5).to_i
+          if File.exist?(Rails.root.join(dir, "#{@thing.name}-#{random_id}#{File.extname(file.path)}"))
+            random_id = (SecureRandom.random_number(9e5) + 1e5).to_i
+          end
+          File.open(Rails.root.join(dir, "#{@thing.name}-#{random_id}#{File.extname(file.path)}"), 'wb') do |f|
             f.write(file.read)
           end
-          @thing.path = "#{session[:username]}/#{@thing.name}/#{@thing.name}#{File.extname(file.path)}"
+          @thing.path = "user_assets/#{session[:username]}/#{@thing.name}/#{@thing.name}-#{random_id}#{File.extname(file.path)}"
           @status.status = " just uploaded #{@thing.name}"
         end
       end

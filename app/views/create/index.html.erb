@@ -53,7 +53,7 @@
             <% end %>
             <% if thing.thingtype_id == 2 %>
                 <div class="lapor-picture-frame">
-                    <%= image_tag "user_assets/#{thing.path}", :class => "lapor-frame-image-resize"  %>
+                    <%= image_tag "#{thing.path}", :class => "lapor-frame-image-resize"  %>
                 </div>
             <% end %>
             <% @previousType = thing.thingtype_id %>

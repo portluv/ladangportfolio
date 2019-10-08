@@ -10,7 +10,7 @@
                         <div class="lapor-page-container-a4" data-page="<%= @zIndex %>" style="z-index: <%= @zIndex %>">
                             <div class="lapor-page-a4">
                                 <div class="lapor-page-a4-front">
-                                    <%= image_tag "user_assets/#{session[:username]}/#{@thing.name}/#{@thing.name}_#{@pages-@count}.jpg", :class => "lapor-profile-resize" %>
+                                    <%= image_tag "#{@thing.path}_#{@pages-@count}.jpg", :class => "lapor-profile-resize" %>
                                 </div>
                         <% @count -= 1 %>
                         <% @zIndex += 1 %>
@@ -22,7 +22,7 @@
                         </div>
                         <% else %>
                                 <div class="lapor-page-a4-back">
-                                    <%= image_tag "user_assets/#{session[:username]}/#{@thing.name}/#{@thing.name}_#{@pages-@count}.jpg", :class => "lapor-profile-resize" %>
+                                    <%= image_tag "#{@thing.path}_#{@pages-@count}.jpg", :class => "lapor-profile-resize" %>
                                 </div>
                             </div>
                         </div>
@@ -36,7 +36,7 @@
                         <div class="lapor-page-container-a4" data-page="<%= @zIndex %>" style="z-index: <%= @zIndex %>">
                             <div class="lapor-page-a4">
                                 <div class="lapor-page-a4-front">
-                                    <%= image_tag "user_assets/#{session[:username]}/#{@thing.name}/#{@thing.name}_#{@pages-@count}.jpg", :class => "lapor-profile-resize" %>
+                                    <%= image_tag "#{@thing.path}_#{@pages-@count}.jpg", :class => "lapor-profile-resize" %>
                                 </div>
                         <% @count -= 1 %>
                         <% @zIndex += 1 %>
@@ -48,7 +48,7 @@
                         </div>
                         <% else %>
                                 <div class="lapor-page-a4-back">
-                                    <%= image_tag "user_assets/#{session[:username]}/#{@thing.name}/#{@thing.name}_#{@pages-@count}.jpg", :class => "lapor-profile-resize" %>
+                                    <%= image_tag "#{@thing.path}_#{@pages-@count}.jpg", :class => "lapor-profile-resize" %>
                                 </div>
                             </div>
                         </div>
