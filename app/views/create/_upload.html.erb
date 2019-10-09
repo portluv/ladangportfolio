@@ -1,4 +1,4 @@
-<%= form_with(model: thing, url: create_addBook_path(@thing), local: true) do |form| %>
+<%= form_with(model: thing, id: :uploadThingForm, url: create_addBook_path(@thing), local: true) do |form| %>
 
   <div class="field">
     <%= form.label :name %>
@@ -16,7 +16,14 @@
   </div>
 
   <div class="actions">
-    <%= form.submit "Save Book", class: 'lapor-form-button' %>
+    <%= form.submit "Save Book", id: :saveBook, class: 'lapor-form-button' %>
   </div>
+
+  <script>
+    // $('#uploadThingForm').on('submit', function(e){
+    //   e.preventDefault();
+    //   console.log('prevented');
+    // });
+  </script>
 <% end %>
 
