@@ -30,7 +30,9 @@ class CreateController < ApplicationController
       if params[:path].present?
         file = params[:path]
         if @thing.thingtype_id == 1
-          Docsplit.extract_images(file.path, output: Rails.root.join('app','assets', 'images', 'user_assets', session[:username], @thing.name), :format => [:jpg])
+          pathh = file.path
+          pathh.sub! 'AGUSTI~1.THE', 'agustinus.theodorus'
+          Docsplit.extract_images(pathh, output: Rails.root.join('app','assets', 'images', 'user_assets', session[:username], @thing.name), :format => [:jpg])
           @thing.path = "user_assets/#{session[:username]}/#{@thing.name}/#{File.basename(file.path, '.pdf')}"
           @status.status = " just uploaded #{@thing.name}"
         elsif @thing.thingtype_id == 2
