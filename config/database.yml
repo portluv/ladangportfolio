@@ -22,12 +22,3 @@ development:
 test:
   <<: *default
   database: ladangportfolio_test
-
-production:
-  adapter: postgresql
-  encoding: unicode
-  host: ec2-107-20-193-199.compute-1.amazonaws.com
-  pool: 5
-  username: rlbddmjmtywixl
-  password: 80ae4528e357f7413e453214263a338e231944471598ccfac13e61836cdf1471
-  database: d5du9tf0rj1gpf
