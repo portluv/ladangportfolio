@@ -9,8 +9,8 @@ default: &default
   encoding: unicode
   host: localhost
   pool: 5
-  username: ladangportfolio
-  password: password
+  username: postgres
+  password: binus
 
 development:
   <<: *default
@@ -23,6 +23,11 @@ test:
   <<: *default
   database: ladangportfolio_test
 
-# production:
-#   <<: *default
-#   database: dilionagungjaya
+production:
+  adapter: postgresql
+  encoding: unicode
+  host: ec2-107-20-193-199.compute-1.amazonaws.com
+  pool: 5
+  username: rlbddmjmtywixl
+  password: 80ae4528e357f7413e453214263a338e231944471598ccfac13e61836cdf1471
+  database: d5du9tf0rj1gpf
