@@ -108,16 +108,12 @@
                 uploadWorkbook.removeAttribute('style');
                 workbookView = document.getElementById('workbookView');
                 workbookViewJS = document.getElementById('workbookViewJS');
-                
-                if(homePictureForm){
-                    homePictureForm.style.display = "none";
-                }
-                if(profilePictureForm){
-                    profilePictureForm.style.display = "none";
-                }
-                if(workbookView){
-                    workbookView.parentNode.removeChild(workbookViewJS);
-                    workbookView.parentNode.removeChild(workbookView);
+
+                while(workbookView!=null){
+                    modal.removeChild(workbookViewJS);
+                    modal.removeChild(workbookView);
+                    workbookView = document.getElementById('workbookView');
+                    workbookViewJS = document.getElementById('workbookViewJS');
                 }
             }, 300);
         }

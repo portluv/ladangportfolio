@@ -53,9 +53,15 @@ class UsersController < ApplicationController
   end
 
   def signIn
+    if session[:user_id]
+      redirect_to dashboard_path
+    end
   end
 
   def signUp
+    if session[:user_id]
+      redirect_to dashboard_path
+    end
     @user = User.new
   end
 
@@ -74,9 +80,6 @@ class UsersController < ApplicationController
 
   def createUser
     @user = User.new(user_params)
-    if User.find_by(username: @user.username) === nil
-      redirect_to root_path
-    end
     @status = Status.new
     @status.status_type = 2
     @status.status = " created an account"

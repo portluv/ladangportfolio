@@ -40,14 +40,14 @@
 
   <body>
     <header id="laporNavbar" class="lapor-navbar"> 
-        <%= link_to("Dashboard", dashboard_path, :class => 'lapor-navbar-item' ) %>
-        <%= link_to("Profile", editProfile_path, :class => 'lapor-navbar-item') %>
-        <%= link_to("Create", { :controller => 'create', :action => 'index'}, :class => 'lapor-navbar-item' ) %>
-        <%= link_to("Connect", { :controller => 'connection', :action => 'index'}, :class => 'lapor-navbar-item' ) %>
+        <%= link_to("DASHBOARD", dashboard_path, :class => 'lapor-navbar-item' ) %>
+        <%= link_to("PROFILE", editProfile_path, :class => 'lapor-navbar-item') %>
+        <%= link_to("CREATE", { :controller => 'create', :action => 'index'}, :class => 'lapor-navbar-item' ) %>
+        <%= link_to("CONNECT", { :controller => 'connection', :action => 'index'}, :class => 'lapor-navbar-item' ) %>
         <% if user_is_logged_in? %>
-          <%= link_to("Sign Out", signout_path, :class => 'lapor-navbar-item lapor-signin-button') %>
+          <%= link_to("SIGN OUT", signout_path, :class => 'lapor-navbar-item lapor-signin-button') %>
         <% else %>
-          <%= link_to("Sign In", signin_path, :class => 'lapor-navbar-item lapor-signin-button') %>
+          <%= link_to("SIGN IN", signin_path, :class => 'lapor-navbar-item lapor-signin-button') %>
         <% end %>
         <label class="lapor-burger-label" for="laporAltNavBarTrigger">
           <div></div>
@@ -58,14 +58,14 @@
     <span class="lapor-landing-page-title lapor-alt-navbar-title">PORTLUV</span>
     <input type="checkbox" id="laporAltNavBarTrigger" class="lapor-burger">
     <section class="lapor-alt-navbar">
-        <%= link_to("Dashboard", dashboard_path, :class => 'lapor-alt-navbar-item' ) %>
-        <%= link_to("Profile", editProfile_path, :class => 'lapor-alt-navbar-item') %>
-        <%= link_to("Create", { :controller => 'create', :action => 'index'}, :class => 'lapor-alt-navbar-item' ) %>
-        <%= link_to("Connect", { :controller => 'connection', :action => 'index'}, :class => 'lapor-alt-navbar-item' ) %>
+        <%= link_to("DASHBOARD", dashboard_path, :class => 'lapor-alt-navbar-item' ) %>
+        <%= link_to("PROFILE", editProfile_path, :class => 'lapor-alt-navbar-item') %>
+        <%= link_to("CREATE", { :controller => 'create', :action => 'index'}, :class => 'lapor-alt-navbar-item' ) %>
+        <%= link_to("CONNECT", { :controller => 'connection', :action => 'index'}, :class => 'lapor-alt-navbar-item' ) %>
         <% if user_is_logged_in? %>
-          <%= link_to("Sign Out", signout_path, :class => 'lapor-alt-navbar-item') %>
+          <%= link_to("SIGN OUT", signout_path, :class => 'lapor-alt-navbar-item') %>
         <% else %>
-          <%= link_to("Sign In", signin_path, :class => 'lapor-alt-navbar-item') %>
+          <%= link_to("SIGN IN", signin_path, :class => 'lapor-alt-navbar-item') %>
         <% end %>
     </section>
     <% if current_page?(root_url) %>

@@ -12,21 +12,19 @@
   </div>
 </div>
 
-<div class="lapor-edit-image-container">
-  <div id="laporEditProfilePicture" class="lapor-edit-profile-image">
+<div class="lapor-view-image-container">
+  <div id="laporEditProfilePicture" class="lapor-view-profile-image">
     <% if @user.profile == nil || @user.profile.profile_picture == '' || @user.profile.profile_picture == nil  %>
         <%= image_tag "web_assets/anonymous/profile_male.jpg", :class => "lapor-profile-resize" %>
     <% else %>
         <%= image_tag @user.profile.profile_picture, :class => "lapor-profile-resize"  %>
     <% end %>
-    <i class="fas fa-camera lapor-edit-profile-logo"></i>
   </div>
   <% if @user.profile == nil || @user.profile.home_picture == '' || @user.profile.home_picture == nil  %>
       <%= image_tag "web_assets/anonymous/profile_background.jpg", :class => "lapor-profile-resize",  :id => "laporEditHomePicture" %>
   <% else %>
       <%= image_tag @user.profile.home_picture, :class => "lapor-profile-resize",  :id => "laporEditHomePicture" %>
   <% end %>
-  <i class="fas fa-camera fa-10x"></i>
 </div>
 
 <% if @user.profile != nil && @user.profile.lifemotto != nil && @user.profile.lifemotto != ''%>
@@ -215,19 +213,6 @@
   </div>
 </div>
 
-<div id="modal" class="lapor-edit-profile-modal lapor-profile-modal">
-    <div id="profilePictureForm">
-        <h1>Profile Picture</h1>
-        <%= render 'uploadProfilePicture', profile: @profile %>    
-    </div>
-    <div id="homePictureForm">
-        <h1>Home Picture</h1>
-        <%= render 'uploadHomePicture', profile: @profile %>    
-    </div>
-    <div id="noticePopUp">
-      <%= notice %>
-    </div>
-</div>  
 
 <script>
   $(document).ready(function(){

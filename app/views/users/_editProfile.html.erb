@@ -354,7 +354,7 @@
       nameInput.value = removeSymbols(nameDiv.innerHTML.trim());
 
       let mottoInput = document.getElementById('mottoInput');
-      mottoInput.value = removeSymbols(mottoDiv.innerHTML.trim());
+      mottoInput.value = removeSymbols(mottoDiv.innerHTML.trim()).trim();
       
       if(sumDiv){
         let sumInput = document.getElementById('sumInput');
