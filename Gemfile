@@ -37,6 +37,8 @@ gem 'docsplit'
 # gem 'capistrano-rails', group: :development
 # Use sweetalert for notices
 # gem 'rails-assets-sweetalert2', source: 'http://rails-assets.org'
+# Use structured rails db seeding
+gem "seedbank"
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

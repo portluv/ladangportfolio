@@ -1,0 +1,1 @@
+firmtype = Firmtype.create([{ name: 'Education' }])
