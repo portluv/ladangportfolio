@@ -120,12 +120,28 @@ class UsersController < ApplicationController
         end
         @profile.home_picture = "user_assets/#{session[:username]}/#{session[:username]}_home_picture#{File.extname(file.original_filename) == '.jpg' ? '.jpeg' : File.extname(file.original_filename)}"
       end
+    
+      if params[:profile][:education_attributes].present?
+        params[:profile][:education_attributes].each do |index, param|
+          param[:firm_id] = 1
+          param[:profile_id] = @profile.id
+          if param[:id] === "" and param[:degree] != ""
+            createEducation(param)
+          elsif param[:id] != ""
+            education = Education.find_by(id: param[:id])
+            updateEducation(education, param)
+          end
+        end
+        @profile.education.each do |x|
+          x.firm_id = 1
+        end
+      end
 
       respond_to do |format|
         if @profile.save
-          format.html { redirect_to viewProfile_path(@profile), notice: 'Profile updated.' }
+          format.html { redirect_to viewProfile_path(@profile), notice: 'Profile created.' }
         else
-          format.html { render :index }
+          format.html { redirect_to editProfile_path(@profile) }
           format.json { render json: @profile.errors, status: :unprocessable_entity }
         end
       end
@@ -167,22 +183,14 @@ class UsersController < ApplicationController
       params[:profile][:education_attributes].each do |index, param|
         param[:firm_id] = 1
         param[:profile_id] = @profile.id
-        if param[:id] === "" and param[:degree] != ""
-          createEducation(param)
-        elsif param[:id] != ""
-          education = Education.find_by(id: param[:id])
-          updateEducation(education, param)
-        end
       end
     end
     
     respond_to do |format|
       if @profile.update(profile_params)
-        puts @profile.profile_picture
         format.html { redirect_to viewProfile_path, notice: 'Profile updated.' }
       else
-        print(@profile.errors.full_messages)
-        format.html { render :index }
+        format.html { render :edit }
         format.json { render json: @profile.errors, status: :unprocessable_entity }
       end
     end
