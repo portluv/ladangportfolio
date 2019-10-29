@@ -36,23 +36,9 @@
     <% end %>
     <div id="addInputEducation"></div>
   </div>
-
-  <div id="modal" class="lapor-edit-profile-modal">
-    <div id="profilePictureForm">
-      <h1>Profile Picture</h1>
-      <div class="field">
-        <%= form.label :profile_picture, 'Choose file to upload' %><br>
-        <%= form.file_field :profile_picture %>
-      </div>
-    </div>
-    <div id="homePictureForm">
-      <h1>Home Picture</h1>
-      <div class="field">
-        <%= form.label :home_picture, 'Choose file to upload' %><br>
-        <%= form.file_field :home_picture %>
-      </div>
-    </div>
-  </div>  
+  
+  <%= form.file_field :profile_picture, id: :profilePictureInput %>
+  <%= form.file_field :home_picture, id: :homePictureInput %>
   
   <div class="lapor-edit-profile-submit">
     <%= form.submit "Save Edits", id: 'editProfileSubmitButton', class: 'lapor-form-button' %>
@@ -435,18 +421,6 @@
       $('.lapor-edit-image-container > div.lapor-edit-profile-image ~ img').removeAttr("style");
     });
 
-    $('#laporEditProfilePicture').on('click', function(){
-        $('#modal').fadeIn(500, function(){
-            $('#profilePictureForm').fadeIn(500);
-        });
-    });
-
-    $('#laporEditHomePicture, #laporEditHomePicture ~ i').on('click', function(){
-        $('#modal').fadeIn(500, function(){
-            $('#homePictureForm').fadeIn(500);
-        });
-    });
-
     $('.lapor-first-new-section').on('blur', '.lapor-profile-section > b', function(){
       if(!document.querySelectorAll('.lapor-profile-add-section-item')[0] && $('.lapor-profile-section > b').html() != ''){
         document.querySelectorAll('.lapor-profile-section')[0].innerHTML += '<div class="lapor-portfolio-item">\
@@ -457,17 +431,6 @@
           <span contentEditable="true" data-text="..."></span>\
         </div>';  
       }
-    });
-
-    $('#modal').on('click', function(e){
-        if (e.target !== this)
-          return;
-        else{
-          $('#modal').fadeOut(500, function(){
-            $('#profilePictureForm').hide();
-            $('#homePictureForm').hide();
-          });
-        }
     });
 
     if(document.querySelectorAll('.lapor-profile-biodata')[0]){
@@ -484,6 +447,43 @@
         addStreamButton.classList.add("fa-user-tie");
         addStreamButton.classList.remove("fa-stream");
       }
+    }
+    
+    function readURL(input, imgview, originalURL) {
+        let reader = new FileReader();
+        if (input.files && input.files[0]) {
+            reader.onload = function(e) {
+                imgview.setAttribute('src', e.target.result);
+            }
+            reader.readAsDataURL(input.files[0]);
+        }
+        else{
+            imgview.setAttribute('src', originalURL);
+        }
+    }
+
+    $(document).on('click', '#laporEditProfilePicture', function(e) { 
+        e.preventDefault();
+        $("#profilePictureInput").click();
+    });
+
+    var originalProfileURL = document.getElementById('laporEditProfilePicture').getElementsByTagName('img')[0].src;
+    var profilePictureInput = document.getElementById('profilePictureInput');
+    profilePictureInput.onchange = function(){
+      let imgview = document.getElementById('laporEditProfilePicture').getElementsByTagName('img')[0];
+      readURL(this, imgview, originalProfileURL);
+    }
+
+    $(document).on('click', '#laporEditHomePicture', function(e) { 
+        e.preventDefault();
+        $("#homePictureInput").click(); 
+    });
+
+    var originalHomeURL = document.getElementById('laporEditHomePicture').src;
+    var homePictureInput = document.getElementById('homePictureInput');
+    homePictureInput.onchange = function(){
+      let imgview = document.getElementById('laporEditHomePicture');
+      readURL(this, imgview, originalHomeURL);
     }
 
     $("#laporAddSection").on('click', function(){

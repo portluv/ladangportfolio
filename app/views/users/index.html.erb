@@ -1,3 +1,7 @@
+<p id="notice">
+  <%= notice %>
+</p>
+
 <div class="lapor-edit-profile-title">
   <div class="lapor-edit-profile-name lapor-edit-profile-name-move">
     Welcome, 
@@ -214,39 +218,30 @@
 </div>
 
 
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
 <script>
+  var notice = document.getElementById('notice');
+  notice.style.display="none";
+  var Toast = Swal.mixin({
+      toast: true,
+      position: 'bottom-end',
+      showConfirmButton: false,
+      timer: 3000
+  })
+  if(notice.innerText.trim()!=""){
+      Toast.fire({
+          type: 'success',
+          title: notice.innerText
+      })
+  }
+
   $(document).ready(function(){
-    if($.trim($('#noticePopUp').text()) != ''){
-      $('#modal').fadeIn(500, function(){
-          $('#noticePopUp').fadeIn(500);
-      });
-    }
     $('.lapor-edit-image-container > div.lapor-edit-profile-image ~ img ~ i').on('mouseenter', function(){
       $('.lapor-edit-image-container > div.lapor-edit-profile-image ~ img').css({'opacity':'.5'});
     });
     $('.lapor-edit-image-container > div.lapor-edit-profile-image ~ img ~ i').mouseout(function(){
       $('.lapor-edit-image-container > div.lapor-edit-profile-image ~ img').removeAttr("style");
-    });
-    $('#laporEditProfilePicture').on('click', function(){
-        $('#modal').fadeIn(500, function(){
-            $('#profilePictureForm').fadeIn(500);
-        });
-    });
-    $('#laporEditHomePicture, #laporEditHomePicture ~ i').on('click', function(){
-        $('#modal').fadeIn(500, function(){
-            $('#homePictureForm').fadeIn(500);
-        });
-    });
-    $('#modal').on('click', function(e){
-      if (e.target !== this)
-        return;
-      else
-        $('#modal').fadeOut(500, function(){
-          $('#profilePictureForm').hide();
-          $('#homePictureForm').hide();
-          $('#noticePopUp').hide();
-          $('#noticePopUp').text('');
-        });
     });
       
     $('.lapor-edit-form-show').on('click', function(){
