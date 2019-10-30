@@ -75,6 +75,32 @@
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
 <script>
+    var statusTwitbox = document.getElementById("statusTwitbox");
+    statusTwitbox.value = "";
+
+    function countChar(val) {
+        statusTwitbox.style.height = statusTwitbox.scrollHeight + "px";
+        statusTwitbox.style.overflow = "hidden";
+        var len = val.length;
+        if (len > 500) {
+            val = val.substring(0, 500);
+        } else {
+            $('#statusCount').text(len + '/500');
+            if(len > 450 && len <= 500){
+                $('#statusCount').css("color", "red");
+            }
+            else{
+                $('#statusCount').css("color", "#282828");
+            }
+        }
+    };
+    $('#statusTwitbox').on('keyup', function() {
+        countChar($('#statusTwitbox').val());
+    });
+    $('#statusTwitbox').on('keypress', function() {
+        countChar($('#statusTwitbox').val());
+    });
+    
     var notice = document.getElementById('notice');
     notice.style.display="none";
     var Toast = Swal.mixin({

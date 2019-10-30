@@ -11,7 +11,7 @@
       @user.profile.nationality != nil && @user.profile.nationality != '' 
     )
   %>
-    <%= form.hidden_field :dateofbirth, id: :dobInput %>
+    <%= form.hidden_field :dateofbirth, id: :dobInput, value: @user.profile.dateofbirth.strftime("%d %B %Y") %>
     <%= form.hidden_field :gender, id: :genderInput %>
     <%= form.hidden_field :phone, id: :phoneInput %>
     <%= form.hidden_field :address, id: :addressInput %>
@@ -24,13 +24,15 @@
 
   <div id="addInput">
     <% if @user.profile != nil && @user.profile.education != nil%>
+      <% @count=1 %>
       <% @user.profile.education.each do |education| %>
         <%= form.fields_for :education, education do |education_form| %>
-            <%= education_form.hidden_field :degree, class: :degInput %>
-            <%= education_form.hidden_field :firm_id, class: :firmIDInput %>
-            <%= education_form.hidden_field :profile_id, class: :profileIDInput %>
-            <%= education_form.hidden_field :join_date, class: :joinInput %>
-            <%= education_form.hidden_field :end_date, class: :endInput %>
+            <%= education_form.hidden_field :degree, class: :degInput, id: 'deg'+@count.to_s+'Input' %>
+            <%= education_form.hidden_field :firm_id, class: :firmIDInput, id: 'firmID'+@count.to_s+'Input' %>
+            <%= education_form.hidden_field :profile_id, class: :profileIDInput, id: 'profileID'+@count.to_s+'Input' %>
+            <%= education_form.hidden_field :join_date, class: :joinInput, id: 'join'+@count.to_s+'Input', value: education.join_date != nil ? education.join_date.strftime("%d %B %Y") : "" %>
+            <%= education_form.hidden_field :end_date, class: :endInput, id: 'end'+@count.to_s+'Input', value: education.end_date != nil ? education.end_date.strftime("%d %B %Y") : ""%>
+            <% @count+=1 %>
         <% end %>
       <% end %>
     <% end %>
@@ -44,7 +46,6 @@
     <%= form.submit "Save Edits", id: 'editProfileSubmitButton', class: 'lapor-form-button' %>
   </div>
 <% end %> 
-
   <div class="lapor-edit-profile-title">
     <div class="lapor-edit-profile-name">
       <div>Welcome,&nbsp;</div>
@@ -102,7 +103,11 @@
               <i class="fas fa-birthday-cake"></i>
             </div>
             <b>Date of Birth</b>
-            <span id="dobDiv" contentEditable="true" data-text="dd/mm/yyyy"><%= @user.profile.dateofbirth == nil ? '' : @user.profile.dateofbirth.strftime("%d %B %Y") %></span>
+            <%if @user.profile.dateofbirth == nil %> 
+              <span id="dobDiv" class="lapor-pickadate-trigger lapor-pickadate-trigger-placeholder">dd MM yyyy</span>
+            <%else%>
+              <span id="dobDiv" class="lapor-pickadate-trigger"><%=@user.profile.dateofbirth.strftime("%d %B %Y")%></span>
+            <%end%>
           </div>
           <div class="lapor-portfolio-item">
             <div>
@@ -159,21 +164,21 @@
                       <i class="fas fa-graduation-cap"></i>
                     </div>
                     <b>Degree</b>
-                    <span class="degDiv" contentEditable="true" data-text="Degree"><%= education.degree %></span>
+                    <span id="deg<%= index+1 %>Div" class="degDiv" contentEditable="true" data-text="Degree"><%= education.degree %></span>
                   </div>
                   <div class="lapor-portfolio-item">
                     <div>
                       <i class="fas fa-calendar-alt"></i>
                     </div>
                     <b>Join Date</b>
-                    <span class="joinDiv" contentEditable="true" data-text="dd/mm/yyyy"><%= education.join_date == nil ? '' : education.join_date.strftime("%d %B %Y") %></span>
+                    <span id="join<%= index+1 %>Div" class="joinDiv <%= education.join_date == nil ? 'lapor-pickadate-trigger-placeholder' : 'lapor-pickadate-trigger' %>"><%= education.join_date == nil ? 'dd MM yyyy' : education.join_date.strftime("%d %B %Y") %></span>
                   </div>
                   <div class="lapor-portfolio-item">
                     <div>
                       <i class="fas fa-calendar-alt"></i>
                     </div>
                     <b>End Date</b>
-                    <span class="endDiv" contentEditable="true" data-text="dd/mm/yyyy"><%= education.end_date == nil ? '' : education.end_date.strftime("%d %B %Y") %></span>
+                    <span id="end<%= index+1 %>Div" class="endDiv <%= education.end_date == nil ? 'lapor-pickadate-trigger-placeholder' : 'lapor-pickadate-trigger' %>"><%= education.end_date == nil ? 'dd MM yyyy' : education.end_date.strftime("%d %B %Y") %></span>
                   </div>
                 <% @headerFlag = true %>
               <% if index == @user.profile.education.size - 1 %>
@@ -439,6 +444,12 @@
         addBiodataButton.classList.add("fa-user-graduate");
         addBiodataButton.classList.remove("fa-user");
       }
+      bindPickadate($('#dobInput'));
+      let totalEducation = document.getElementsByClassName('joinDiv').length;
+      for(let i=1;i<=totalEducation;i++){
+        bindPickadate($('#join'+i+'Input'));
+        bindPickadate($('#end'+i+'Input'));
+      }
     }
 
     if(document.querySelectorAll('.lapor-profile-description')[0]){
@@ -504,10 +515,37 @@
       }
     });
 
+    function bindPickadate(element){
+      let $input = element.pickadate({
+        clear: '',
+        labelMonthNext: 'Go to the next month',
+        labelMonthPrev: 'Go to the previous month',
+        labelMonthSelect: 'Pick a month from the dropdown',
+        labelYearSelect: 'Pick a year from the dropdown',
+        selectMonths: true,
+        selectYears: true
+      });
+      let picker = $input.pickadate('picker');
+      let triggerElement = '#'+element.attr("id").substring(0, element.attr("id").indexOf("Input"))+'Div';
+
+      $(triggerElement).on('click', function(event) {
+          event.stopPropagation();
+          picker.open();
+      });
+
+      picker.on('close',function(){
+        let str = picker.get().replace(",", "");
+        if(str!=""){
+          $(triggerElement).css('color','black');
+          $(triggerElement).text(str);
+        }
+      });
+    }
+
     $(".lapor-add-section-sub-button:nth-child(1)").on('click', function(){
       if(!document.querySelectorAll('.lapor-profile-biodata')[0]){
-        document.getElementById('addInput').innerHTML += '<input id="dobInput" type="hidden" value="" name="profile[dateofbirth]">\
-          <input id="genderInput" type="hidden" value="" name="profile[gender]">\
+        $('#addInput').append('<input id="dobInput" style="display: none;" name="profile[dateofbirth]" />');
+        document.getElementById('addInput').innerHTML += '<input id="genderInput" type="hidden" value="" name="profile[gender]">\
           <input id="phoneInput" type="hidden" value="" name="profile[phone]">\
           <input id="addressInput" type="hidden" value="" name="profile[address]">\
           <input id="nationInput" type="hidden" value="" name="profile[nationality]">';
@@ -519,7 +557,7 @@
                 <i class="fas fa-birthday-cake"></i>\
               </div>\
               <b>Date of Birth</b>\
-              <span id="dobDiv" contentEditable="true" data-text="dd/mm/yyyy"></span>\
+              <span id="dobDiv" class="lapor-pickadate-trigger-placeholder" data-text="dd/mm/yyyy">dd/mm/yyyy</span>\
             </div>\
             <div class="lapor-portfolio-item">\
               <div>\
@@ -554,6 +592,7 @@
           let addBiodataButton = document.querySelectorAll('.fas.fa-user')[0];
           addBiodataButton.classList.add("fa-user-graduate");
           addBiodataButton.classList.remove("fa-user");
+          bindPickadate($('#dobInput'));
       }
       else if(!document.querySelectorAll('.lapor-profile-education')[0]){
         let degInput = document.getElementsByClassName('degInput');

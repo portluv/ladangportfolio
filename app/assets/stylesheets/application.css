@@ -12,12 +12,44 @@
 *
 *= require_tree .
 *= require_self
+*= require pickadate/default
+*= require pickadate/default.date
+*= require pickadate/default.time
 */
+h2#swal2-title.swal2-title{
+  line-height: 0px;
+}
+select.picker__select--year{
+  width: 24.5%;
+}
+select.picker__select--year, select.picker__select--month{
+  height: 32px;
+}
+.lapor-pickadate-trigger-placeholder{
+  color: grey;
+  cursor: pointer;
+}
+.lapor-pickadate-trigger{
+  color: black;
+  cursor: pointer;
+}
+#notice, .joinInput, #dobInput, .endInput{
+  display: none;
+}
 :root{
   --fontSize: 14pt;
   --fonrSizeMedium: 12pt;
-  --navbarParentHeight: 56px;
   --navbarShadow: 1px 1px 23px -1px rgba(17, 17, 17, .3);
+}
+@media screen and (min-width: 516px){
+  :root{
+    --navbarParentHeight: 56px;
+  }
+}
+@media screen and (max-width: 516px){
+  :root{
+    --navbarParentHeight: 45px;
+  }
 }
 body{
     width: 100vw;
@@ -156,7 +188,7 @@ input:-webkit-autofill {
 }
 
 .lapor-burger-label{
-    margin-top: calc((42px - 29px) / 2);
+    margin-top: calc((var(--navbarParentHeight) - 29px) / 2);
     height: 31px;
     margin-left: auto;
     margin-right: 17px;
@@ -168,7 +200,7 @@ input:-webkit-autofill {
 .lapor-burger-label > div {
   width: 23px;
   height: 2px;
-  background-color: white;
+  background-color: #dd5858;
   margin: 5px 0;
 }
 
@@ -654,7 +686,7 @@ input:-webkit-autofill {
 .lapor-landing-page-title{
     font-family: 'Kanit', sans-serif;
     font-size: 16pt;
-    color: white; 
+    color: #dd5858; 
     text-decoration: none;
     
     position: absolute; 

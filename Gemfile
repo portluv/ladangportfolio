@@ -37,6 +37,8 @@ gem 'docsplit'
 # gem 'capistrano-rails', group: :development
 # Use sweetalert for notices
 # gem 'rails-assets-sweetalert2', source: 'http://rails-assets.org'
+# Use pickadate for datepicking (obviously)
+gem 'pickadate-rails'
 # Use structured rails db seeding
 gem "seedbank"
 

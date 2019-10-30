@@ -14,4 +14,7 @@
 //= require jquery_ujs
 //= require rails-ujs
 //= require turbolinks
+//= require pickadate/picker
+//= require pickadate/picker.date
+//= require pickadate/picker.time
 //= require_tree .
