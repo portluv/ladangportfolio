@@ -3,7 +3,7 @@
     <div id="error_explanation">
       <h2><%= pluralize(user.errors.count, "error") %> prohibited this user from being saved:</h2>
 
-      <ul>
+      <ul id="notice">
       <% user.errors.full_messages.each do |message| %>
         <li><%= message %></li>
       <% end %>
@@ -40,4 +40,27 @@
   .lapor-main{
     height: calc((100vh - var(--paddingSize)) - var(--navbarSize));
   }
+  .lapor-landing-page-title{
+    color: white;
+  }
 </style>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
+<script>
+    var notice = document.getElementById('notice');
+    if(notice!=null){
+      var errorList = notice.getElementsByTagName('li');
+      var errorText = "";
+      for(let i=0;i<errorList.length;i++){
+        errorText+=errorList[i].innerText+'<br>';
+      }
+      if(notice.innerText.trim()!=""){
+          Swal.fire({
+            type: 'error',
+            title: 'Error',
+            html: '<br>'+errorText
+          });
+          notice.innerText="";
+      }
+    }
+</script>

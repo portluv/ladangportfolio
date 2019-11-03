@@ -11,7 +11,7 @@
 
   <div class="actions">
     <%= form.submit "Sign In", class: 'lapor-form-button' %>
-    <div class="lapor-error-notice"><%= notice %></div>
+    <p id="notice"><%= notice %></p>
     <%= link_to 'Don\'t have an account? Sign Up Here!', signup_path %>
     <%= link_to 'Back to home', home_path %>
   </div>
@@ -24,4 +24,26 @@
   .lapor-main{
     height: calc((100vh - var(--paddingSize)) - var(--navbarSize));
   }
+  .lapor-landing-page-title{
+    color: white;
+  }
 </style>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
+<script>
+    var notice = document.getElementById('notice');
+    notice.style.display="none";
+    var Toast = Swal.mixin({
+        toast: true,
+        position: 'bottom-end',
+        showConfirmButton: false,
+        timer: 1500
+    })
+    if(notice.innerText.trim()!=""){
+        Toast.fire({
+            type: 'error',
+            title: notice.innerText
+        })
+        notice.innerText="";
+    }
+</script>

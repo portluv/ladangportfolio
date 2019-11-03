@@ -33,22 +33,30 @@ select.picker__select--year, select.picker__select--month{
   color: black;
   cursor: pointer;
 }
-#notice, .joinInput, #dobInput, .endInput{
+#error_explanation, #notice, .joinInput, #dobInput, .endInput{
   display: none;
+}
+#laporLandingTitle{
+  color: white;
 }
 :root{
   --fontSize: 14pt;
-  --fonrSizeMedium: 12pt;
+  --fontSizeMedium: 12pt;
   --navbarShadow: 1px 1px 23px -1px rgba(17, 17, 17, .3);
+  --fontDecorative: 'Kanit', sans-serif;
+  --paddingSize: 60px;
 }
-@media screen and (min-width: 516px){
+@media screen and (min-width: 713px){
   :root{
     --navbarParentHeight: 56px;
+    --navbarSize: var(--navbarParentHeight);
+    --shelfWidth: 270px;
   }
 }
-@media screen and (max-width: 516px){
+@media screen and (max-width: 713px){
   :root{
     --navbarParentHeight: 45px;
+    --shelfWidth: 240px;
   }
 }
 body{
@@ -99,17 +107,14 @@ input:-webkit-autofill {
     width: 100%;
     height: 0;
     display: flex;
-    background: #dd5858;
+    background: white;
     flex-direction: column;
     transition: all .5s ease; 
+    box-shadow: 0px 10px 4px -4px rgba(17, 17, 17, .1);
+    overflow: hidden;
 }
 
-.lapor-alt-navbar *{
-    opacity: 0;
-    transition: all .5s ease; 
-}
-
-@media screen and (min-width: 515px){
+@media screen and (min-width: 713px){
     .lapor-alt-navbar-item{
         display: none;
     }
@@ -119,9 +124,12 @@ input:-webkit-autofill {
     .lapor-alt-navbar{
       display: none;
     }
+    .lapor-alt-navbar-title{
+        display: none;
+    }
 }
 
-@media screen and (max-width: 515px){
+@media screen and (max-width: 713px){
     .lapor-navbar-item{
         display: none;
     }
@@ -135,14 +143,13 @@ input:-webkit-autofill {
 }
 
 .lapor-burger:checked ~ .lapor-alt-navbar *{
-    height: 35px;
     opacity: 1;
-    border-top: 1px solid #ce4848;
+    transition: all .5s cubic-bezier(1,-0.01,1,.19);
 }
 
 .lapor-navbar-item{
     font-size: var(--fontSize);
-    font-family: 'Kanit', sans-serif;
+    font-family: var(--fontDecorative);
     color: #dd5858;
     text-decoration: none;
 
@@ -155,24 +162,13 @@ input:-webkit-autofill {
 
 .lapor-alt-navbar-item{
     opacity: 0;
-    height: 0;
+    height: 35px;
     font-size: var(--fontSizeMedium);
-    color: white;
+    color: #dd5858;
     text-align: center;
     text-decoration: none;
     line-height: var(--navbarParentHeight);
-
-    transition: all .5s ease;
-}
-
-.lapor-alt-navbar-item:hover{
-    background: #e26c6c;
-}
-
-@media screen and (min-width: 515px){
-    .lapor-alt-navbar-title{
-        display: none;
-    }
+    font-family: var(--fontDecorative);
 }
 
 .lapor-alt-navbar-title{
@@ -386,7 +382,7 @@ input:-webkit-autofill {
 }
 
 #woodenShelf{
-    width: 270px; 
+    width: var(--shelfWidth); 
     height: 27px; 
     border-radius: 7px; 
     background: brown;
@@ -684,7 +680,7 @@ input:-webkit-autofill {
     cursor: pointer;
 }
 .lapor-landing-page-title{
-    font-family: 'Kanit', sans-serif;
+    font-family: var(--fontDecorative);
     font-size: 16pt;
     color: #dd5858; 
     text-decoration: none;
@@ -1025,7 +1021,6 @@ a#workbook.lapor-workbook > span{
     height: 150px;
 
     border-radius: 50%;
-    /* background: #d82f2f; */
 
     margin-left: 10px;
     margin-right: 10px;
@@ -1507,7 +1502,7 @@ a#workbook.lapor-workbook > span{
   }
 }
 @media screen and (min-width: 612px) and (max-width: 745px){
-  .lapor-edit-profile-image{
+  .lapor-edit-profile-image, .lapor-view-profile-image{
     width: 175px; 
     height: 175px; 
   
@@ -1538,7 +1533,7 @@ a#workbook.lapor-workbook > span{
     margin-top: 25px;
     margin-bottom: 25px;
   }
-  .lapor-edit-image-container{
+  .lapor-edit-image-container, .lapor-view-image-container{
     margin-top: 120px;
   }
   .lapor-edit-profile-title{
@@ -1572,7 +1567,7 @@ a#workbook.lapor-workbook > span{
   }
 }
 @media screen and (min-width: 426px) and (max-width: 612px){
-  .lapor-edit-profile-image{
+  .lapor-edit-profile-image, .lapor-view-profile-image{
     width: 150px; 
     height: 150px; 
   
@@ -1604,7 +1599,7 @@ a#workbook.lapor-workbook > span{
     margin-top: 20px;
     margin-bottom: 20px;
   }
-  .lapor-edit-image-container{
+  .lapor-edit-image-container, .lapor-view-image-container{
     margin-top: 110px;
   }
   .lapor-edit-profile-title{
@@ -1638,7 +1633,7 @@ a#workbook.lapor-workbook > span{
   }
 }
 @media screen and (min-width: 354px) and (max-width: 426px){
-  .lapor-edit-profile-image{
+  .lapor-edit-profile-image, .lapor-view-profile-image{
     width: 125px; 
     height: 125px; 
   
@@ -1670,7 +1665,7 @@ a#workbook.lapor-workbook > span{
     margin-top: 20px;
     margin-bottom: 15px;
   }
-  .lapor-edit-image-container{
+  .lapor-edit-image-container, .lapor-view-image-container{
     margin-top: 90px;
   }
   .lapor-edit-profile-title{
@@ -1704,7 +1699,7 @@ a#workbook.lapor-workbook > span{
   }
 }
 @media screen and (max-width: 354px){
-  .lapor-edit-profile-image{
+  .lapor-edit-profile-image, .lapor-view-profile-image{
     width: 100px; 
     height: 100px; 
   
@@ -1736,7 +1731,7 @@ a#workbook.lapor-workbook > span{
     margin-top: 15px;
     margin-bottom: 10px;
   }
-  .lapor-edit-image-container{
+  .lapor-edit-image-container, .lapor-view-image-container{
     margin-top: 70px;
   }
   .lapor-edit-profile-title{
@@ -1778,6 +1773,9 @@ a#workbook.lapor-workbook > span{
     .lapor-signup-form{
         width: 400px;
         padding: 25px;
+    }
+    .lapor-signup-title{
+      margin: auto;
     }
 }
 @media screen and (min-width: 512px) and (max-width: 984px){
@@ -1840,9 +1838,8 @@ a#workbook.lapor-workbook > span{
     letter-spacing: 2px;
 }
 .lapor-signup-title{
-    font-family: 'Kanit', sans-serif;
+    font-family: var(--fontDecorative);
     display: block;
-    margin: auto; 
 
     font-size: 24pt;  
     text-align: center; 
