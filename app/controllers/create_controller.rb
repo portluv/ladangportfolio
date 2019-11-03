@@ -4,6 +4,36 @@ class CreateController < ApplicationController
     def index
       if session[:username]
         @user = User.find_by(username: session[:username])
+        index=0
+        found=0
+        found_idx=0
+        @user.thing.each do |t|
+          index+=1
+          if t.thingtype_id == 1
+            if found==0
+              found_idx=index
+            end
+            found+=1
+            if found > 1
+              tempid=t.id
+              tempthingtype_id=t.thingtype_id
+              tempname=t.name
+              temppath=t.path
+              t.id = @user.thing[found_idx].id
+              t.thingtype_id = @user.thing[found_idx].thingtype_id
+              t.name = @user.thing[found_idx].name
+              t.path = @user.thing[found_idx].path
+              @user.thing[found_idx].id=tempid
+              @user.thing[found_idx].thingtype_id=tempthingtype_id
+              @user.thing[found_idx].name=tempname
+              @user.thing[found_idx].path=temppath
+              found_idx+=1
+            end
+            if found == 5
+              found=0
+            end
+          end
+        end
         @thingtype = Thingtype.all
       else
         redirect_to root_path
@@ -31,7 +61,6 @@ class CreateController < ApplicationController
         file = params[:path]
         if @thing.thingtype_id == 1
           pathh = file.path
-          pathh.sub! 'AGUSTI~1.THE', 'agustinus.theodorus'
           Docsplit.extract_images(pathh, output: Rails.root.join('app','assets', 'images', 'user_assets', session[:username], @thing.name), :format => [:jpg])
           @thing.path = "user_assets/#{session[:username]}/#{@thing.name}/#{File.basename(file.path, '.pdf')}"
           @status.status = " just uploaded #{@thing.name}"
