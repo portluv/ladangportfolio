@@ -75,7 +75,24 @@
     </div>
 </div>  
 
-<script type="text/javascript">
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
+<script>
+    var notice = document.getElementById('notice');
+    notice.style.display="none";
+    var Toast = Swal.mixin({
+        toast: true,
+        position: 'bottom-end',
+        showConfirmButton: false,
+        timer: 1500
+    })
+    if(notice.innerText.trim()!=""){
+        Toast.fire({
+            type: 'success',
+            title: notice.innerText
+        })
+        notice.innerText="";
+    }
+
     var modal = document.getElementById('modal');
     var workbookView = document.getElementById('workbookView');
     var workbookViewJS = document.getElementById('workbookViewJS');
