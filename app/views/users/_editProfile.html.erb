@@ -1,3 +1,5 @@
+<p id="notice"><%= notice %></p>
+<span id="hiddenUsername"><%= session[:username] %></span>
 <%= form_with(model: profile, url: @profile.user_id == nil ? create_new_profile_path(@profile) : put_profile_path(@profile), local: true, id: 'editProfileForm', class: "lapor-profile-form", html: { autocomplete: "off" }) do |form| %>
   <%= form.hidden_field :fullname, id: :nameInput %>
   <%= form.hidden_field :lifemotto, id: :mottoInput %>
@@ -41,6 +43,8 @@
   
   <%= form.file_field :profile_picture, id: :profilePictureInput %>
   <%= form.file_field :home_picture, id: :homePictureInput %>
+  <%= form.hidden_field :profile_picture_link, id: :profilePictureLinkInput %>
+  <%= form.hidden_field :home_picture_link, id: :homePictureLinkInput %>
   
   <div class="lapor-edit-profile-submit">
     <%= form.submit "Save Edits", id: 'editProfileSubmitButton', class: 'lapor-form-button' %>
@@ -260,7 +264,40 @@
     <i class="fas fa-plus fa-4x"></i>
   </div>
 
-  <script>
+
+<!-- The core Firebase JS SDK is always required and must be listed first -->
+<script src="https://www.gstatic.com/firebasejs/5.7.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/5.7.0/firebase-firestore.js"></script>
+<script src="https://www.gstatic.com/firebasejs/5.9.1/firebase-storage.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
+<script>
+    // Your web app's Firebase configuration
+    var firebaseConfig = {
+      apiKey: "AIzaSyA8y_a3JRsxyzS8JZEB-xia-WILwmtZn8I",
+      authDomain: "portluv-59566.firebaseapp.com",
+      databaseURL: "https://portluv-59566.firebaseio.com",
+      projectId: "portluv-59566",
+      storageBucket: "portluv-59566.appspot.com",
+      messagingSenderId: "896431823346",
+      appId: "1:896431823346:web:53599228b724cd168af36b",
+      measurementId: "G-R470CXDBD8"
+    };
+    // Initialize Firebase
+    if (!firebase.apps.length) {
+      firebase.initializeApp(firebaseConfig);
+    }
+
+    var notice = document.getElementById('notice');
+    notice.style.display="none";
+    if(notice.innerText.trim()!=""){
+        Swal.fire({
+            type: 'success',
+            title: notice.innerText,
+            showConfirmButton: false,
+            html: "<br>",
+            timer: 2000
+        })
+    }
     document.addEventListener("paste", function(e) {
         // cancel paste
         e.preventDefault();
@@ -323,8 +360,120 @@
       }
       contentIsEmptyCheck('mottoDiv');
     }
+
+    $(document).on('click', '#laporEditProfilePicture', function(e) { 
+        e.preventDefault();
+        $("#profilePictureInput").click();
+    });
+
+    var originalProfileURL = document.getElementById('laporEditProfilePicture').getElementsByTagName('img')[0].src;
+    var profilePictureInput = document.getElementById('profilePictureInput');
+    profilePictureInput.onchange = function(){
+      let imgview = document.getElementById('laporEditProfilePicture').getElementsByTagName('img')[0];
+      readURL(this, imgview, originalProfileURL);
+    }
+
+    $(document).on('click', '#laporEditHomePicture', function(e) { 
+        e.preventDefault();
+        $("#homePictureInput").click(); 
+    });
+
+    var originalHomeURL = document.getElementById('laporEditHomePicture').src;
+    var homePictureInput = document.getElementById('homePictureInput');
+    homePictureInput.onchange = function(){
+      let imgview = document.getElementById('laporEditHomePicture');
+      readURL(this, imgview, originalHomeURL);
+    }
+
+    async function uploadProfilePicture(profilePhoto){
+      let promise = new Promise((resolve, reject) => {
+        let profilePhotoURL = "";
+        if(profilePhoto.length==1){
+          profilePhoto = profilePhoto[0];
+          let profileStorageRef = firebase.storage().ref('user_assets/'+document.getElementById('hiddenUsername').innerText+'/'+profilePhoto.name);
+          let uploadProfileTask = profileStorageRef.put(profilePhoto);
+          uploadProfileTask.on(firebase.storage.TaskEvent.STATE_CHANGED, // or 'state_changed'
+            function(snapshot) {
+              // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+              var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+              console.log('Upload is ' + progress + '% done');
+              switch (snapshot.state) {
+                case firebase.storage.TaskState.PAUSED: // or 'paused'
+                  console.log('Upload is paused');
+                  break;
+                case firebase.storage.TaskState.RUNNING: // or 'running'
+                  console.log('Upload is running');
+                  break;
+              }
+            }, function(error) {
+
+            
+          }, 
+          async function() {
+            // Upload completed successfully, now we can get the download URL
+            profilePhotoURL = await uploadProfileTask.snapshot.ref.getDownloadURL();
+            resolve(profilePhotoURL);
+          });
+        }
+        else{
+          resolve(originalProfileURL);
+        }
+      });
+      let result = await promise;
+      return result;
+    }
     
-    $("#editProfileSubmitButton").on('click', function(e){
+    async function uploadHomePicture(homePhoto){
+      let promise = new Promise((resolve, reject) => {
+        let homePhotoURL = "";
+        if(homePhoto.length==1){
+          homePhoto = homePhoto[0];
+          let homeStorageRef = firebase.storage().ref('user_assets/'+document.getElementById('hiddenUsername').innerText+'/'+homePhoto.name);
+          let uploadHomeTask = homeStorageRef.put(homePhoto);
+          uploadHomeTask.on(firebase.storage.TaskEvent.STATE_CHANGED, // or 'state_changed'
+            function(snapshot) {
+              // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+              var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+              console.log('Upload is ' + progress + '% done');
+              switch (snapshot.state) {
+                case firebase.storage.TaskState.PAUSED: // or 'paused'
+                  console.log('Upload is paused');
+                  break;
+                case firebase.storage.TaskState.RUNNING: // or 'running'
+                  console.log('Upload is running');
+                  break;
+              }
+            }, 
+            function(error) {
+
+            
+            }, 
+            async function() {
+              // Upload completed successfully, now we can get the download URL
+              homePhotoURL= await uploadHomeTask.snapshot.ref.getDownloadURL();
+              resolve(homePhotoURL);
+            }
+          );
+        }
+        else{
+          resolve(originalHomeURL);
+        }
+      });
+      let result = await promise;
+      return result;
+    }
+
+    async function uploadProfileAndHomePicture(profilePhoto, homePhoto, form){
+      let results = await Promise.all([
+        uploadProfilePicture(profilePhoto),
+        uploadHomePicture(homePhoto),
+      ]);
+      document.getElementById('profilePictureLinkInput').value=results[0];
+      document.getElementById('homePictureLinkInput').value=results[1];
+      form.submit();
+    }
+
+    $("#editProfileSubmitButton").on('click', async function(e){
       e.preventDefault();
       let nameDiv = document.getElementById('nameDiv');
       let mottoDiv = document.getElementById('mottoDiv');
@@ -408,7 +557,17 @@
         }
       }
 
-      document.getElementById('editProfileForm').submit();
+      let profilePictureInput = document.getElementById('profilePictureInput');
+      let homePictureInput = document.getElementById('homePictureInput');
+
+      let profilePhoto = profilePictureInput.files;
+      let homePhoto = homePictureInput.files;
+      
+      if(profilePhoto.length==0 && homePhoto.length==0){
+        document.getElementById('editProfileForm').submit();
+      }
+
+      uploadProfileAndHomePicture(profilePhoto, homePhoto, document.getElementById('editProfileForm'));
     });
 
     $(document).ready(function(){
@@ -471,30 +630,6 @@
         else{
             imgview.setAttribute('src', originalURL);
         }
-    }
-
-    $(document).on('click', '#laporEditProfilePicture', function(e) { 
-        e.preventDefault();
-        $("#profilePictureInput").click();
-    });
-
-    var originalProfileURL = document.getElementById('laporEditProfilePicture').getElementsByTagName('img')[0].src;
-    var profilePictureInput = document.getElementById('profilePictureInput');
-    profilePictureInput.onchange = function(){
-      let imgview = document.getElementById('laporEditProfilePicture').getElementsByTagName('img')[0];
-      readURL(this, imgview, originalProfileURL);
-    }
-
-    $(document).on('click', '#laporEditHomePicture', function(e) { 
-        e.preventDefault();
-        $("#homePictureInput").click(); 
-    });
-
-    var originalHomeURL = document.getElementById('laporEditHomePicture').src;
-    var homePictureInput = document.getElementById('homePictureInput');
-    homePictureInput.onchange = function(){
-      let imgview = document.getElementById('laporEditHomePicture');
-      readURL(this, imgview, originalHomeURL);
     }
 
     $("#laporAddSection").on('click', function(){
