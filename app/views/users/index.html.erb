@@ -2,19 +2,37 @@
   <%= notice %>
 </p>
 
-<div class="lapor-edit-profile-title">
-  <div class="lapor-edit-profile-name lapor-edit-profile-name-move">
-    Welcome, 
-    <% if @user.profile == nil || @user.profile.fullname == '' %>
-      <%= @user.username %> 
-    <% else %>
-      <%= @user.profile.fullname %>
-    <% end %>
+<% if session[:username]==@user.username %>
+  <div class="lapor-edit-profile-title">
+    <div class="lapor-edit-profile-name lapor-edit-profile-name-move">
+      Welcome, 
+      <% if @user.profile == nil || @user.profile.fullname == '' %>
+        <%= @user.username %> 
+      <% else %>
+        <%= @user.profile.fullname %>
+      <% end %>
+    </div>
+    <div class="lapor-edit-profile-button lapor-edit-form-show">
+      <i class="fas fa-pencil-alt fa-1x"></i>
+    </div>
   </div>
-  <div class="lapor-edit-profile-button lapor-edit-form-show">
-    <i class="fas fa-pencil-alt fa-1x"></i>
+<% else %>
+  <div class="lapor-edit-profile-title">
+    <div class="lapor-edit-profile-name">
+      <% if @user.profile == nil || @user.profile.fullname == '' %>
+        <%= @user.username %>'s Profile
+      <% else %>
+        <%= @user.profile.fullname %>'s Profile
+      <% end %>
   </div>
-</div>
+  <% if session[:username]==nil %>
+    <style>
+      #laporNavbar{
+        display: none;
+      }
+    </style>
+  <% end %>
+<% end %>
 
 <div class="lapor-view-image-container">
   <div id="laporEditProfilePicture" class="lapor-view-profile-image">
@@ -219,33 +237,35 @@
 
 
 
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
-<script>
-  var notice = document.getElementById('notice');
-  notice.style.display="none";
-  var Toast = Swal.mixin({
-      toast: true,
-      position: 'bottom-end',
-      showConfirmButton: false,
-      timer: 3000
-  })
-  if(notice.innerText.trim()!=""){
-      Toast.fire({
-          type: 'success',
-          title: notice.innerText
-      })
-  }
+<% if session[:username]==@user.username %>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
+  <script>
+    var notice = document.getElementById('notice');
+    notice.style.display="none";
+    var Toast = Swal.mixin({
+        toast: true,
+        position: 'bottom-end',
+        showConfirmButton: false,
+        timer: 3000
+    })
+    if(notice.innerText.trim()!=""){
+        Toast.fire({
+            type: 'success',
+            title: notice.innerText
+        })
+    }
 
-  $(document).ready(function(){
-    $('.lapor-edit-image-container > div.lapor-edit-profile-image ~ img ~ i').on('mouseenter', function(){
-      $('.lapor-edit-image-container > div.lapor-edit-profile-image ~ img').css({'opacity':'.5'});
+    $(document).ready(function(){
+      $('.lapor-edit-image-container > div.lapor-edit-profile-image ~ img ~ i').on('mouseenter', function(){
+        $('.lapor-edit-image-container > div.lapor-edit-profile-image ~ img').css({'opacity':'.5'});
+      });
+      $('.lapor-edit-image-container > div.lapor-edit-profile-image ~ img ~ i').mouseout(function(){
+        $('.lapor-edit-image-container > div.lapor-edit-profile-image ~ img').removeAttr("style");
+      });
+        
+      $('.lapor-edit-form-show').on('click', function(){
+        window.location.href= '/profile';
+      });
     });
-    $('.lapor-edit-image-container > div.lapor-edit-profile-image ~ img ~ i').mouseout(function(){
-      $('.lapor-edit-image-container > div.lapor-edit-profile-image ~ img').removeAttr("style");
-    });
-      
-    $('.lapor-edit-form-show').on('click', function(){
-      window.location.href= '/profile';
-    });
-  });
-</script>
+  </script>
+<% end %>
