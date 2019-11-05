@@ -283,9 +283,7 @@
       measurementId: "G-MH9RPQE45L"
     };
     // Initialize Firebase
-    if (!firebase.apps.length) {
-      firebase.initializeApp(firebaseConfig);
-    }
+    firebase.initializeApp(firebaseConfig);
 
     var notice = document.getElementById('notice');
     notice.style.display="none";
