@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   
   post '/create/showBook/:id',  to: 'create#showBook', as: 'loadBookView'
-  post '/create/addBook'
+  post '/create/addThing'
   post '/create/convert'
   get    '/create', to: 'create#index'
   get    '/connect', to: 'connection#index'

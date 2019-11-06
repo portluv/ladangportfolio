@@ -50,8 +50,8 @@ class CreateController < ApplicationController
       dir = Rails.root.join('app','assets', 'images', 'user_assets', 'anonymous', 'asd.pdf')
       done = Docsplit.extract_images(dir, :size => '100x', output: Rails.root.join('app','assets', 'images', 'user_assets', 'anonymous'), :format => [:jpg])
     end
-
-    def addBook
+    
+    def splitPDF
       @thing = Thing.new(thing_params)
       @status = Status.new
       @thing.user_id = session[:user_id]
@@ -64,19 +64,19 @@ class CreateController < ApplicationController
           Docsplit.extract_images(pathh, output: Rails.root.join('app','assets', 'images', 'user_assets', session[:username], @thing.name), :format => [:jpg])
           @thing.path = "user_assets/#{session[:username]}/#{@thing.name}/#{File.basename(file.path, '.pdf')}"
           @status.status = " just uploaded #{@thing.name}"
-        elsif @thing.thingtype_id == 2
-          dir = Rails.root.join('app','assets', 'images', 'user_assets', session[:username], @thing.name) #GET DIRECTORY
-          FileUtils.mkdir_p(dir) unless File.directory?(dir) #IF DIRECTORY EXISTS
-          random_id = (SecureRandom.random_number(9e5) + 1e5).to_i
-          if File.exist?(Rails.root.join(dir, "#{@thing.name}-#{random_id}#{File.extname(file.path)}"))
-            random_id = (SecureRandom.random_number(9e5) + 1e5).to_i
-          end
-          File.open(Rails.root.join(dir, "#{@thing.name}-#{random_id}#{File.extname(file.path)}"), 'wb') do |f|
-            f.write(file.read)
-          end
-          @thing.path = "user_assets/#{session[:username]}/#{@thing.name}/#{@thing.name}-#{random_id}#{File.extname(file.path)}"
-          @status.status = " just uploaded #{@thing.name}"
         end
+      end
+    end
+
+    def addThing
+      @thing = Thing.new(thing_params)
+      @status = Status.new
+      @thing.user_id = session[:user_id]
+      @status.user_id = session[:user_id]
+      @status.status_type = 2
+      if params[:path].present?
+        @thing.path = params[:thing_link]
+        @status.status = " just uploaded #{@thing.name}"
       end
 
       respond_to do |format|

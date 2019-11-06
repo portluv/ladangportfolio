@@ -1,8 +1,10 @@
-<%= form_with(model: thing, id: :uploadThingForm, url: create_addBook_path(@thing), local: true) do |form| %>
+<%= form_with(model: thing, id: :uploadThingForm, url: create_addThing_path(@thing), local: true) do |form| %>
+  <span id="hiddenUsername"><%= session[:username] %></span>
+  <%= form.hidden_field :thing_link, id: :thingLinkInput %>
 
   <div class="field">
     <%= form.label :name %>
-    <%= form.text_field :name, id: :bookName, class: 'lapor-form-input' %>
+    <%= form.text_field :name, id: :thingName, class: 'lapor-form-input' %>
   </div>
 
   <div class="field">
@@ -12,18 +14,81 @@
 
   <div class="field">
     <%= form.label :path, 'Choose file to upload' %><br>
-    <%= form.file_field :path %>
+    <%= form.file_field :path, id: :thingFile %>
   </div>
 
   <div class="actions">
-    <%= form.submit "Save Book", id: :saveBook, class: 'lapor-form-button' %>
+    <%= form.submit "Save Thing", id: :saveThing, class: 'lapor-form-button' %>
   </div>
-
-  <script>
-    // $('#uploadThingForm').on('submit', function(e){
-    //   e.preventDefault();
-    //   console.log('prevented');
-    // });
-  </script>
 <% end %>
+<script>
+  // Your web app's Firebase configuration
+  var firebaseConfig = {
+    apiKey: "AIzaSyA8y_a3JRsxyzS8JZEB-xia-WILwmtZn8I",
+    authDomain: "portluv-59566.firebaseapp.com",
+    databaseURL: "https://portluv-59566.firebaseio.com",
+    projectId: "portluv-59566",
+    storageBucket: "portluv-59566.appspot.com",
+    messagingSenderId: "896431823346",
+    appId: "1:896431823346:web:3caf8114383707a98af36b",
+    measurementId: "G-MH9RPQE45L"
+  };
+  // Initialize Firebase
+  if(!firebase.apps.length){
+    firebase.initializeApp(firebaseConfig);
+  }
+
+  async function uploadPhotoThing(photo, form){
+    let promise = new Promise((resolve, reject) => {
+      let photoURL = "";
+      if(photo.length==1){
+        photo = photo[0];
+        let photoStorageRef = firebase.storage().ref('user_assets/'+document.getElementById('hiddenUsername').innerText+'/'+document.getElementById('thingName').value+'/'+photo.name);
+        let uploadPhotoTask = photoStorageRef.put(photo);
+        uploadPhotoTask.on(firebase.storage.TaskEvent.STATE_CHANGED, // or 'state_changed'
+          function(snapshot) {
+            // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+            var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+            console.log('Upload is ' + progress + '% done');
+            switch (snapshot.state) {
+              case firebase.storage.TaskState.PAUSED: // or 'paused'
+                console.log('Upload is paused');
+                break;
+              case firebase.storage.TaskState.RUNNING: // or 'running'
+                console.log('Upload is running');
+                break;
+            }
+          }, function(error) {
+
+          
+        }, 
+        async function() {
+          // Upload completed successfully, now we can get the download URL
+          photoURL = await uploadPhotoTask.snapshot.ref.getDownloadURL();
+          resolve(photoURL);
+        });
+      }
+      else{
+        resolve(originalPhotoURL);
+      }
+    });
+    let result = await promise;
+    document.getElementById('thingLinkInput').value=result;
+    form.submit();
+  }
+
+  $('#uploadThingForm').on('submit', function(e){
+    e.preventDefault();
+    var selectElement = document.getElementsByTagName("select")[0];
+    var thingTypeId = selectElement.options[selectElement.selectedIndex].value;
+    
+    let thingFileInput = document.getElementById('thingFile');
+
+    let thingFile = thingFileInput.files;
+    
+    if(thingTypeId==2){
+      uploadPhotoThing(thingFile, this);
+    }
+  });
+</script>
 
