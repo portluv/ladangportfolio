@@ -12,6 +12,7 @@
   <div class="actions">
     <%= form.submit "Sign In", class: 'lapor-form-button' %>
     <p id="notice"><%= notice %></p>
+    <%= link_to 'Sign In with LinkedIn', auth_linked_in_path+'?type=signin' %>
     <%= link_to 'Don\'t have an account? Sign Up Here!', signup_path %>
     <%= link_to 'Back to home', home_path %>
   </div>

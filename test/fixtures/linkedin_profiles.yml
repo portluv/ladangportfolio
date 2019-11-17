@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  access_token: MyText
+  expire_in: 2019-11-17 20:55:53
+  profile_url: MyText
+  linkedin_profile_id: MyString
+  user: one
+
+two:
+  access_token: MyText
+  expire_in: 2019-11-17 20:55:53
+  profile_url: MyText
+  linkedin_profile_id: MyString
+  user: two

@@ -41,6 +41,8 @@ gem 'docsplit'
 gem 'pickadate-rails'
 # Use structured rails db seeding
 gem "seedbank"
+# To make HTTP requests from the backend
+gem "httparty"
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

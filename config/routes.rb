@@ -2,6 +2,7 @@ Rails.application.routes.draw do
   
   post '/create/showBook/:id',  to: 'create#showBook', as: 'loadBookView'
   post '/create/addThing'
+  post '/create/splitPDF'
   post '/create/convert'
   get    '/create', to: 'create#index'
   get    '/connect', to: 'connection#index'
@@ -16,6 +17,8 @@ Rails.application.routes.draw do
   get   '/dashboard',  to: 'dashboard#index'
   post   '/newstatus',  to: 'dashboard#newStatus'
   get   '/signin',  to: 'users#signIn'
+  get   '/linkedIn/signin',  to: 'users#signInWithLinkedIn'
+  get   '/authLinkedIn',  to: 'users#linkedInAuthRedirect', as: 'auth_linked_in'
   post  '/signin',  to: 'users#createSession', params: { session: { username: "", password: "" } }
   get   '/signout',  to: 'users#destroySession'
   get   '/signup',  to: 'users#signUp'

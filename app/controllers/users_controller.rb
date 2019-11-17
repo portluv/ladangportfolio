@@ -94,6 +94,103 @@ class UsersController < ApplicationController
     end
   end
 
+  def linkedInAuthRedirect
+    state_csrf = ('A'..'Z').to_a.shuffle[0,15].join
+    redirect_uri=""
+    if request.host=="localhost"
+      redirect_uri=request.protocol + request.host_with_port
+    else
+      redirect_uri=request.protocol + request.host
+    end
+
+    redirect_uri+="/linkedIn/signin"
+    link="https://www.linkedin.com/oauth/v2/authorization?response_type=code&client_id="+LINKEDIN_CLIENT_ID+"&redirect_uri="+redirect_uri+"&state="+state_csrf+"&scope=r_liteprofile%20r_emailaddress%20w_member_social"
+    redirect_to link
+  end
+
+  def signInWithLinkedIn
+    redirect_uri=""
+    if request.host=="localhost"
+      redirect_uri=request.protocol + request.host_with_port
+    else
+      redirect_uri=request.protocol + request.host
+    end
+    redirect_uri+=request.path
+    
+    params = {
+      'grant_type' => 'authorization_code',
+      'code' => request.GET["code"],
+      'redirect_uri' => redirect_uri,
+      'client_id' => LINKEDIN_CLIENT_ID,
+      'client_secret' => LINKEDIN_CLIENT_SECRET,
+    }
+    res = HTTParty.post("https://www.linkedin.com/oauth/v2/accessToken",
+      :body => params,
+      :headers => {'Content-Type' => 'application/x-www-form-urlencoded'}
+    )
+    accessToken=res["access_token"]
+    expireIn=Date.today
+    expireIn+=res["expires_in"]/(60*60*24)
+
+    res = HTTParty.get("https://api.linkedin.com/v2/me",
+      :headers => {'Authorization' => 'Bearer '+accessToken}
+    )
+    fullname=res["localizedFirstName"]+" "+res["localizedLastName"]
+    linkedInProfileID=res["id"]
+
+    linkedin_login = LinkedinProfile.find_by(linkedin_profile_id: linkedInProfileID)
+    if linkedin_login
+        user = User.find_by(id: linkedin_login.user_id)
+        session[:user_id] = user.id
+        session[:username] = user.username 
+        flash[:notice] = 'Sign in was successful.'
+        redirect_to dashboard_path
+    else
+      res = HTTParty.get("https://api.linkedin.com/v2/emailAddress?q=members&projection=(elements*(handle~))",
+        :headers => {'Authorization' => 'Bearer '+accessToken}
+      )
+      email=res["elements"][0]["handle~"]["emailAddress"]
+      username = email.slice(0..(email.index('@')-1))
+      
+      @user = User.new
+      @user.username=username+"-"+linkedInProfileID
+      @user.email=email
+      @user.password= ('A'..'Z').to_a.shuffle[0,15].join
+      @user.save
+      user = User.find_by(username: @user.username, password: @user.password)
+      session[:user_id] = user.id
+      session[:username] = user.username 
+  
+      @status = Status.new
+      @status.user_id = session[:user_id]
+      @status.status_type = 2
+      @status.status = " created an account"
+      @status.save
+  
+      @profile = Profile.new
+      @profile.fullname=fullname
+      @profile.user_id=user.id
+      @profile.save
+  
+      @linkedinProfile = LinkedinProfile.new
+      @linkedinProfile.access_token = accessToken
+      @linkedinProfile.expire_in = expireIn
+      @linkedinProfile.linkedin_profile_id=linkedInProfileID
+      @linkedinProfile.user_id=user.id
+      @linkedinProfile.save
+      
+      respond_to do |format|
+        if user
+            session[:user_id] = user.id
+            session[:username] = user.username 
+            format.html { redirect_to dashboard_path, notice: 'Sign in was successful.' }
+        else
+            format.html { redirect_to signin_path, notice: 'Sign in was unsuccessful.' }
+        end
+      end
+    end
+  end
+
   def createProfile
       @profile = Profile.new(profile_params)
       @profile.user_id = session[:user_id]
