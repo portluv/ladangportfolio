@@ -2017,3 +2017,43 @@ div.lapor-frame-box > div::after{
   font-size: 16pt;
   text-align: center;
 }
+.lapor-signup-form > form > div > a.lapor-signin-linkedin{
+  display: flex;
+  justify-content: center;
+  align-content: center;
+
+  background: rgb(16, 107, 199);
+  border-radius: 10px;
+  color: white;
+  margin: 0;
+  padding: 10px;
+
+  font-weight: bold;
+  font-family: Arial, Helvetica, sans-serif;
+  text-align: center;
+}
+.lapor-signup-form > form > div > a.lapor-signin-linkedin > *{
+  display: block;
+  height: 20px;
+
+  margin-left: 5px;
+  margin-right: 5px;
+  
+  line-height: 20px;
+}
+.lapor-signup-form > form > div > a.lapor-signin-linkedin > img.lapor-signin-logo{
+  width: 20px;
+  user-select: unset;
+  -webkit-user-drag: none;
+}
+.lapor-signup-form > form > div > a.lapor-signin-linkedin:hover{
+  background: rgb(10, 95, 180);
+  text-decoration: none;
+}
+.lapor-signin-button-divider{
+  margin-top: 5px;
+  margin-bottom: 5px;
+
+  color: grey;
+  text-align: center;
+}

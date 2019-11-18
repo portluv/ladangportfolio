@@ -1,4 +1,5 @@
 <%= form_for(:session, url: signin_path) do |form| %>
+  <p id="notice"><%= notice %></p>
   <div class="field">
     <%= form.label :username %>
     <%= form.text_field :username, id: :user_username, class: 'lapor-form-input' %>
@@ -11,8 +12,11 @@
 
   <div class="actions">
     <%= form.submit "Sign In", class: 'lapor-form-button' %>
-    <p id="notice"><%= notice %></p>
-    <%= link_to 'Sign In with LinkedIn', auth_linked_in_path+'?type=signin' %>
+    <div class="lapor-signin-button-divider">OR</div>
+    <a href="<%= auth_linked_in_path+'?type=signin' %>" class='lapor-signin-linkedin'>
+      <%= image_tag "web_assets/logo/linkedin.png", :class => "lapor-signin-logo" %>
+      <span>Sign In with LinkedIn</span>
+    </a>
     <%= link_to 'Don\'t have an account? Sign Up Here!', signup_path %>
     <%= link_to 'Back to home', home_path %>
   </div>
