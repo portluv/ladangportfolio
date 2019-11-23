@@ -2051,8 +2051,8 @@ div.lapor-frame-box > div::after{
   text-decoration: none;
 }
 .lapor-signin-button-divider{
-  margin-top: 5px;
-  margin-bottom: 5px;
+  margin-top: 10px;
+  margin-bottom: 10px;
 
   color: grey;
   text-align: center;
