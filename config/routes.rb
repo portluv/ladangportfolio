@@ -2,7 +2,6 @@ Rails.application.routes.draw do
   
   post '/create/showBook/:id',  to: 'create#showBook', as: 'loadBookView'
   post '/create/addThing'
-  post '/create/splitPDF'
   post '/create/convert'
   get    '/create', to: 'create#index'
   get    '/connect', to: 'connection#index'
@@ -11,6 +10,7 @@ Rails.application.routes.draw do
   get    '/home', to: 'dashboard#home'
   get    '/profile/:id', to: 'users#index', as: 'viewProfile'
   get    '/profile', to: 'users#edit', as: 'editProfile'
+  get    '/updateUser', to: 'users#updateUserSignInWithLinkedIn', as: 'updateUserSignInWithLinkedIn'
   post '/profile/create', to: 'users#createProfile', as: 'create_new_profile'
   put '/profile/update/:id', to: 'users#updateProfile', as: 'put_profile'
   patch '/profile/update/:id', to: 'users#updateProfile', as: 'patch_profile'
@@ -23,8 +23,7 @@ Rails.application.routes.draw do
   get   '/signout',  to: 'users#destroySession'
   get   '/signup',  to: 'users#signUp'
   post  '/signup',  to: 'users#createUser'
-  put   '/account/update/:id', to: 'users#updateUser', as: 'put_user'
-  patch   '/account/update/:id', to: 'users#updateUser', as: 'patch_user'
+  put   '/account/update', to: 'users#updateUser', as: 'put_user'
   delete    '/account/delete/:id', to: 'users#destroyUser', as: 'delete_user'
   match ':controller(/:action(/:id))', :via => :get
 
