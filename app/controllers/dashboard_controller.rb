@@ -2,6 +2,12 @@ class DashboardController < ApplicationController
   def index
     if session[:username]
       @user = User.find_by(id: session[:user_id])
+      linkedinProfile = LinkedinProfile.find_by(user_id: session[:user_id])
+      if linkedinProfile != nil
+        if !linkedinProfile.confirmed_profiles
+          redirect_to updateUserSignInWithLinkedIn_path
+        end
+      end
       @userStatus = Status.where(:user_id => session[:user_id]).order('id desc')
       @status = Status.new
     else
