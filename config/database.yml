@@ -11,6 +11,15 @@ default: &default
   pool: 5
   username: postgres
   password: binus
+  
+default: &heroku
+  adapter: postgresql
+  encoding: unicode
+  host: ec2-107-21-94-185.compute-1.amazonaws.com
+  pool: 5
+  username: gcalckihyekkjx
+  password: 7bbff8aaa85885e13723fbfcf52e908d5b956711a7672e67b7eb2a38d698ceac
+  # database: ddhkrs6ahgime8
 
 development:
   <<: *default
