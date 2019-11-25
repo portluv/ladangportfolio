@@ -84,8 +84,16 @@ class UsersController < ApplicationController
     @status = Status.new
     @status.status_type = 2
     @status.status = " created an account"
+    user = User.find_by(username: @user.username)
+    if user != nil
+      usedUsername=true
+    end
+    user = User.find_by(email: @user.email)
+    if user != nil
+      usedEmail=true
+    end
     respond_to do |format|
-      if @user.save
+      if !usedUsername && !usedEmail && @user.save
         user = User.find_by(username: @user.username, password: @user.password)
         session[:user_id] = user.id
         session[:username] = user.username 
@@ -93,6 +101,12 @@ class UsersController < ApplicationController
         @status.save
         format.html { redirect_to dashboard_path, notice: 'Sign up was successful.' }
       else
+        if usedUsername
+          @user.errors.add(:username, "Username already exist!")
+        end
+        if usedEmail
+          @user.errors.add(:email, "Email is already used!")
+        end
         format.html { render :signUp }
         format.json { render json: @user.errors, status: :unprocessable_entity }
       end
@@ -103,12 +117,12 @@ class UsersController < ApplicationController
     @user = User.find_by(id: session[:user_id])
     usedUsername=false
     usedEmail=false
-    user = User.where(username: params[:username])
-    if user.count > 1
+    user = User.find_by(username: params[:username])
+    if user != nil && user.id != @user.id
       usedUsername=true
     end
-    user = User.where(email: params[:email])
-    if user.count > 1
+    user = User.find_by(email: params[:email])
+    if user != nil && user.id != @user.id
       usedEmail=true
     end
     respond_to do |format|
