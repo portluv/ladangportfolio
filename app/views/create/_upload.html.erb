@@ -59,8 +59,7 @@
                 break;
             }
           }, function(error) {
-
-          
+            alert('Something went wrong when uploading your file');
         }, 
         async function() {
           // Upload completed successfully, now we can get the download URL
@@ -83,12 +82,9 @@
     var thingTypeId = selectElement.options[selectElement.selectedIndex].value;
     
     let thingFileInput = document.getElementById('thingFile');
-
     let thingFile = thingFileInput.files;
     
-    if(thingTypeId==2){
-      uploadPhotoThing(thingFile, this);
-    }
+    uploadPhotoThing(thingFile, this);
   });
 </script>
 

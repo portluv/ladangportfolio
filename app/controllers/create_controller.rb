@@ -42,29 +42,7 @@ class CreateController < ApplicationController
     
     def showBook
       respond_to do |format|
-        format.js
-      end
-    end
-
-    def convert
-      dir = Rails.root.join('app','assets', 'images', 'user_assets', 'anonymous', 'asd.pdf')
-      done = Docsplit.extract_images(dir, :size => '100x', output: Rails.root.join('app','assets', 'images', 'user_assets', 'anonymous'), :format => [:jpg])
-    end
-    
-    def splitPDF
-      @thing = Thing.new(thing_params)
-      @status = Status.new
-      @thing.user_id = session[:user_id]
-      @status.user_id = session[:user_id]
-      @status.status_type = 2
-      if params[:path].present?
-        file = params[:path]
-        if @thing.thingtype_id == 1
-          pathh = file.path
-          Docsplit.extract_images(pathh, output: Rails.root.join('app','assets', 'images', 'user_assets', session[:username], @thing.name), :format => [:jpg])
-          @thing.path = "user_assets/#{session[:username]}/#{@thing.name}/#{File.basename(file.path, '.pdf')}"
-          @status.status = " just uploaded #{@thing.name}"
-        end
+        break
       end
     end
 

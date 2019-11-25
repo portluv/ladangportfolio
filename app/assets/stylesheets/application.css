@@ -225,10 +225,12 @@ input:-webkit-autofill {
 }
 
 .lapor-book-a4{
-    /* margin: 20px; */
     width: 840px;
     height: 594px;
     position: relative;
+
+    transition: all .3s ease;
+    opacity: 0;
 }
 .lapor-page-container-a4{
     width: 420px;
@@ -995,6 +997,7 @@ div#modal.lapor-upload-book-modal > div#uploadWorkbook{
   padding: 20px; 
   top: calc((100vh - 320px) / 2); 
   position: absolute;
+  transition: all .3s ease;
 }
 div#shelf > div#shelfBookContainer{
   display: flex; 
@@ -2056,4 +2059,11 @@ div.lapor-frame-box > div::after{
 
   color: grey;
   text-align: center;
+}
+.lapor-book-view-loading{
+  width: 100px;
+  height: 100px;
+  position: absolute;
+  top: calc((100vh - 100px) / 2);
+  left: calc((100% - 100px) / 2);
 }

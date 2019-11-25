@@ -1,18 +1,8 @@
-var modal = document.getElementById('modal');
-<%# modal.innerHTML = '<%= escape_javascript(render :partial => 'bookView', :locals => {:thing => @thing})' %>
-$('#modal').prepend('<%= escape_javascript(render :partial => 'bookView', :locals => {:thing => @thing}) %>')
-
-var workbookView = document.getElementById('workbookView');
-
-modal.style.opacity = "0";
-workbookView.style.opacity = "0";
-modal.style.transition = "all .3s ease";
-modal.style.display = "block";
-setTimeout(() => {
+if(showBookElements==null){
+    modal.style.opacity = "0";
+    modal.style.display = "block";
     modal.style.opacity = "1";
-    workbookView.style.transition = "all .3s ease";
-    workbookView.style.display = "block";
-    setTimeout(() => {
-        workbookView.style.opacity = "1";
-    }, 300);
-}, 300);
+    
+    showBookElements='<%= escape_javascript(render :partial => 'bookView', :locals => {:thing => @thing}) %>'
+    $('#modal').prepend(showBookElements);
+}

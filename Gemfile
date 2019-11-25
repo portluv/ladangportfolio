@@ -32,7 +32,7 @@ gem 'rails-jquery-autocomplete'
 # gem 'redis', '~> 3.0'
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
-gem 'docsplit'
+# gem 'docsplit'
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 # Use sweetalert for notices
