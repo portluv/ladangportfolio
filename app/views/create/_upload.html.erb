@@ -37,6 +37,14 @@
   if(!firebase.apps.length){
     firebase.initializeApp(firebaseConfig);
   }
+  var LoadingToast = Swal.mixin({
+      toast: true,
+      position: 'bottom-end',
+      showConfirmButton: false,
+      allowOutsideClick: false,
+      allowEscapeKey: false,
+      allowEnterKey: false
+  })
 
   async function uploadPhotoThing(photo, form){
     let promise = new Promise((resolve, reject) => {
@@ -45,11 +53,14 @@
         photo = photo[0];
         let photoStorageRef = firebase.storage().ref('user_assets/'+document.getElementById('hiddenUsername').innerText+'/'+document.getElementById('thingName').value+'/'+photo.name);
         let uploadPhotoTask = photoStorageRef.put(photo);
+        LoadingToast.fire({
+            html: '<progress value="0" max="100" id="uploadProgress">0%</progress>'
+        })
         uploadPhotoTask.on(firebase.storage.TaskEvent.STATE_CHANGED, // or 'state_changed'
           function(snapshot) {
             // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
             var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-            console.log('Upload is ' + progress + '% done');
+            document.getElementById('uploadProgress').value = progress;
             switch (snapshot.state) {
               case firebase.storage.TaskState.PAUSED: // or 'paused'
                 console.log('Upload is paused');
