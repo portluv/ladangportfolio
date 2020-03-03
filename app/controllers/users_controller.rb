@@ -66,6 +66,16 @@ class UsersController < ApplicationController
     @user.password=""
   end
 
+  def updateUserSignInWithGithub
+    @user = User.find_by(id: session[:user_id])
+    @user.password=""
+  end
+
+  def updateUserSignInWithGoogle
+    @user = User.find_by(id: session[:user_id])
+    @user.password=""
+  end
+
   def createSession
     user = User.find_by(username: params[:session][:username], password: params[:session][:password])
     respond_to do |format|
@@ -187,18 +197,18 @@ class UsersController < ApplicationController
     res = HTTParty.get("https://api.linkedin.com/v2/me",
       :headers => {'Authorization' => 'Bearer '+accessToken}
     )
-    fullname=res["localizedFirstName"]+" "+res["localizedLastName"]
     linkedInProfileID=res["id"]
-
+    
     linkedin_login = LinkedinProfile.find_by(linkedin_profile_id: linkedInProfileID)
     if linkedin_login
-        linkedin_login.update(access_token: accessToken, expire_in: expireIn)
-        user = User.find_by(id: linkedin_login.user_id)
-        session[:user_id] = user.id
-        session[:username] = user.username 
-        flash[:notice] = 'Sign in was successful.'
-        redirect_to dashboard_path
+      linkedin_login.update(access_token: accessToken, expire_in: expireIn)
+      user = User.find_by(id: linkedin_login.user_id)
+      session[:user_id] = user.id
+      session[:username] = user.username 
+      flash[:notice] = 'Sign in was successful.'
+      redirect_to dashboard_path
     else
+      fullname=res["localizedFirstName"]+" "+res["localizedLastName"]
       res = HTTParty.get("https://api.linkedin.com/v2/emailAddress?q=members&projection=(elements*(handle~))",
         :headers => {'Authorization' => 'Bearer '+accessToken}
       )
@@ -231,6 +241,103 @@ class UsersController < ApplicationController
       @linkedinProfile.linkedin_profile_id=linkedInProfileID
       @linkedinProfile.user_id=user.id
       @linkedinProfile.save
+      
+      respond_to do |format|
+        if user
+            session[:user_id] = user.id
+            session[:username] = user.username 
+            format.html { redirect_to dashboard_path, notice: 'Sign in was successful.' }
+        else
+            format.html { redirect_to signin_path, notice: 'Sign in was unsuccessful.' }
+        end
+      end
+    end
+  end
+
+  def githubAuthRedirect
+    redirect_uri=""
+    if request.host=="localhost"
+      redirect_uri=request.protocol + request.host_with_port
+    else
+      redirect_uri=request.protocol + request.host
+    end
+
+    redirect_uri+="/github/signin"
+    link="https://github.com/login/oauth/authorize?scope=user:email&client_id="+GITHUB_CLIENT_ID
+    redirect_to link
+  end
+
+  def signInWithGithub
+    redirect_uri=""
+    if request.host=="localhost"
+      redirect_uri=request.protocol + request.host_with_port
+    else
+      redirect_uri=request.protocol + request.host
+    end
+    redirect_uri+=request.path
+    
+    params = {
+      'client_id' => GITHUB_CLIENT_ID,
+      'client_secret' => GITHUB_CLIENT_SECRET,
+      'code' => request.GET["code"],
+    }
+    res = HTTParty.post("https://github.com/login/oauth/access_token",
+      :body => params,
+      :headers => {
+        'Content-Type' => 'application/x-www-form-urlencoded',
+        'Accept' => 'application/json',
+      }
+    )
+    
+    accessToken=res["access_token"]
+    scopes = res["scope"].split(',')
+    res = HTTParty.get("https://api.github.com/user",
+      :query => {'access_token' => accessToken}
+    )
+    
+    githubProfileID=res["id"]
+    
+    github_login = GithubProfile.find_by(github_profile_id: githubProfileID)
+    if github_login
+      github_login.update(access_token: accessToken)
+      user = User.find_by(id: github_login.user_id)
+      session[:user_id] = user.id
+      session[:username] = user.username 
+      flash[:notice] = 'Sign in was successful.'
+      redirect_to dashboard_path
+    elsif scopes.include? 'user:email'
+      email = HTTParty.get("https://api.github.com/user/emails",
+        :query => {'access_token' => accessToken}
+      )
+      fullname=res["name"]
+      email = email[0]["email"]
+      username = email.slice(0..(email.index('@')-1))
+    
+      @user = User.new
+      @user.username=username+"-"+githubProfileID.to_s
+      @user.email=email
+      @user.password= ('A'..'Z').to_a.shuffle[0,15].join
+      @user.save
+      user = User.find_by(username: @user.username, password: @user.password)
+      session[:user_id] = user.id
+      session[:username] = user.username 
+  
+      @status = Status.new
+      @status.user_id = session[:user_id]
+      @status.status_type = 2
+      @status.status = " created an account"
+      @status.save
+  
+      @profile = Profile.new
+      @profile.fullname=fullname
+      @profile.user_id=user.id
+      @profile.save
+  
+      @githubProfile = GithubProfile.new
+      @githubProfile.access_token = accessToken
+      @githubProfile.github_profile_id=githubProfileID
+      @githubProfile.user_id=user.id
+      @githubProfile.save
       
       respond_to do |format|
         if user

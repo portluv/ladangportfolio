@@ -1,4 +1,4 @@
-<%= form_with(model: user, url: signup_path(@user), local: true) do |form| %>
+<%= form_with(model: user, url: put_user_path, method: :put, local: true) do |form| %>
   <% if user.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(user.errors.count, "error") %> prohibited this user from being saved:</h2>
@@ -27,18 +27,7 @@
   </div>
 
   <div class="actions">
-    <%= form.submit "Sign Up", class: 'lapor-form-button' %>
-    <div class="lapor-signin-button-divider">or</div>
-    <a href="<%= auth_github_path %>" class='lapor-signin-linkedin'>
-      <%= image_tag "web_assets/logo/linkedin.png", :class => "lapor-signin-logo" %>
-      <span>Sign In with Github</span>
-    </a>
-    <a href="<%= auth_linked_in_path+'?type=signin' %>" class='lapor-signin-linkedin'>
-      <%= image_tag "web_assets/logo/linkedin.png", :class => "lapor-signin-logo" %>
-      <span>Sign In with LinkedIn</span>
-    </a>
-    <%= link_to 'Have an account? Sign In Here!', signin_path %>
-    <%= link_to 'Back to home', home_path %>
+    <%= form.submit "Save", class: 'lapor-form-button' %>
   </div>
 <% end %>
 
@@ -55,6 +44,15 @@
 </style>
 
 <script>
+    $(document).ready(function(){
+      if($('#error_explanation').length==0){
+        Swal.fire({
+          type: 'warning',
+          title: 'Hi!',
+          html: 'Thank you for signing in using Google<br>Please update your generated user data before continuing',
+        });
+      }
+    });
     var notice = document.getElementById('notice');
     if(notice!=null){
       var errorList = notice.getElementsByTagName('li');

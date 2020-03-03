@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20191118124939) do
+ActiveRecord::Schema.define(version: 20200227101728) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -64,6 +64,16 @@ ActiveRecord::Schema.define(version: 20191118124939) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_friendships_on_user_id"
+  end
+
+  create_table "github_profiles", force: :cascade do |t|
+    t.text "access_token"
+    t.text "profile_url"
+    t.string "github_profile_id"
+    t.bigint "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_github_profiles_on_user_id"
   end
 
   create_table "linkedin_profiles", force: :cascade do |t|
@@ -164,6 +174,7 @@ ActiveRecord::Schema.define(version: 20191118124939) do
   add_foreign_key "firms", "firmtypes"
   add_foreign_key "friendships", "users"
   add_foreign_key "friendships", "users", column: "friend"
+  add_foreign_key "github_profiles", "users"
   add_foreign_key "linkedin_profiles", "users"
   add_foreign_key "profiles", "users"
   add_foreign_key "sections", "profiles"
