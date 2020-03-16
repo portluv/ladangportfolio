@@ -84,7 +84,6 @@ ActiveRecord::Schema.define(version: 20200227101728) do
     t.bigint "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.boolean "confirmed_profiles", default: false
     t.index ["user_id"], name: "index_linkedin_profiles_on_user_id"
   end
 
@@ -165,6 +164,7 @@ ActiveRecord::Schema.define(version: 20200227101728) do
     t.string "password"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "confirmed_profiles", default: false
   end
 
   add_foreign_key "educations", "firms"
