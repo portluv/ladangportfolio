@@ -29,13 +29,13 @@
   <div class="actions">
     <%= form.submit "Sign Up", class: 'lapor-form-button' %>
     <div class="lapor-signin-button-divider">or</div>
-    <a href="<%= auth_github_path %>" class='lapor-signin-linkedin'>
-      <%= image_tag "web_assets/logo/linkedin.png", :class => "lapor-signin-logo" %>
-      <span>Sign In with Github</span>
+    <a href="<%= auth_github_path %>" class='lapor-signin-github'>
+      <%= image_tag "web_assets/logo/github.png", :class => "lapor-signin-logo" %>
+      <span>Sign Up with Github</span>
     </a>
     <a href="<%= auth_linked_in_path+'?type=signin' %>" class='lapor-signin-linkedin'>
       <%= image_tag "web_assets/logo/linkedin.png", :class => "lapor-signin-logo" %>
-      <span>Sign In with LinkedIn</span>
+      <span>Sign Up with LinkedIn</span>
     </a>
     <%= link_to 'Have an account? Sign In Here!', signin_path %>
     <%= link_to 'Back to home', home_path %>

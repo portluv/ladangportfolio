@@ -2024,12 +2024,12 @@ div.lapor-frame-box > div::after{
   font-size: 16pt;
   text-align: center;
 }
-.lapor-signup-form > form > div > a.lapor-signin-linkedin{
+.lapor-signup-form > form > div > a.lapor-signin-linkedin,
+.lapor-signup-form > form > div > a.lapor-signin-github{
   display: flex;
   justify-content: center;
   align-content: center;
 
-  background: rgb(16, 107, 199);
   border-radius: 10px;
   color: white;
   margin: 0;
@@ -2038,8 +2038,18 @@ div.lapor-frame-box > div::after{
   font-weight: bold;
   font-family: Arial, Helvetica, sans-serif;
   text-align: center;
+
+  margin-top: 5px;
+  margin-bottom: 5px;
 }
-.lapor-signup-form > form > div > a.lapor-signin-linkedin > *{
+a.lapor-signin-linkedin{
+  background: rgb(16, 107, 199);
+}
+a.lapor-signin-github{
+  background: #24292e;
+}
+.lapor-signup-form > form > div > a.lapor-signin-linkedin > *,
+.lapor-signup-form > form > div > a.lapor-signin-github > *{
   display: block;
   height: 20px;
 
@@ -2048,13 +2058,18 @@ div.lapor-frame-box > div::after{
   
   line-height: 20px;
 }
-.lapor-signup-form > form > div > a.lapor-signin-linkedin > img.lapor-signin-logo{
+.lapor-signup-form > form > div > a.lapor-signin-linkedin > img.lapor-signin-logo,
+.lapor-signup-form > form > div > a.lapor-signin-github > img.lapor-signin-logo{
   width: 20px;
   user-select: unset;
   -webkit-user-drag: none;
 }
 .lapor-signup-form > form > div > a.lapor-signin-linkedin:hover{
   background: rgb(10, 95, 180);
+  text-decoration: none;
+}
+.lapor-signup-form > form > div > a.lapor-signin-github:hover{
+  background: #131518;
   text-decoration: none;
 }
 .lapor-signin-button-divider{

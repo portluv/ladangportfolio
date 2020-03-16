@@ -61,21 +61,6 @@ class UsersController < ApplicationController
     @user = User.new
   end
 
-  def updateUserSignInWithLinkedIn
-    @user = User.find_by(id: session[:user_id])
-    @user.password=""
-  end
-
-  def updateUserSignInWithGithub
-    @user = User.find_by(id: session[:user_id])
-    @user.password=""
-  end
-
-  def updateUserSignInWithGoogle
-    @user = User.find_by(id: session[:user_id])
-    @user.password=""
-  end
-
   def createSession
     user = User.find_by(username: params[:session][:username], password: params[:session][:password])
     respond_to do |format|
@@ -91,6 +76,7 @@ class UsersController < ApplicationController
 
   def createUser
     @user = User.new(user_params)
+    @user.confirmed_profiles = true
     @status = Status.new
     @status.status_type = 2
     @status.status = " created an account"
@@ -125,6 +111,12 @@ class UsersController < ApplicationController
 
   def updateUser
     @user = User.find_by(id: session[:user_id])
+    @user.password = ""
+  end
+
+  def putUser
+    @user = User.find_by(id: session[:user_id])
+    @user.confirmed_profiles = true
     usedUsername=false
     usedEmail=false
     user = User.find_by(username: params[:username])
@@ -138,8 +130,6 @@ class UsersController < ApplicationController
     respond_to do |format|
       if !usedUsername && !usedEmail && @user.update(user_params)
         user = User.find_by(username: @user.username, password: @user.password)
-        @linkedinProfile = LinkedinProfile.find_by(user_id: session[:user_id])
-        @linkedinProfile.update(confirmed_profiles: true)
         session[:user_id] = user.id
         session[:username] = user.username 
         format.html { redirect_to dashboard_path, notice: 'Update user was successful.' }
@@ -150,7 +140,7 @@ class UsersController < ApplicationController
         if usedEmail
           @user.errors.add(:email, "Email is already used!")
         end
-        format.html { render :updateUserSignInWithLinkedIn }
+        format.html { render :updateUser }
         format.json { render json: @user.errors, status: :unprocessable_entity }
       end
     end
@@ -159,7 +149,7 @@ class UsersController < ApplicationController
   def linkedInAuthRedirect
     state_csrf = ('A'..'Z').to_a.shuffle[0,15].join
     redirect_uri=""
-    if request.host=="localhost"
+    if request.host == "localhost"
       redirect_uri=request.protocol + request.host_with_port
     else
       redirect_uri=request.protocol + request.host
@@ -172,7 +162,7 @@ class UsersController < ApplicationController
 
   def signInWithLinkedIn
     redirect_uri=""
-    if request.host=="localhost"
+    if request.host == "localhost"
       redirect_uri=request.protocol + request.host_with_port
     else
       redirect_uri=request.protocol + request.host
@@ -215,35 +205,50 @@ class UsersController < ApplicationController
       email=res["elements"][0]["handle~"]["emailAddress"]
       username = email.slice(0..(email.index('@')-1))
       
+      usedEmail=false
+      usedUsername=false
       @user = User.new
       @user.username=username+"-"+linkedInProfileID
       @user.email=email
-      @user.password= ('A'..'Z').to_a.shuffle[0,15].join
-      @user.save
-      user = User.find_by(username: @user.username, password: @user.password)
-      session[:user_id] = user.id
-      session[:username] = user.username 
-  
-      @status = Status.new
-      @status.user_id = session[:user_id]
-      @status.status_type = 2
-      @status.status = " created an account"
-      @status.save
-  
-      @profile = Profile.new
-      @profile.fullname=fullname
-      @profile.user_id=user.id
-      @profile.save
-  
-      @linkedinProfile = LinkedinProfile.new
-      @linkedinProfile.access_token = accessToken
-      @linkedinProfile.expire_in = expireIn
-      @linkedinProfile.linkedin_profile_id=linkedInProfileID
-      @linkedinProfile.user_id=user.id
-      @linkedinProfile.save
+      user = User.find_by(email: @user.username)
+      if user != nil
+        usedUsername=true
+      end
+      user = User.find_by(email: @user.email)
+      if user != nil
+        usedEmail=true
+      end
+      if !usedEmail && !usedUsername
+        print("IIINNN")
+        @user.password = ('A'..'Z').to_a.shuffle[0,15].join
+        @user.save
+        user = User.find_by(username: @user.username, password: @user.password)
+        session[:user_id] = user.id
+        session[:username] = user.username 
+    
+        @status = Status.new
+        @status.user_id = session[:user_id]
+        @status.status_type = 2
+        @status.status = " created an account"
+        @status.save
+    
+        @profile = Profile.new
+        @profile.fullname=fullname
+        @profile.user_id=user.id
+        @profile.save
+    
+        @linkedinProfile = LinkedinProfile.new
+        @linkedinProfile.access_token = accessToken
+        @linkedinProfile.expire_in = expireIn
+        @linkedinProfile.linkedin_profile_id=linkedInProfileID
+        @linkedinProfile.user_id=user.id
+        @linkedinProfile.save
+      end
       
       respond_to do |format|
-        if user
+        if usedUsername || usedEmail
+          format.html { redirect_to signin_path, notice: 'Sign in was unsuccessful.' }
+        elsif user
             session[:user_id] = user.id
             session[:username] = user.username 
             format.html { redirect_to dashboard_path, notice: 'Sign in was successful.' }
@@ -256,7 +261,7 @@ class UsersController < ApplicationController
 
   def githubAuthRedirect
     redirect_uri=""
-    if request.host=="localhost"
+    if request.host == "localhost"
       redirect_uri=request.protocol + request.host_with_port
     else
       redirect_uri=request.protocol + request.host
@@ -269,7 +274,7 @@ class UsersController < ApplicationController
 
   def signInWithGithub
     redirect_uri=""
-    if request.host=="localhost"
+    if request.host == "localhost"
       redirect_uri=request.protocol + request.host_with_port
     else
       redirect_uri=request.protocol + request.host
@@ -313,34 +318,48 @@ class UsersController < ApplicationController
       email = email[0]["email"]
       username = email.slice(0..(email.index('@')-1))
     
+      usedEmail=false
+      usedUsername=false
       @user = User.new
       @user.username=username+"-"+githubProfileID.to_s
       @user.email=email
-      @user.password= ('A'..'Z').to_a.shuffle[0,15].join
-      @user.save
-      user = User.find_by(username: @user.username, password: @user.password)
-      session[:user_id] = user.id
-      session[:username] = user.username 
-  
-      @status = Status.new
-      @status.user_id = session[:user_id]
-      @status.status_type = 2
-      @status.status = " created an account"
-      @status.save
-  
-      @profile = Profile.new
-      @profile.fullname=fullname
-      @profile.user_id=user.id
-      @profile.save
-  
-      @githubProfile = GithubProfile.new
-      @githubProfile.access_token = accessToken
-      @githubProfile.github_profile_id=githubProfileID
-      @githubProfile.user_id=user.id
-      @githubProfile.save
+      user = User.find_by(email: @user.username)
+      if user != nil
+        usedUsername=true
+      end
+      user = User.find_by(email: @user.email)
+      if user != nil
+        usedEmail=true
+      end
+      if !usedEmail && !usedUsername
+        @user.password = ('A'..'Z').to_a.shuffle[0,15].join
+        @user.save
+        user = User.find_by(username: @user.username, password: @user.password)
+        session[:user_id] = user.id
+        session[:username] = user.username 
+    
+        @status = Status.new
+        @status.user_id = session[:user_id]
+        @status.status_type = 2
+        @status.status = " created an account"
+        @status.save
+    
+        @profile = Profile.new
+        @profile.fullname=fullname
+        @profile.user_id=user.id
+        @profile.save
+    
+        @githubProfile = GithubProfile.new
+        @githubProfile.access_token = accessToken
+        @githubProfile.github_profile_id=githubProfileID
+        @githubProfile.user_id=user.id
+        @githubProfile.save
+      end
       
       respond_to do |format|
-        if user
+        if usedUsername || usedEmail
+          format.html { redirect_to signin_path, notice: 'Sign in was unsuccessful.' }
+        elsif user
             session[:user_id] = user.id
             session[:username] = user.username 
             format.html { redirect_to dashboard_path, notice: 'Sign in was successful.' }
